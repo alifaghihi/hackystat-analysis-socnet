@@ -1,4 +1,4 @@
-package nodes.interfaces;
+package org.hackystat.socnet.socialmediagraph.nodes.interfaces;
 
 public interface PersonInterface extends SocialMediaNodeInterface {
 	
