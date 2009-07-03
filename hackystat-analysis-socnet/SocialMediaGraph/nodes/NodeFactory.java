@@ -2,8 +2,6 @@ package nodes;
 
 import java.util.ArrayList;
 
-import nodes.factories.MuggleFactory.referenceNodeRelationshipTypes;
-import nodes.interfaces.PersonInterface;
 import nodes.interfaces.SocialMediaNodeInterface;
 
 import org.neo4j.api.core.Direction;
@@ -14,26 +12,26 @@ import org.neo4j.api.core.RelationshipType;
 
 public class NodeFactory {
 
+	private final NeoService neo;
+	
 	public enum ReferenceNodeRelationshipTypes implements RelationshipType {
-		MUGGLES, CODERS, BOOKS, MOVIES, SHOWS, MUSIC, UNIVERSITIES, SCHOOLS, INTERESTS, 
-		PROJECTS, EMPLOYERS, GROUPS, CONCENTRATIONS, RELIGIONS, POLITICAL_PARTIES, 
-		NETWORKS, LOCATION, PROGRAMMING_LANGUAGES
-	};
+		BOOKS, CITIES, CODERS, CONCENTRATIONS, COUNTRIES, EMPLOYERS, FACEBOOK_ACCOUNTS, 
+		GROUPS, HACKYSTAT_ACCOUNTS, INTERESTS, MOVIES,	MUGGLES, MUSIC, NETWORKS, POLITICAL_PARTIES, PROGRAMMING_LANGUAGES,
+		PROJECTS, RELIGIONS, SCHOOLS, SHOWS, STATES, TWITTER_ACCOUNTS, UNIVERSITIES};
 	
 	public enum IsARelationshipType implements RelationshipType {
-		IS_MUGGLE, IS_CODER, IS_BOOK, IS_MOVIE, IS_SHOW, IS_MUSIC, IS_UNIVERSITY,
-		IS_SCHOOL, IS_INTEREST, IS_PROJECT, IS_EMPLOYER, IS_GROUP, IS_CONCENTRATION, 
-		IS_RELIGION, IS_POLITICAL_PARTY, IS_NETWORK, IS_LOCATION, IS_PROGRAMMING_LANGUAGE
-	};
+		IS_BOOK, IS_CITY, IS_CODER, IS_CONCENTRATION, IS_COUNTRY, IS_EMPLOYER, IS_FACEBOOK_ACCOUNT, 
+		IS_GROUP, IS_HACKYSTAT_ACCOUNT, IS_INTEREST, IS_MOVIE, IS_MUGGLE, IS_MUSIC, IS_NETWORK, 
+		IS_POLITICAL_PARTY, IS_PROGRAMMING_LANGUAGE, IS_PROJECT, IS_RELIGION, IS_SCHOOL, IS_SHOW, IS_STATE, 
+		IS_TWITTER_ACCOUNT, IS_UNIVERSITY};
 
-	private final NeoService neo;
 
 	private final ArrayList<Node> subreferenceNodes;
 
 	public NodeFactory(NeoService neo) {
 		
 		this.neo = neo;
-
+		
 		subreferenceNodes = new ArrayList<Node>();
 		
 		for(ReferenceNodeRelationshipTypes relationship : ReferenceNodeRelationshipTypes.values())
@@ -48,8 +46,8 @@ public class NodeFactory {
 			{
 				subreferenceNodes.add(relationshipIndex, neo.createNode());
 				
-				neo.getReferenceNode().createRelationshipTo(subreferenceNodes.get(relationshipIndex),
-						IsARelationshipType.values()[relationshipIndex]);
+				this.neo.getReferenceNode().createRelationshipTo(subreferenceNodes.get(relationshipIndex),
+						ReferenceNodeRelationshipTypes.values()[relationshipIndex]);
 			}
 
 			else 
@@ -68,29 +66,18 @@ public class NodeFactory {
 		subreferenceNodes.get(whatKindOfNode.ordinal()).createRelationshipTo(newNode,
 				whatKindOfNode);
 
-		SocialMediaNodeInterface vertex;
+		SocialMediaNodeInterface vertex = null;
 		
 		switch(whatKindOfNode.ordinal())
 		{
-			case 1: vertex = new Muggle(newNode);
-			vertex = new Coder(newNode);
-			vertex = new Book(newNode);
-			vertex = new Show(newNode);
-			vertex = new Music(newNode);
-			vertex = new University(newNode);
-			vertex = new School(newNode);
-			vertex = new Interest(newNode);
-			vertex = new Project(newNode);
-			vertex = new Employer(newNode);
-			vertex = new Group(newNode);
-			vertex = new Concentration(newNode);
-			vertex = new Religion(newNode);
-			vertex = new PoliticalParty(newNode);
-			vertex = new Network(newNode);
-			vertex = new Location(newNode);
-			vertex = new ProgrammingLanguage(newNode); 
-		
+			case 9: vertex = new Person(newNode);
+					break;
+					
+			default: vertex = new SocialMediaNode(newNode);
+					break;
 		}
-		return new Muggle(newNode);
+			
+		return vertex;
 	}
+
 }
