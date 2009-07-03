@@ -5,7 +5,7 @@ import nodes.interfaces.SocialMediaNodeInterface;
 import org.neo4j.api.core.Node;
 
 
-public abstract class SocialMediaNode implements SocialMediaNodeInterface{
+public class SocialMediaNode implements SocialMediaNodeInterface{
 
 	protected Node underNode;
 	
