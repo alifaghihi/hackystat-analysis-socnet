@@ -1,11 +1,11 @@
-package graphmanagement;
+package org.hackystat.socnet.socialmediagraph.graphmanagement;
 
 import org.neo4j.api.core.EmbeddedNeo;
 import org.neo4j.api.core.NeoService;
 import org.neo4j.api.core.RelationshipType;
 import org.neo4j.api.core.Transaction;
 
-import nodes.NodeFactory;
+import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory;
 
 public class Main {
 	

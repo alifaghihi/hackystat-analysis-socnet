@@ -1,8 +1,8 @@
-package nodes;
+package org.hackystat.socnet.socialmediagraph.nodes;
 
 import java.util.ArrayList;
 
-import nodes.interfaces.SocialMediaNodeInterface;
+import org.hackystat.socnet.socialmediagraph.nodes.interfaces.SocialMediaNodeInterface;
 
 import org.neo4j.api.core.Direction;
 import org.neo4j.api.core.NeoService;

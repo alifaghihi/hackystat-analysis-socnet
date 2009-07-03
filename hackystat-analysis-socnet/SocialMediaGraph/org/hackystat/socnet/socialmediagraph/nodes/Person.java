@@ -1,6 +1,6 @@
-package nodes;
+package org.hackystat.socnet.socialmediagraph.nodes;
 
-import nodes.interfaces.PersonInterface;
+import org.hackystat.socnet.socialmediagraph.nodes.interfaces.PersonInterface;
 
 import org.neo4j.api.core.Node;
 
