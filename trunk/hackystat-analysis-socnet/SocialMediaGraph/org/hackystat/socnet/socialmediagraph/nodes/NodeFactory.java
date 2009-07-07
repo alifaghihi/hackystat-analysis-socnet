@@ -2,6 +2,7 @@ package org.hackystat.socnet.socialmediagraph.nodes;
 
 import java.util.ArrayList;
 
+import java.util.Iterator;
 import org.hackystat.socnet.socialmediagraph.nodes.interfaces.SocialMediaNodeInterface;
 
 import org.neo4j.api.core.Direction;
@@ -9,6 +10,10 @@ import org.neo4j.api.core.NeoService;
 import org.neo4j.api.core.Node;
 import org.neo4j.api.core.Relationship;
 import org.neo4j.api.core.RelationshipType;
+import org.neo4j.api.core.ReturnableEvaluator;
+import org.neo4j.api.core.StopEvaluator;
+import org.neo4j.api.core.Traverser;
+import org.neo4j.api.core.Traverser.Order;
 
 public class NodeFactory
 {
@@ -194,12 +199,44 @@ public class NodeFactory
         
         return null;
     }
-    
-    public Relationship relateNodes(IsARelationshipType node1Type, String node1name,
-            IsARelationshipType node2Type, String node2name, RelationshipType relationship)
+
+    public SocialMediaNode getNode(SocialMediaNode startNode, RelationshipType
+            relationship, Direction d, String nextNodeName)
     {
-   
-        
-   
+            Traverser traverser = startNode.getUnderNode().traverse(Order.BREADTH_FIRST,
+                    StopEvaluator.DEPTH_ONE, ReturnableEvaluator.ALL, relationship,
+                    d);
+            Iterator it = traverser.iterator();
+            Node node = null;
+            while(it.hasNext())
+            {
+                node = (Node) it.next();
+                
+                if(node.getProperty(SocialMediaNode.KEY_NAME) == nextNodeName)
+                    return new SocialMediaNode(node);
+            }
+
+            return null;
+    }
+
+    /**
+     * Findes the two nodes of the matching the parameters and then creates a
+     * relationship of the given type from the first node to the second node.
+     * @param node1Type
+     * @param node1Key
+     * @param node1Name
+     * @param node2Type
+     * @param node2Key
+     * @param node2Name
+     * @param relationship
+     * @return
+     */
+    public Relationship relateNodes(IsARelationshipType node1Type, String node1Key,
+            String node1Name, IsARelationshipType node2Type, String node2Key,
+            String node2Name, RelationshipType relationship)
+    {
+            Node node1 = getNode(node1Type, node1Key, node1Name);
+            Node node2 = getNode(node2Type, node2Key, node2Name);
+            return node1.createRelationshipTo(node2, relationship);
     }
 }
