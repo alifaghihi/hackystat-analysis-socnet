@@ -5,7 +5,9 @@
 
 package org.hackystat.socnet.server.client;
 
+import java.util.ArrayList;
 import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory.IsARelationshipType;
+import org.neo4j.api.core.RelationshipType;
 
 /**
  *  This interface provides a specification for wrapping the REST API.
@@ -31,7 +33,9 @@ public interface SocNetClientInterface {
      * @param endNodeType
      */
     public void addRelationshipTo(String startNodeName, IsARelationshipType startNodeType,
-            String endNodeName, IsARelationshipType endNodeType);
+            String endNodeName, IsARelationshipType endNodeType, 
+            RelationshipType relationshipBetweenNodes);
     
+    public ArrayList<String> getNodes(IsARelationshipType nodeType);
 
 }
