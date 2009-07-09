@@ -22,7 +22,9 @@ public class Test {
         Twitter myTwitter = new Twitter("rachelshadoan", "bravo422piper");
         
         ArrayList<User> currentFriends = (ArrayList<User>) myTwitter.getFriends();
-        
+
+         System.out.println("You have " + myTwitter.rateLimitStatus().getRemainingHits()
+                 + " API hits remaining");
 
         for(User u : currentFriends)
         {
@@ -33,7 +35,8 @@ public class Test {
         {
             System.out.println(u.getId());
         }
-        
+        System.out.println("You have " + myTwitter.rateLimitStatus().getRemainingHits()
+                 + " API hits remaining");
     }
 
 }

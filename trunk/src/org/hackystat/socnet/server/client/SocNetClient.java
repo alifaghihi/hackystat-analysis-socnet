@@ -30,7 +30,7 @@ public class SocNetClient implements SocNetClientInterface {
 
     public ArrayList<String> getNodes(IsARelationshipType nodeType)
     {
-        
+        return new ArrayList<String>();
     }
 
 }
