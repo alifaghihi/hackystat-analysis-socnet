@@ -37,5 +37,12 @@ public interface SocNetClientInterface {
             RelationshipType relationshipBetweenNodes);
     
     public ArrayList<String> getNodes(IsARelationshipType nodeType);
+    
+    
+    public boolean endRelationship(String startNodeName, IsARelationshipType startNodeType,
+            String endNodeName, IsARelationshipType endNodeType, 
+            RelationshipType relationshipBetweenNodes);
+    
+    
 
 }
