@@ -23,17 +23,29 @@ public class Test {
         
         ArrayList<User> currentFriends = (ArrayList<User>) myTwitter.getFriends();
 
+        ArrayList<User> currentFollowers = (ArrayList<User>) myTwitter.getFollowers();
+        
          System.out.println("You have " + myTwitter.rateLimitStatus().getRemainingHits()
                  + " API hits remaining");
 
+         System.out.println("People I follow");
+         
         for(User u : currentFriends)
         {
             System.out.println(u.getScreenName());
         }
+
+        System.out.println("People who follow me");
         
-        for(User u : currentFriends)
+        for(User u : currentFollowers)
         {
-            System.out.println(u.getId());
+            System.out.println(u.getScreenName());
+        }
+        
+        if(!currentFriends.equals(currentFollowers))
+        {
+            System.out.println("The friends and followers lists are not the same");
+            
         }
         System.out.println("You have " + myTwitter.rateLimitStatus().getRemainingHits()
                  + " API hits remaining");
