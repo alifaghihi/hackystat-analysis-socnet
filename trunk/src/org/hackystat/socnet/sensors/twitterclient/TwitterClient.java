@@ -7,8 +7,6 @@ package org.hackystat.socnet.sensors.twitterclient;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import twitter4j.TwitterException;
 
 /**
