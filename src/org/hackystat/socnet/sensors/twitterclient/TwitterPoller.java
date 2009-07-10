@@ -71,7 +71,7 @@ public class TwitterPoller
      * @throws twitter4j.TwitterException 
      * @throws org.hackystat.socnet.sensors.twitterclient.HitApiCallLimitException
      */
-    public TwitterPoller(String propertiesFile) throws FileNotFoundException, IOException, TwitterException, HitApiCallLimitException
+    public TwitterPoller(String propertiesFile) throws FileNotFoundException, IOException, TwitterException
     {
         //create a buffered reader to read the password, username, and 
         //api limit from the config file
@@ -93,9 +93,6 @@ public class TwitterPoller
         //read from the configuration file
         twitter = new Twitter(clientUsername, clientPassword);
 
-        //check the number of API calls remaining
-        checkAPIcalls();
-
         //create hashes to map usernames to their list of followers and people
         //they are following
         usersToPeopleTheyFollow = new HashMap<String, HashSet<String>>();
@@ -103,8 +100,7 @@ public class TwitterPoller
 
         //create a new socnet client
         socnetclient = new TwitterSocNetClient();
-        
-        update();
+            
             
     }
 
