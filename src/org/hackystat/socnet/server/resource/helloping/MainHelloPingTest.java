@@ -10,7 +10,7 @@ public class MainHelloPingTest {
 	
 	public static void main(String[] args)
 	{
-		String host = "http://localhost:9876/sensorbase/";
+		String host = "http://localhost:9876/socnet/";
 		try{
 		      String registerUri = host.endsWith("/") ? host + "ping" : host + "/ping";
 		      Request request = new Request();

@@ -22,8 +22,8 @@
     <echo message="Compiling using ${env.JAXB_HOME} for target version ${env.JAXB_TARGET}."/>
     <xjc schema="${basedir}/xml/schema/nodes.xsd" extension="true" destdir="src" 
       target="${env.JAXB_TARGET}"
-      package="org.hackystat.socnet.server.resource.nodes.jaxb">
-      <produces dir="${src.dir}/org/hackystat/socnet/server/resource/nodes/jaxb" includes="*" />
+      package="org.hackystat.socnet.server.resource.socialmediagraph.jaxb">
+      <produces dir="${src.dir}/org/hackystat/socnet/server/resource/socialmediagraph/jaxb" includes="*" />
     </xjc>
 </target>
 </project>

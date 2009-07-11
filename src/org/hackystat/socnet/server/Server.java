@@ -17,7 +17,7 @@ import static org.hackystat.socnet.server.ServerProperties.LOGGING_LEVEL_KEY;
 
 import java.util.logging.Logger;
 import org.hackystat.socnet.server.resource.helloping.HelloPingResource;
-
+import org.hackystat.socnet.server.resource.socialmediagraph.SocialMediaGraphManager;
 
 /**
  * Sets up the HTTP Server process and dispatching to the associated resources. 
@@ -68,7 +68,7 @@ public class Server extends Application {
    */
   public static Server newInstance(ServerProperties serverProperties) throws Exception {
     Server server = new Server();
-    server.logger = HackystatLogger.getLogger("org.hackystat.sensorbase", "sensorbase");
+    server.logger = HackystatLogger.getLogger("org.hackystat.socnet.server", "server");
     server.serverProperties = serverProperties;
     server.hostName = "http://" +
                       server.serverProperties.get(HOSTNAME_KEY) + 
@@ -84,9 +84,9 @@ public class Server extends Application {
       .attach("/" + server.serverProperties.get(CONTEXT_ROOT_KEY), server);
 
     // Set up logging.
-    RestletLoggerUtil.useFileHandler("sensorbase");
+    RestletLoggerUtil.useFileHandler("server");
     HackystatLogger.setLoggingLevel(server.logger, server.serverProperties.get(LOGGING_LEVEL_KEY));
-    server.logger.warning("Starting sensorbase.");
+    server.logger.warning("Starting SocNet Server.");
     server.logger.warning("Host: " + server.hostName);
     server.logger.info(server.serverProperties.echoProperties());
 
@@ -96,14 +96,14 @@ public class Server extends Application {
 
     Map<String, Object> attributes = 
       server.getContext().getAttributes();
-    attributes.put("SensorBaseServer", server);
+    attributes.put("SocNetServer", server);
     attributes.put("ServerProperties", server.serverProperties);
-    
+    attributes.put("SocialMediaGraphManager", new SocialMediaGraphManager(server));
     // Now let's open for business. 
     server.logger.info("Maximum Java heap size (MB): " + 
         (Runtime.getRuntime().maxMemory() / 1000000.0));
     server.component.start();
-    server.logger.warning("SensorBase (Version " + getVersion() + ") now running.");
+    server.logger.warning("SocNet Server (Version " + getVersion() + ") now running.");
     return server;
   }
 
@@ -146,7 +146,7 @@ public class Server extends Application {
    */
   public static String getVersion() {
     String version = 
-      Package.getPackage("org.hackystat.sensorbase.server").getImplementationVersion();
+      Package.getPackage("org.hackystat.socnet.server").getImplementationVersion();
     return (version == null) ? "Development" : version; 
   }
   

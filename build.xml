@@ -143,6 +143,15 @@
     </java>
   </target>
 
+  <target name="pingtest" depends="compile" description="Compiles the sensorbase and starts it up.">
+    <java classname="org.hackystat.socnet.server.resource.helloping.MainHelloPingTest" fork="yes">
+      <classpath>
+        <pathelement location="${build.dir}/classes" />
+        <path refid="compile.classpath" />
+      </classpath>
+    </java>
+  </target>
+
 </project>
 
 
