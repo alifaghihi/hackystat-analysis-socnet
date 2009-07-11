@@ -27,7 +27,8 @@ public class GraphManager {
 		
                 Transaction tx = neo.beginTx();
                 
-                try{
+                try
+                {
                     
                     nodeBuilder = new NodeFactory(neo);
                     tx.success();
@@ -67,10 +68,10 @@ public class GraphManager {
             finally
             {
                 tx.finish();
-                return node;
+                
             }
 
-            
+            return node;
         }
         /**
          * Adds a node to the graph
@@ -130,8 +131,9 @@ public class GraphManager {
             {
                 //close the transaction
                 tx.finish();
-                return socNodes;
+                
             }
+            return socNodes;
         }
 
         /**

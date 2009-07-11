@@ -14,45 +14,45 @@ import java.util.TreeMap;
 public class ServerProperties {
   
   /** The admin email key. */
-  public static final String ADMIN_EMAIL_KEY =     "sensorbase.admin.email";
+  public static final String ADMIN_EMAIL_KEY =     "socnet.server.admin.email";
   /** The admin password. */
-  public static final String ADMIN_PASSWORD_KEY =   "sensorbase.admin.password";
+  public static final String ADMIN_PASSWORD_KEY =   "socnet.server.admin.password";
   /** The context root key. */
-  public static final String CONTEXT_ROOT_KEY =    "sensorbase.context.root";
+  public static final String CONTEXT_ROOT_KEY =    "socnet.server.context.root";
   /** The database directory key. */
-  public static final String DB_DIR_KEY =          "sensorbase.db.dir";
+  public static final String DB_DIR_KEY =          "socnet.server.db.dir";
   /** The database implementation class. */
-  public static final String DB_IMPL_KEY =          "sensorbase.db.impl";
+  public static final String DB_IMPL_KEY =          "socnet.server.db.impl";
   /** The hostname key. */
-  public static final String HOSTNAME_KEY =        "sensorbase.hostname";
+  public static final String HOSTNAME_KEY =        "socnet.server.hostname";
   /** The logging level key. */
-  public static final String LOGGING_LEVEL_KEY =   "sensorbase.logging.level";
+  public static final String LOGGING_LEVEL_KEY =   "socnet.server.logging.level";
   /** The Restlet Logging key. */
-  public static final String RESTLET_LOGGING_KEY = "sensorbase.restlet.logging";
+  public static final String RESTLET_LOGGING_KEY = "socnet.server.restlet.logging";
   /** The SMTP host key. */
-  public static final String SMTP_HOST_KEY =       "sensorbase.smtp.host";
+  public static final String SMTP_HOST_KEY =       "socnet.server.smtp.host";
   /** The sensorbase port key. */
-  public static final String PORT_KEY =            "sensorbase.port";
+  public static final String PORT_KEY =            "socnet.server.port";
   /** The XML directory key. */
-  public static final String XML_DIR_KEY =         "sensorbase.xml.dir";
+  public static final String XML_DIR_KEY =         "socnet.server.xml.dir";
   /** The test installation key. */
-  public static final String TEST_INSTALL_KEY =    "sensorbase.test.install";
+  public static final String TEST_INSTALL_KEY =    "socnet.server.test.install";
   /** The test domain key. */
-  public static final String TEST_DOMAIN_KEY =     "sensorbase.test.domain";
+  public static final String TEST_DOMAIN_KEY =     "socnet.server.test.domain";
   /** The sensorbase port key during testing. */
-  public static final String TEST_PORT_KEY =       "sensorbase.test.port";
+  public static final String TEST_PORT_KEY =       "socnet.server.test.port";
   /** The sensorbase db dir during testing. */
-  public static final String TEST_DB_DIR_KEY =       "sensorbase.test.db.dir";
+  public static final String TEST_DB_DIR_KEY =       "socnet.server.test.db.dir";
   /** The test admin email key. */
-  public static final String TEST_ADMIN_EMAIL_KEY =     "sensorbase.test.admin.email";
+  public static final String TEST_ADMIN_EMAIL_KEY =     "socnet.server.test.admin.email";
   /** The test admin password. */
-  public static final String TEST_ADMIN_PASSWORD_KEY =   "sensorbase.test.admin.password";  
+  public static final String TEST_ADMIN_PASSWORD_KEY =   "socnet.server.test.admin.password";  
   /** The test hostname. */
-  public static final String TEST_HOSTNAME_KEY =   "sensorbase.test.hostname";  
+  public static final String TEST_HOSTNAME_KEY =   "socnet.server.test.hostname";  
   /** Whether to compress on startup. */
-  public static final String COMPRESS_ON_STARTUP_KEY =   "sensorbase.db.startup.compress";  
+  public static final String COMPRESS_ON_STARTUP_KEY =   "socnet.server.db.startup.compress";  
   /** Whether to re-index on startup. */
-  public static final String REINDEX_ON_STARTUP_KEY =   "sensorbase.db.startup.reindex";  
+  public static final String REINDEX_ON_STARTUP_KEY =   "socnet.server.db.startup.reindex";  
   /** Where we store the properties. */
   private Properties properties; 
   
@@ -81,14 +81,14 @@ public class ServerProperties {
     String userHome = System.getProperty("user.home");
     String userDir = System.getProperty("user.dir");
     String hackyHome = userHome + "/.hackystat";
-    String sensorBaseHome = hackyHome + "/sensorbase"; 
-    String propFile = userHome + "/.hackystat/sensorbase/sensorbase.properties";
+    String sensorBaseHome = hackyHome + "/socnet"; 
+    String propFile = userHome + "/.hackystat/socnet/socnet.properties";
     String defaultAdmin = "admin@hackystat.org";
     this.properties = new Properties();
     // Set defaults for 'standard' operation. These will override any previously
     properties.setProperty(ADMIN_EMAIL_KEY, defaultAdmin);
     properties.setProperty(ADMIN_PASSWORD_KEY, defaultAdmin);
-    properties.setProperty(CONTEXT_ROOT_KEY, "sensorbase");
+    properties.setProperty(CONTEXT_ROOT_KEY, "socnet");
     properties.setProperty(DB_DIR_KEY, sensorBaseHome + "/db");
     properties.setProperty(DB_IMPL_KEY, "org.hackystat.sensorbase.db.derby.DerbyImplementation");
     properties.setProperty(HOSTNAME_KEY, "localhost");
@@ -111,10 +111,10 @@ public class ServerProperties {
     try {
       stream = new FileInputStream(propFile);
       properties.load(stream);
-      System.out.println("Loading SensorBase properties from: " + propFile);
+      System.out.println("Loading Socnet Server properties from: " + propFile);
     }
     catch (IOException e) {
-      System.out.println(propFile + " not found. Using default sensorbase properties.");
+      System.out.println(propFile + " not found. Using default Socnet Server properties.");
     }
     finally {
       if (stream != null) {
@@ -143,7 +143,7 @@ public class ServerProperties {
     Properties systemProperties = System.getProperties();
     for (Map.Entry<Object, Object> entry : systemProperties.entrySet()) {
       String sysPropName = (String)entry.getKey();
-      if (sysPropName.startsWith("sensorbase.")) {
+      if (sysPropName.startsWith("socnet.server.")) {
         String sysPropValue = (String)entry.getValue();
         properties.setProperty(sysPropName, sysPropValue);
       }
@@ -170,14 +170,14 @@ public class ServerProperties {
     properties.setProperty(PORT_KEY, properties.getProperty(TEST_PORT_KEY));
     properties.setProperty(TEST_INSTALL_KEY, "true");
     // Change the XML dir location if HACKYSTAT_SENSORBASE_HOME exists. 
-    String sensorbaseHome = System.getProperty("HACKYSTAT_SENSORBASE_HOME");
+    String sensorbaseHome = System.getProperty("HACKYSTAT_SOCNET_HOME");
     if (sensorbaseHome != null) {
       File file = new File(sensorbaseHome, "xml");
       if (file.exists()) {
         properties.setProperty(XML_DIR_KEY, file.getAbsolutePath());
       }
       else {
-        System.out.println("Bad HACKYSTAT_SENSORBASE_HOME: " + sensorbaseHome);
+        System.out.println("Bad HACKYSTAT_SOCNET_HOME: " + sensorbaseHome);
       }
     }
     // Change the db implementation class if DB_IMPL_KEY is in system properties. 
@@ -208,7 +208,7 @@ public class ServerProperties {
       alphaProps.put(propName, propValue);
     }
     StringBuffer buff = new StringBuffer(25);
-    buff.append("SensorBase Properties:").append(cr);
+    buff.append("SocNet Server Properties:").append(cr);
     for (String key : alphaProps.keySet()) {
       buff.append(pad).append(key).append(eq).append(get(key)).append(cr);
     }

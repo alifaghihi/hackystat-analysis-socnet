@@ -6,7 +6,7 @@
 //
 
 
-package org.hackystat.socnet.server.resource.nodes.jaxb;
+package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlElementDecl;

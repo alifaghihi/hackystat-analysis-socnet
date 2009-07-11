@@ -11,7 +11,7 @@ package org.hackystat.socnet.sensors.twitterclient;
  */
 class HitApiCallLimitException extends Exception{
     
-
+    public static final long serialVersionUID = 1l;
     public HitApiCallLimitException(int callsMade, int callsRemaining)
     {
         super("You have made " + callsMade + " API calls this hour. You have " 

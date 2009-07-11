@@ -6,7 +6,7 @@
 //
 
 
-package org.hackystat.socnet.server.resource.nodes.jaxb;
+package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}Node" maxOccurs="unbounded"/>
+ *         &lt;element ref="{}NodeRef" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,52 +39,52 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "node"
+    "nodeRef"
 })
-@XmlRootElement(name = "Nodes")
-public class Nodes
+@XmlRootElement(name = "NodeIndex")
+public class NodeIndex
     implements Serializable
 {
 
     private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "Node", required = true)
-    protected List<Node> node;
+    @XmlElement(name = "NodeRef")
+    protected List<NodeRef> nodeRef;
 
     /**
-     * Gets the value of the node property.
+     * Gets the value of the nodeRef property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the node property.
+     * This is why there is not a <CODE>set</CODE> method for the nodeRef property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getNode().add(newItem);
+     *    getNodeRef().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Node }
+     * {@link NodeRef }
      * 
      * 
      */
-    public List<Node> getNode() {
-        if (node == null) {
-            node = new ArrayList<Node>();
+    public List<NodeRef> getNodeRef() {
+        if (nodeRef == null) {
+            nodeRef = new ArrayList<NodeRef>();
         }
-        return this.node;
+        return this.nodeRef;
     }
 
-    public boolean isSetNode() {
-        return ((this.node!= null)&&(!this.node.isEmpty()));
+    public boolean isSetNodeRef() {
+        return ((this.nodeRef!= null)&&(!this.nodeRef.isEmpty()));
     }
 
-    public void unsetNode() {
-        this.node = null;
+    public void unsetNodeRef() {
+        this.nodeRef = null;
     }
 
 }

@@ -6,15 +6,16 @@
 //
 
 
-package org.hackystat.socnet.server.resource.nodes.jaxb;
+package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -26,9 +27,12 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;complexType>
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute ref="{}Name use="required""/>
- *       &lt;attribute ref="{}Type use="required""/>
- *       &lt;attribute ref="{}Href use="required""/>
+ *       &lt;sequence>
+ *         &lt;element ref="{}Name"/>
+ *         &lt;element ref="{}Type"/>
+ *         &lt;element ref="{}ID"/>
+ *         &lt;element ref="{}CreatedAt"/>
+ *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -37,20 +41,27 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "")
-@XmlRootElement(name = "NodeRef")
-public class NodeRef
+@XmlType(name = "", propOrder = {
+    "name",
+    "type",
+    "id",
+    "createdAt"
+})
+@XmlRootElement(name = "Node")
+public class Node
     implements Serializable
 {
 
     private final static long serialVersionUID = 12343L;
-    @XmlAttribute(name = "Name", required = true)
+    @XmlElement(name = "Name", required = true)
     protected String name;
-    @XmlAttribute(name = "Type", required = true)
+    @XmlElement(name = "Type", required = true)
     protected String type;
-    @XmlAttribute(name = "Href", required = true)
-    @XmlSchemaType(name = "anyURI")
-    protected String href;
+    @XmlElement(name = "ID")
+    protected int id;
+    @XmlElement(name = "CreatedAt", required = true)
+    @XmlSchemaType(name = "dateTime")
+    protected XMLGregorianCalendar createdAt;
 
     /**
      * Gets the value of the name property.
@@ -109,31 +120,51 @@ public class NodeRef
     }
 
     /**
-     * Gets the value of the href property.
+     * Gets the value of the id property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
      */
-    public String getHref() {
-        return href;
+    public int getID() {
+        return id;
     }
 
     /**
-     * Sets the value of the href property.
+     * Sets the value of the id property.
+     * 
+     */
+    public void setID(int value) {
+        this.id = value;
+    }
+
+    public boolean isSetID() {
+        return true;
+    }
+
+    /**
+     * Gets the value of the createdAt property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getCreatedAt() {
+        return createdAt;
+    }
+
+    /**
+     * Sets the value of the createdAt property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setHref(String value) {
-        this.href = value;
+    public void setCreatedAt(XMLGregorianCalendar value) {
+        this.createdAt = value;
     }
 
-    public boolean isSetHref() {
-        return (this.href!= null);
+    public boolean isSetCreatedAt() {
+        return (this.createdAt!= null);
     }
 
 }
