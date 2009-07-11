@@ -20,9 +20,9 @@
 
     <property name="name" value="${ivy.packager.module}"/>
     <property name="revision" value="${ivy.packager.revision}"/>
-    <property name="archive" value="neo-1.0-b8-binary"/>
+    <property name="archive" value="neo-1.0-b8"/>
 
-    <resource url="http://dist.neo4j.org/${archive}.zip" sha1="90f307b8d76009c14f66e6ce2d111f60b2e6fe53"/>
+    <resource url="http://dist.neo4j.org/${archive}-binary.zip" sha1="90f307b8d76009c14f66e6ce2d111f60b2e6fe53"/>
 
     <build>
         <!-- jar -->
