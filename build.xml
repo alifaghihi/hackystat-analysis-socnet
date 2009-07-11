@@ -52,6 +52,8 @@
     </fileset>
   </path>
 
+  <ivy:retrieve organisation="org.neo4j" module="neo4j" revision="1.0-b8" pattern="${lib.dir}/neo4j/neo-1.0-b8.jar" sync="true" inline="true" conf="default" log="download-only" transitive="false" type="jar"/>
+  <path id="neo4j.path" location="${lib.dir}/neo4j/neo-1.0-b8.jar" />
 
   <ivy:retrieve organisation="org.apache.derby" module="derby" revision="${derby.version}" pattern="${lib.dir}/derby/[artifact].[ext]" sync="true" inline="true" conf="default,locale" log="download-only" transitive="false" type="jar"/>
   <path id="derby.path">
@@ -106,7 +108,6 @@
     <mkdir dir="${build.dir}/classes" />
     <javac srcdir="${src.dir}" 
 	destdir="${build.dir}/classes"
-	includes="${src.dir}/org/hackystat/socnet/server/**"
 	source="1.5" 
 	target="1.5" 
 	debug="on" 
