@@ -16,26 +16,15 @@
     under the License.
 -->
 
-<packager-module rev="$Id$">
-
+<packager-module version="1.0">
     <property name="name" value="${ivy.packager.module}"/>
     <property name="revision" value="${ivy.packager.revision}"/>
     <property name="archive" value="${name}-${revision}"/>
 
-    <resource url="http://www.example.com/download/${archive}.zip" sha1="0123456789012345678901234567890123456789"/>
+    <resource url="http://yusuke.homeip.net/twitter4j/en/${archive}.zip" sha1="2f074e6a5c77f984478ffc8c7dca7a8e7a81457a"/>
 
     <build>
         <!-- jar -->
-        <move file="archive/${archive}/${name}.jar" tofile="artifacts/jars/${name}.jar"/>
-
-        <!-- source -->
-        <zip destfile="artifacts/sources/source.zip">
-            <fileset dir="archive/${archive}/src/java"/>
-        </zip>
-
-        <!-- javadoc -->
-        <zip destfile="artifacts/javadocs/javadoc.zip">
-            <fileset dir="archive/${archive}/doc/api"/>
-        </zip>
+        <move file="archive/${archive}/${name}-${revision}.jar" tofile="artifacts/jars/${name}-${revision}.jar"/>
     </build>
 </packager-module>
