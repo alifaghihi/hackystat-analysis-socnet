@@ -15,6 +15,8 @@ import org.neo4j.api.core.RelationshipType;
  */
 public interface SocNetClientInterface {
     
+    
+
     /**
      * Constructs an http PUT call to insert a node of the given type and name 
      * into the database. 

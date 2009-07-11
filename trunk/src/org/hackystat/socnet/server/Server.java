@@ -18,6 +18,7 @@ import static org.hackystat.socnet.server.ServerProperties.LOGGING_LEVEL_KEY;
 import java.util.logging.Logger;
 import org.hackystat.socnet.server.resource.helloping.HelloPingResource;
 import org.hackystat.socnet.server.resource.socialmediagraph.SocialMediaGraphManager;
+import org.hackystat.socnet.server.resource.socialmediagraph.SocialMediaGraphResource;
 
 /**
  * Sets up the HTTP Server process and dispatching to the associated resources. 
@@ -134,7 +135,7 @@ public class Server extends Application {
     // authentication, but all other URI patterns will go to the guarded Router. 
     Router router = new Router(getContext());
     router.attach("/ping", HelloPingResource.class);
-    
+    router.attach("/nodes/{nodetype}/{node}", SocialMediaGraphResource.class);
     return router;
   }
 

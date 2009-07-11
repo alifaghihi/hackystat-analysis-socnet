@@ -152,6 +152,14 @@
     </java>
   </target>
 
+<target name="puttest" depends="compile" description="Test to see if the put command works">
+    <java classname="org.hackystat.socnet.server.resource.socialmediagraph.MainSocialMediaGraphTest" fork="yes">
+      <classpath>
+        <pathelement location="${build.dir}/classes" />
+        <path refid="compile.classpath" />
+      </classpath>
+    </java>
+  </target>
 </project>
 
 
