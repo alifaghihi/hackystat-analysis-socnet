@@ -17,9 +17,9 @@
 -->
 
 <ivy-module version="2.0">
-    <info organization="org.neo4j"
+    <info organisation="org.neo4j"
 	module="neo4j"
-	revision="1.0-b8"/>
+	revision="1.0-b8">
 	<license name="GNU Affero General Public License, Version 3"
 		url="http://www.fsf.org/licensing/licenses/agpl-3.0.html"/>
 	<repository pattern="http://hackystat-analysis-socnet.googlecode.com/svn/trunk/repo/modules/[organisation]/[module]/[revision]/ivy.xml" ivys="true" url="http://hackystat-analysis-socnet.googlecode.com/" name="socnet"/>
