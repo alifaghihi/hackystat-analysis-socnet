@@ -26,7 +26,7 @@
 
     <build>
         <!-- jar -->
-        <move file="archive/${archive}/neo-1.0-b8.jar" tofile="artifacts/jars/"/>
+        <move file="archive/${archive}/neo-1.0-b8.jar" tofile="artifacts/jars/neo4j.jar"/>
 
 	
 
