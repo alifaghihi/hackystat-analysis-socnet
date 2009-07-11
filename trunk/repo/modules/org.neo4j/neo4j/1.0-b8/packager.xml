@@ -16,7 +16,7 @@
     under the License.
 -->
 
-<packager-module version="2.0">
+<packager-module version="1.0">
 
     <property name="name" value="${ivy.packager.module}"/>
     <property name="revision" value="${ivy.packager.revision}"/>
