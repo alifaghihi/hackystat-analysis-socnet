@@ -7,6 +7,7 @@
   </publications>
   <dependencies>
     <dependency org="org.neo4j" name="neo4j" rev="1.0-b8"/>
+    <dependency org="twitter4j" name="twitter4j" rev="2.0.8"
     <dependency org="org.junit" name="junit" rev="${junit.version}" />
     <dependency org="org.restlet" name="restlet" rev="${restlet.version}" />
     <dependency org="org.apache.derby" name="derby" rev="${derby.version}" />
