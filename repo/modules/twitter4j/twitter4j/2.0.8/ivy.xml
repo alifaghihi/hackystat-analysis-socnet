@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    Copyright 2009 YOUR NAME HERE
+    Copyright 2009 Rachel Shadoan
 
     Licensed under the Apache License, Version 2.0 (the "License"); you may
     not use this file except in compliance with the License. You may obtain
@@ -16,24 +16,16 @@
     under the License.
 -->
 
-<ivy-module rev="$Id$">
-
-    <info publication="20080406120000">
-        <license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-        <description homepage="http://www.example.com/">
-        </description>
-    </info>
-
-    <configurations>
-    </configurations>
-
-    <publications>
-        <artifact/>
-        <artifact name="source" type="source" ext="zip"/>
-        <artifact name="javadoc" type="javadoc" ext="zip"/>
-    </publications>
-
-    <dependencies>
-    </dependencies>
-
+<ivy-module version="2.0">
+    <info organisation="twitter4j"
+	module="twitter4j"
+	revision="2.0.8">
+	<license name="BSD Style Licence"
+		url="http://yusuke.homeip.net/twitter4j/en/index.html#license"/>
+	<repository pattern="http://hackystat-analysis-socnet.googlecode.com/svn/trunk/repo/modules/[organisation]/[module]/[revision]/ivy.xml" ivys="true" url="http://hackystat-analysis-socnet.googlecode.com/" name="socnet"/>
+	<description homepage="http://yusuke.homeip.net/twitter4j/en/index.html">
+Twitter4J is a Java library for TwitterAPI.
+With Twitter4J, you can easily integrate your Java application with the Twitter service.
+	</description>
+     </info>
 </ivy-module>
