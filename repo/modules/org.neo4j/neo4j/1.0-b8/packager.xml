@@ -26,7 +26,13 @@
 
     <build>
         <!-- jar -->
-        <move file="archive/${archive}/lib/neo-1.0-b8.jar" tofile="artifacts/jars/neo-1.0-b8.jar"/>
+        <move todir="artifacts/jars">
+		<fileset dir="archive/${archive}/lib">
+			<include name="neo-1.0-b8.jar"/>
+		</fileset>
+	</move>
+
+<!-- file="archive/${archive}/lib/neo-1.0-b8.jar" tofile="artifacts/jars/neo-1.0-b8.jar"/> -->
 
     </build>
 </packager-module>
