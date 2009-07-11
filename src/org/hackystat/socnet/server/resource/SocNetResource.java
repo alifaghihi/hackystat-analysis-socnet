@@ -38,8 +38,6 @@ import org.restlet.resource.Variant;
  */
 public abstract class SocNetResource extends Resource {
   
-
-  
   /** The server. */
   protected Server server; 
   
