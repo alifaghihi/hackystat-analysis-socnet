@@ -55,7 +55,7 @@
   <ivy:retrieve organisation="org.neo4j" module="neo4j" revision="1.0-b8" pattern="${lib.dir}/neo4j/neo-1.0-b8.jar" sync="true" inline="true" conf="default" log="download-only" transitive="false" type="jar"/>
   <path id="neo.path" location="${lib.dir}/neo4j/neo-1.0-b8.jar" />
 
-  <ivy:retrieve organisation="twitter4j" module="twitter4j" revision="1.0-b8" pattern="${lib.dir}/twitter4j/twitter4j-2.0.8.jar" sync="true" inline="true" conf="default" log="download-only" transitive="false" type="jar"/>
+  <ivy:retrieve organisation="twitter4j" module="twitter4j" revision="2.0.8" pattern="${lib.dir}/twitter4j/twitter4j-2.0.8.jar" sync="true" inline="true" conf="default" log="download-only" transitive="false" type="jar"/>
   <path id="twitter4j.path" location="${lib.dir}/twitter4j/twitter4j-2.0.8.jar" />
 
   <ivy:retrieve organisation="org.apache.derby" module="derby" revision="${derby.version}" pattern="${lib.dir}/derby/[artifact].[ext]" sync="true" inline="true" conf="default,locale" log="download-only" transitive="false" type="jar"/>
