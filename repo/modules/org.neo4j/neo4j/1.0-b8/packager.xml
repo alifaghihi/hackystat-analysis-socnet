@@ -22,7 +22,7 @@
     <property name="revision" value="${ivy.packager.revision}"/>
     <property name="archive" value="${name}-apoc-0.1"/>
 
-    <resource url="http://dist.neo4j.org/{$archive}.zip" sha1="4b514a629da3f1c006d453038742b8989d3ca877"/>
+    <resource url="http://dist.neo4j.org/${archive}.zip" sha1="4b514a629da3f1c006d453038742b8989d3ca877"/>
 
     <build>
         <!-- jar -->
