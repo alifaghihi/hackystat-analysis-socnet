@@ -26,5 +26,10 @@
     <build>
         <!-- jar -->
         <move file="archive/${archive}/${name}-${revision}.jar" tofile="artifacts/jars/${name}-${revision}.jar"/>
+
+	<!-- sources -->
+	<move file="archive/${archive}/${name}-${revision}-sources.jar" tofile="artifacts/sources" />
+	<!-- javadoc -->
+	<move file="archive/${archive}/${name}-${revision}-javadoc.jar" tofile="artifacts/javadocs" />
     </build>
 </packager-module>
