@@ -15,7 +15,7 @@ Add your content here.
 ||GET||{host}/clients||Returns a list of all of the clients using the server ||
 ||PUT||{host}/clients/{client}||Returns a representation of the named client||
 ||POST||{host}/clients/{client}    ||Updates the representation of the named client||
-||DELETE||{host}/clients/{client}||Deletes the specified client from the database||DELETEs the named client
+||DELETE||{host}/clients/{client}||Deletes the specified client from the database||
 ||GET ||{host}/nodes||Returns a list of all the nodes in the graph||
 ||GET||{host}/nodes/{nodetype}||Returns a list of all the nodes of that type in the graph||
 ||GET ||{host}/nodes/{nodetype}/{nodename}/||Returns the node specified by the given name and type||
