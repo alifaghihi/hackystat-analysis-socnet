@@ -1,4 +1,5 @@
 #summary A guide for downloading, installing, and running SocNet from source
+#labels Featured
 
 =1.0 Introduction=
 
@@ -31,3 +32,44 @@ Download Java Transaction API Specification 1.1 Maintenance Release, both the cl
 Now we're ready to get down to business.
 
 ==2.1 Checking out the SocNet Sources ==
+
+Checkout the SocNet trunk into the directory of your choice using the following command:
+
+svn checkout http://hackystat-analysis-socnet.googlecode.com/svn/trunk/
+
+Now, on to building!
+
+=3.0 Building and Running SocNet =
+==3.1 Get Dependencies using Ivy ==
+
+Fortunately, Ivy makes this part a breeze. If you have Ivy installed, run ant in the top level directory and Ivy will fetch everything you need.
+
+If you don't have Ivy installed, you can still run ant, and it whimper about Ivy not being installed and prompt you to install ivy using the command:
+
+ant -f ivy.build.xml
+
+After executing that command, run ant and Ivy will merrily go about retrieving things so that you don't have to.
+
+==3.2 Set Up Configuration Files ==
+
+The socnet.properties file should be placed in the computer's home directory in the hackystat home folder. This file is not strictly necessary, but if you want to use it, it allows additional specification and configuration.
+
+The socnet.twitter.properties file should be placed in the same place as the socnet.properties file. Note that the socnet.twitter.properties files must contain a valid Twitter username and valid Twitter password. The default API call limit for a Twitter account is 150 calls per hour.  Raise this at your peril--Twitter will blacklist your account if you repeatedly go over your call limit. It is included in the configuration file so that after Twitter has raised the API call limit, it is easy to change. 
+
+*All values in the socnet.twitter.properties configuration file are mandatory*
+
+Now it's time to run this bad boy
+
+==3.3 Running SocNet ==
+
+First, we have to start up the server. To do this, execute
+
+ant run
+
+in the top level directory.
+
+Then, execute
+
+ant twitterclient
+
+to start up the Twitter Client.
