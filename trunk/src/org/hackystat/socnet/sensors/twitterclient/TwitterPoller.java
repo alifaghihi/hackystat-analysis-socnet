@@ -67,14 +67,17 @@ public class TwitterPoller
      * This creates a TwitterPoller object with the authentication information
      * read in from the provided configuration file.
      * 
-     * @param propertiesFile - the absolute path of the properties file holding 
-     * the 
+     * @param username - the twitter username of the poller
+     * @param password - the twitter password of the poller
+     * @param apiCallsPerHour - the maximum number of API calls to make per hour
+     * @param host - the address of the socnet server to store the data to
      * @throws java.io.FileNotFoundException 
      * @throws java.io.IOException
      * @throws twitter4j.TwitterException 
      * @throws org.hackystat.socnet.sensors.twitterclient.HitApiCallLimitException
      */
-    public TwitterPoller(String username, String password, int apiCallsPerHour) throws FileNotFoundException, IOException, TwitterException, JAXBException
+    public TwitterPoller(String username, String password, int apiCallsPerHour, 
+            String host) throws FileNotFoundException, IOException, TwitterException, JAXBException
     {
         //create a buffered reader to read the password, username, and 
         //api limit from the config file
@@ -102,7 +105,7 @@ public class TwitterPoller
         usersToFollowers = new HashMap<String, HashSet<String>>();
 
         //create a new socnet client
-        socnetclient = new TwitterSocNetClient();
+        socnetclient = new TwitterSocNetClient(host);
             
             
     }

@@ -27,6 +27,7 @@ public class TwitterClient
         System.err.println("socnet.twitter.username");
         System.err.println("socnet.twitter.password");
         System.err.println("socnet.twitter.apilimit");
+        System.err.println("socnet.twitter.serveraddress");
         System.err.println("See SocNet documentation");
         System.exit(-1);
     }
@@ -49,14 +50,15 @@ public class TwitterClient
         String username = properties.getProperty("socnet.twitter.username");
         String password = properties.getProperty("socnet.twitter.password");
         String apistr = properties.getProperty("socnet.twitter.apilimit");
-        
-        if(username == null || password == null || apistr == null)
+        String serveraddress = properties.getProperty("socnet.twitter.serveraddress");
+        if(username == null || password == null || apistr == null || serveraddress == null)
         {
             printErrorMsg(propFile);
         }
         
         int apiCallsPerHour = Integer.parseInt(apistr);
-        TwitterPoller twitterPoller = new TwitterPoller(username, password, apiCallsPerHour);
+        TwitterPoller twitterPoller = new TwitterPoller(username, password, 
+                                                        apiCallsPerHour, serveraddress);
 
         //begin polling!
         while (true)
