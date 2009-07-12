@@ -13,6 +13,7 @@ import java.util.TreeMap;
  */
 public class ServerProperties {
   
+    public static final String GRAPH_IMPL_KEY = "GraphDB";
   /** The admin email key. */
   public static final String ADMIN_EMAIL_KEY =     "socnet.server.admin.email";
   /** The admin password. */
@@ -20,7 +21,8 @@ public class ServerProperties {
   /** The context root key. */
   public static final String CONTEXT_ROOT_KEY =    "socnet.server.context.root";
   /** The database directory key. */
-  public static final String DB_DIR_KEY =          "socnet.server.db.dir";
+  public static final String USER_DB_DIR_KEY =          "socnet.server.db.user.dir";
+  public static final String GRAPH_DB_DIR_KEY =          "socnet.server.db.graph.dir";
   /** The database implementation class. */
   public static final String DB_IMPL_KEY =          "socnet.server.db.impl";
   /** The hostname key. */
@@ -42,7 +44,9 @@ public class ServerProperties {
   /** The sensorbase port key during testing. */
   public static final String TEST_PORT_KEY =       "socnet.server.test.port";
   /** The sensorbase db dir during testing. */
-  public static final String TEST_DB_DIR_KEY =       "socnet.server.test.db.dir";
+  public static final String TEST_USER_DB_DIR_KEY =       "socnet.server.test.db.user.dir";
+  /** The sensorbase db dir during testing. */
+  public static final String TEST_GRAPH_DB_DIR_KEY =       "socnet.server.test.db.graph.dir";
   /** The test admin email key. */
   public static final String TEST_ADMIN_EMAIL_KEY =     "socnet.server.test.admin.email";
   /** The test admin password. */
@@ -81,7 +85,7 @@ public class ServerProperties {
     String userHome = System.getProperty("user.home");
     String userDir = System.getProperty("user.dir");
     String hackyHome = userHome + "/.hackystat";
-    String sensorBaseHome = hackyHome + "/socnet"; 
+    String socNetHome = hackyHome + "/socnet"; 
     String propFile = userHome + "/.hackystat/socnet/socnet.properties";
     String defaultAdmin = "admin@hackystat.org";
     this.properties = new Properties();
@@ -89,7 +93,8 @@ public class ServerProperties {
     properties.setProperty(ADMIN_EMAIL_KEY, defaultAdmin);
     properties.setProperty(ADMIN_PASSWORD_KEY, defaultAdmin);
     properties.setProperty(CONTEXT_ROOT_KEY, "socnet");
-    properties.setProperty(DB_DIR_KEY, sensorBaseHome + "/db");
+    properties.setProperty(USER_DB_DIR_KEY, socNetHome + "/db/user");
+    properties.setProperty(GRAPH_DB_DIR_KEY, socNetHome + "/db/graph");
     properties.setProperty(DB_IMPL_KEY, "org.hackystat.sensorbase.db.derby.DerbyImplementation");
     properties.setProperty(HOSTNAME_KEY, "localhost");
     properties.setProperty(LOGGING_LEVEL_KEY, "INFO");
@@ -101,7 +106,8 @@ public class ServerProperties {
     properties.setProperty(TEST_INSTALL_KEY, FALSE);
     properties.setProperty(TEST_ADMIN_EMAIL_KEY, defaultAdmin);
     properties.setProperty(TEST_ADMIN_PASSWORD_KEY, defaultAdmin);
-    properties.setProperty(TEST_DB_DIR_KEY, sensorBaseHome + "/testdb");
+    properties.setProperty(TEST_USER_DB_DIR_KEY, socNetHome + "/testdb/user");
+    properties.setProperty(TEST_GRAPH_DB_DIR_KEY, socNetHome + "/testdb/graph");
     properties.setProperty(TEST_PORT_KEY, "9976");
     properties.setProperty(TEST_HOSTNAME_KEY, "localhost");
     properties.setProperty(COMPRESS_ON_STARTUP_KEY, FALSE);
@@ -166,7 +172,8 @@ public class ServerProperties {
     properties.setProperty(ADMIN_EMAIL_KEY, properties.getProperty(TEST_ADMIN_EMAIL_KEY));
     properties.setProperty(ADMIN_PASSWORD_KEY, properties.getProperty(TEST_ADMIN_PASSWORD_KEY));
     properties.setProperty(HOSTNAME_KEY, properties.getProperty(TEST_HOSTNAME_KEY));
-    properties.setProperty(DB_DIR_KEY, properties.getProperty(TEST_DB_DIR_KEY));
+    properties.setProperty(USER_DB_DIR_KEY, properties.getProperty(TEST_USER_DB_DIR_KEY));
+    properties.setProperty(GRAPH_DB_DIR_KEY, properties.getProperty(TEST_GRAPH_DB_DIR_KEY));
     properties.setProperty(PORT_KEY, properties.getProperty(TEST_PORT_KEY));
     properties.setProperty(TEST_INSTALL_KEY, "true");
     // Change the XML dir location if HACKYSTAT_SENSORBASE_HOME exists. 

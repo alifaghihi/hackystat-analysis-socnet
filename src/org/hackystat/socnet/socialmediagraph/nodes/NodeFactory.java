@@ -2,7 +2,9 @@ package org.hackystat.socnet.socialmediagraph.nodes;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import org.hackystat.socnet.socialmediagraph.nodes.interfaces.SocialMediaNodeInterface;
 
 import org.neo4j.api.core.Direction;
@@ -42,7 +44,24 @@ public class NodeFactory
         BOOKS, CITIES, CONCENTRATIONS, COUNTRIES, EMPLOYERS, FACEBOOK_ACCOUNTS,
         GROUPS, HACKYSTAT_ACCOUNTS, INTERESTS, MOVIES, MUSIC, NETWORKS, NONUSERS,
         POLITICAL_PARTIES, PROGRAMMING_LANGUAGES, PROJECTS, RELIGIONS, SCHOOLS, 
-        SHOWS, STATES, TWITTER_ACCOUNTS, UNIVERSITIES, USER
+        SHOWS, STATES, TWITTER_ACCOUNTS, UNIVERSITIES, USER;
+        
+        private static HashMap<String, ReferenceNodeRelationshipType> nameMap;
+        
+        static
+        {
+           nameMap = new HashMap<String, ReferenceNodeRelationshipType>();
+           
+           for(ReferenceNodeRelationshipType type : ReferenceNodeRelationshipType.values())
+           {
+               nameMap.put(type.name(), type);
+           }
+        }
+        
+        public static ReferenceNodeRelationshipType getEnum(String name)
+        {
+            return nameMap.get(name);
+        }
     };
 
     /**
@@ -66,7 +85,50 @@ public class NodeFactory
         IS_BOOK, IS_CITY, IS_CONCENTRATION, IS_COUNTRY, IS_EMPLOYER, IS_FACEBOOK_ACCOUNT,
         IS_GROUP, IS_HACKYSTAT_ACCOUNT, IS_INTEREST, IS_MOVIE, IS_MUSIC, IS_NETWORK,
         IS_POLITICAL_PARTY, IS_PROGRAMMING_LANGUAGE, IS_PROJECT, IS_RELIGION, IS_SCHOOL, IS_SHOW, IS_STATE,
-        IS_TWITTER_ACCOUNT, IS_UNIVERSITY, IS_USER
+        IS_TWITTER_ACCOUNT, IS_UNIVERSITY, IS_USER;
+                
+                
+        private static HashMap<String, IsARelationshipType> nameMap;
+        
+        static
+        {
+           nameMap = new HashMap<String, IsARelationshipType>();
+           
+           for(IsARelationshipType type : IsARelationshipType.values())
+           {
+               nameMap.put(type.name(), type);
+           }
+        }
+        
+        public static IsARelationshipType getEnum(String name)
+        {
+            return nameMap.get(name);
+        }
+    };
+    
+    
+    public enum BetweenNodesRelationshipType implements RelationshipType
+    {
+
+        IS_FOLLOWING, IS_FOLLOWED_BY, MENTIONS, LIKES, CONTRIBUTES_TO;
+                
+                
+        private static HashMap<String, BetweenNodesRelationshipType> nameMap;
+        
+        static
+        {
+           nameMap = new HashMap<String, BetweenNodesRelationshipType>();
+           
+           for(BetweenNodesRelationshipType type : BetweenNodesRelationshipType.values())
+           {
+               nameMap.put(type.name(), type);
+           }
+        }
+        
+        public static BetweenNodesRelationshipType getEnum(String name)
+        {
+            return nameMap.get(name);
+        }
     };
     
     /**An arraylist to store the subreference nodes for quick and easy access*/
@@ -199,6 +261,11 @@ public class NodeFactory
         
         return null;
     }
+    
+    public Node getNode(long nodeID)
+    {
+        return neo.getNodeById(nodeID);
+    }
 
     public SocialMediaNode getNode(SocialMediaNode startNode, RelationshipType
             relationship, Direction d, String nextNodeName)
@@ -212,7 +279,7 @@ public class NodeFactory
             {
                 node = (Node) it.next();
                 
-                if(node.getProperty(SocialMediaNode.KEY_NAME) == nextNodeName)
+                if(node.getProperty(SocialMediaNode.NAME_KEY) == nextNodeName)
                     return new SocialMediaNode(node);
             }
 
@@ -238,5 +305,30 @@ public class NodeFactory
             Node node1 = getNode(node1Type, node1Key, node1Name);
             Node node2 = getNode(node2Type, node2Key, node2Name);
             return node1.createRelationshipTo(node2, relationship);
+    }
+    
+    public Relationship getRelationship(long relationshipID)
+    {
+       return neo.getRelationshipById(relationshipID);
+    }
+    
+    public Relationship getRelationship(RelationshipType relationship, boolean
+            isBidirectional, IsARelationshipType node1Type, String node1Key, 
+            String node1Name, IsARelationshipType node2Type, String node2Key, 
+            String node2Name)
+    {
+        Node startNode = this.getNode(node1Type, node1Key, node1Key);
+        Node endNode = this.getNode(node2Type, node2Key, node2Key);
+        Iterable<Relationship> rels;
+        
+        if(isBidirectional)
+             rels = startNode.getRelationships(relationship, Direction.BOTH);
+        
+        else
+            rels = startNode.getRelationships(relationship, Direction.OUTGOING);
+        
+        Iterator it = rels.iterator();
+        
+        return (Relationship) it.next();
     }
 }
