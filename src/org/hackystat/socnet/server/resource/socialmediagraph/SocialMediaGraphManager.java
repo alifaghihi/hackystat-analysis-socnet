@@ -18,6 +18,8 @@ import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLNode;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationship;
 import org.hackystat.socnet.utils.JAXBHelper;
 import org.hackystat.utilities.stacktrace.StackTrace;
+import org.restlet.resource.Representation;
+import org.restlet.resource.StringRepresentation;
 
 /**
  *
@@ -66,9 +68,9 @@ public class SocialMediaGraphManager
        return (XMLNode) JAXBHelper.unmarshall(xmlString, jaxbContext);
     }
 
-    public String getNodeRepresentation(XMLNode node) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
+    public Representation getNodeRepresentation(XMLNode node) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
     {
-        return JAXBHelper.marshall(node, jaxbContext);
+        return new StringRepresentation(JAXBHelper.marshall(node, jaxbContext));
     }
     
     public XMLRelationship makeRelationship(String xmlString) throws Exception
@@ -76,9 +78,9 @@ public class SocialMediaGraphManager
         return (XMLRelationship) JAXBHelper.unmarshall(xmlString, jaxbContext);
     }
     
-    public String getRelationshipRepresentation(XMLRelationship rel) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
+    public Representation getRelationshipRepresentation(XMLRelationship rel) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
     {
-        return JAXBHelper.marshall(rel, jaxbContext);
+        return new StringRepresentation(JAXBHelper.marshall(rel, jaxbContext));
     }
     
     public void storeRelationship(XMLRelationship rel)
@@ -94,5 +96,10 @@ public class SocialMediaGraphManager
     public List<XMLNode> getNodes()
     {
         return graphImp.getNodes();
+    }
+    
+    public XMLNode getNode(String nodetype, String nodename)
+    {
+        return graphImp.getNode(nodetype, nodename);
     }
 }
