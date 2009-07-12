@@ -145,7 +145,12 @@ public class Server extends Application {
     Router router = new Router(getContext());
     router.attach("/ping", HelloPingResource.class);
     router.attach("/nodes/{nodetype}/{node}", NodeResource.class);
+    router.attach("/nodes/{nodetype}", NodeResource.class);
+    router.attach("/nodes/{nodetype}/{node}/{relationshiptype}/{relationshipdirection}", 
+            NodeResource.class);
     router.attach("/relationships/{relationshiptype}", RelationshipResource.class);
+    router.attach("/relationships/{relationshiptype}/{startnodetype}/{startnodename}/{endnodetype}/{endnodename}", 
+            RelationshipResource.class);
     return router;
   }
 

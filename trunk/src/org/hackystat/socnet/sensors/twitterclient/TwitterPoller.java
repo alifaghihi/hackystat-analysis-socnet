@@ -13,7 +13,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import org.hackystat.socnet.sensors.twitterclient.TwitterSocNetClient;
+import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory.IsARelationshipType;
 import org.neo4j.api.core.RelationshipType;
 import twitter4j.Twitter;
@@ -71,24 +74,24 @@ public class TwitterPoller
      * @throws twitter4j.TwitterException 
      * @throws org.hackystat.socnet.sensors.twitterclient.HitApiCallLimitException
      */
-    public TwitterPoller(String propertiesFile) throws FileNotFoundException, IOException, TwitterException
+    public TwitterPoller(String username, String password, int apiCallsPerHour) throws FileNotFoundException, IOException, TwitterException, JAXBException
     {
         //create a buffered reader to read the password, username, and 
         //api limit from the config file
-        BufferedReader br = new BufferedReader(new FileReader(propertiesFile));
-
+        //BufferedReader br = new BufferedReader(new FileReader(propertiesFile));
+        clientUsername = username;
         //read in the username of the TwitterClient's account (neccessary to call
         //authenticated methods, get friends lists, etc.
-        clientUsername = br.readLine();
+        //clientUsername = br.readLine();
         
         //read in the password of the TwitterClient's accound
-        clientPassword = br.readLine();
-        
+       // clientPassword = br.readLine();
+        clientPassword = password;
         //read in and parse the number of api calls we are allowed to make per 
         //hour. This is read from the config file instead of stored as a 
         //constant because it will eventually change.
-        allowableAPICallsPerHour = Integer.parseInt(br.readLine());
-
+        //allowableAPICallsPerHour = Integer.parseInt(br.readLine());
+        allowableAPICallsPerHour = apiCallsPerHour;
         //create a Twitter API wrapper with the authentication information 
         //read from the configuration file
         twitter = new Twitter(clientUsername, clientPassword);
@@ -111,7 +114,7 @@ public class TwitterPoller
      * @throws twitter4j.TwitterException
      * @throws org.hackystat.socnet.sensors.twitterclient.HitApiCallLimitException
      */
-    public void update() throws TwitterException, HitApiCallLimitException
+    public void update() throws TwitterException, HitApiCallLimitException, JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException, IOException
     {
           //update the followers and friends of the twitter client account
         updateRelationships(clientUsername);
@@ -141,7 +144,7 @@ public class TwitterPoller
      * @throws twitter4j.TwitterException
      * @throws org.hackystat.socnet.sensors.twitterclient.HitApiCallLimitException
      */
-    private void updateRelationships(String username) throws TwitterException, HitApiCallLimitException
+    private void updateRelationships(String username) throws TwitterException, HitApiCallLimitException, JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException, IOException
     { 
         //declare lists for storing the lists of friends and followers that
         //we'll pull from twitter
@@ -220,7 +223,7 @@ public class TwitterPoller
     private void addAndDeleteUsers(String startNodeName, 
             IsARelationshipType startNodeType,
             TwitterRelationships relationshipBetweenNodes,
-            ArrayList<String> usersToAdd, ArrayList<String> usersToDelete)
+            ArrayList<String> usersToAdd, ArrayList<String> usersToDelete) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
     {
         //initialize the hashset that we'll cache the users in
         HashSet<String> usersInDB = new HashSet<String>();
@@ -250,6 +253,10 @@ public class TwitterPoller
         for(String endNodeName : usersToAdd)
         {
             //add a relationship between the start node and the user we're adding
+            System.out.println("Adding relationship: " +startNodeType.name() 
+                                + ":" + startNodeName + " to " + startNodeType.name() + 
+                                ":" + endNodeName + "of type " + relationshipBetweenNodes.name());
+            
             socnetclient.addRelationshipTo(startNodeName, startNodeType, endNodeName, 
                     startNodeType, relationshipBetweenNodes);
             
@@ -298,7 +305,7 @@ public class TwitterPoller
      * passed as a parameter
      */
     private HashSet<String> getConnectedUsers(String nodename, IsARelationshipType 
-            nodeType, TwitterRelationships relationship)
+            nodeType, TwitterRelationships relationship) throws IOException, JAXBException
     {
         HashSet<String> connectedUsersInDBHash = new HashSet<String>();
      

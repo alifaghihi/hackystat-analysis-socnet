@@ -5,6 +5,7 @@
 package org.hackystat.socnet.server.resource.socialmediagraph;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -15,7 +16,11 @@ import org.hackystat.socnet.server.Server;
 import org.hackystat.socnet.server.ServerProperties;
 import org.hackystat.socnet.server.db.GraphDBImpl;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLNode;
+import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLNodes;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationship;
+import org.hackystat.socnet.socialmediagraph.graphmanagement.InvalidArgumentException;
+import org.hackystat.socnet.socialmediagraph.graphmanagement.NodeNotFoundException;
+import org.hackystat.socnet.socialmediagraph.graphmanagement.RelationshipNotFoundException;
 import org.hackystat.socnet.utils.JAXBHelper;
 import org.hackystat.utilities.stacktrace.StackTrace;
 import org.restlet.resource.Representation;
@@ -73,6 +78,11 @@ public class SocialMediaGraphManager
         return new StringRepresentation(JAXBHelper.marshall(node, jaxbContext));
     }
     
+    public Representation getRepresentation(Object xmlObject) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
+    {
+        return new StringRepresentation(JAXBHelper.marshall(xmlObject, jaxbContext));
+    }
+    
     public XMLRelationship makeRelationship(String xmlString) throws Exception
     {
         return (XMLRelationship) JAXBHelper.unmarshall(xmlString, jaxbContext);
@@ -83,7 +93,7 @@ public class SocialMediaGraphManager
         return new StringRepresentation(JAXBHelper.marshall(rel, jaxbContext));
     }
     
-    public void storeRelationship(XMLRelationship rel)
+    public void storeRelationship(XMLRelationship rel) throws NodeNotFoundException
     {
         graphImp.storeRelationship(rel);
     }
@@ -93,13 +103,46 @@ public class SocialMediaGraphManager
         graphImp.storeNode(node);
     }
     
-    public List<XMLNode> getNodes()
+    public List<XMLNode> getNodes() throws NodeNotFoundException
     {
         return graphImp.getNodes();
     }
     
-    public XMLNode getNode(String nodetype, String nodename)
+    public XMLNode getNode(String nodetype, String nodename) throws NodeNotFoundException
     {
         return graphImp.getNode(nodetype, nodename);
+
+    }
+    
+    public XMLRelationship getRelationship(String type, XMLNode startNode, XMLNode endNode) throws NodeNotFoundException, RelationshipNotFoundException
+    {
+        return graphImp.getRelationship(type, startNode, endNode);
+    }
+    
+    public XMLNodes getNodes(String nodeType) throws NodeNotFoundException
+    {
+        List<XMLNode> nodes = graphImp.getNodes(nodeType);
+        XMLNodes result = new XMLNodes();
+        ArrayList<XMLNode> list = (ArrayList<XMLNode>) result.getXMLNode();
+        
+        list.addAll(nodes);
+        
+        return result;
+ 
+    }
+    
+    public XMLNodes getNodes(XMLNode connectedTo, String relationshipType, 
+            String direction) 
+            throws NodeNotFoundException, RelationshipNotFoundException, 
+            InvalidArgumentException
+    {
+        List<XMLNode> nodes = graphImp.getNodes(connectedTo, relationshipType,
+                direction);
+        XMLNodes result = new XMLNodes();
+        ArrayList<XMLNode> list = (ArrayList<XMLNode>) result.getXMLNode();
+        
+        list.addAll(nodes);
+        
+        return result;
     }
 }

@@ -105,13 +105,21 @@ public class GraphManager
         return node;
     }
 
-    public SocialMediaNode getNode(long nodeID)
+    public SocialMediaNode getNode(long nodeID) throws NodeNotFoundException
     {
         Transaction tx = neo.beginTx();
         SocialMediaNode node;
+        Node underNode;
         try
         {
-            node = new SocialMediaNode(nodeBuilder.getNode(nodeID));
+            underNode = nodeBuilder.getNode(nodeID);
+            
+            if(underNode == null)
+                throw new NodeNotFoundException(nodeID);
+            
+            node = new SocialMediaNode(underNode);
+            
+            
             tx.success();
         }
         finally
@@ -122,16 +130,23 @@ public class GraphManager
         return node;
     }
 
-    public SocialMediaNode getNode(String nodeType, String nodeName)
+    public SocialMediaNode getNode(String nodeType, String nodeName) throws NodeNotFoundException
     {
-
         Transaction tx = neo.beginTx();
         SocialMediaNode node;
+        Node underNode;
         try
         {
-            node = new SocialMediaNode(nodeBuilder.getNode(
+            underNode = nodeBuilder.getNode(
                     IsARelationshipType.getEnum(nodeType),
-                    SocialMediaNode.NAME_KEY, nodeName));
+                    SocialMediaNode.NAME_KEY, nodeName);
+            
+            if(underNode == null)
+                throw new NodeNotFoundException(nodeName, nodeType);
+            
+            node = new SocialMediaNode(underNode);
+            
+            
 
             tx.success();
         }
@@ -155,6 +170,10 @@ public class GraphManager
 
         try
         {
+            if(nodeBuilder.getNode( IsARelationshipType.getEnum(nodeType),
+                    SocialMediaNode.NAME_KEY, name) != null)
+                return;
+            
             //create the node
             SocialMediaNode node = nodeBuilder.createNode(
                     IsARelationshipType.getEnum(nodeType));
@@ -175,7 +194,7 @@ public class GraphManager
         }
     }
 
-    public ArrayList<XMLNode> getNodes()
+    public ArrayList<XMLNode> getNodes() throws NodeNotFoundException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
@@ -186,6 +205,9 @@ public class GraphManager
             //get the nodes of the appropriate type from the database
             nodes = nodeBuilder.getNodes();
 
+            if(nodes == null)
+                throw new NodeNotFoundException();
+            
             for (Node node : nodes)
             {
                 //wrap each node in a SocialMediaNode wrapper
@@ -204,7 +226,7 @@ public class GraphManager
     }
     
    public void relateNodes(String node1Type, String node1Name, 
-           String node2Type, String node2Name, String relationship)
+           String node2Type, String node2Name, String relationship) throws NodeNotFoundException
    {
        Transaction tx = neo.beginTx();
        
@@ -224,7 +246,7 @@ public class GraphManager
        
    }
 
-    public ArrayList<XMLRelationship> getRelationships()
+    public ArrayList<XMLRelationship> getRelationships() throws RelationshipNotFoundException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
@@ -235,6 +257,9 @@ public class GraphManager
             //get the nodes of the appropriate type from the database
             rels = nodeBuilder.getRelationships();
 
+            if(rels==null)
+                throw new RelationshipNotFoundException();
+            
             for (Relationship rel : rels)
             {
                 //wrap each node in a SocialMediaNode wrapper
@@ -259,7 +284,7 @@ public class GraphManager
      * @param nodeType
      * @return
      */
-    public ArrayList<XMLNode> getNodes(String nodeType)
+    public ArrayList<XMLNode> getNodes(String nodeType) throws NodeNotFoundException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
@@ -270,6 +295,9 @@ public class GraphManager
             //get the nodes of the appropriate type from the database
             nodes = nodeBuilder.getNodes(
                     IsARelationshipType.getEnum(nodeType));
+            
+            if(nodes == null)
+                throw new NodeNotFoundException(nodeType);
 
             for (Node node : nodes)
             {
@@ -287,8 +315,42 @@ public class GraphManager
         }
         return xmlNodes;
     }
+    
+    public List<XMLNode> getNodes(XMLNode connectedTo, String relationshipType, 
+            String direction)
+            throws NodeNotFoundException, RelationshipNotFoundException, 
+            InvalidArgumentException
+    {
+        //start a new transaction
+        Transaction tx = neo.beginTx();
+        Iterable<Node> nodes = null;
+        ArrayList<XMLNode> xmlNodes = new ArrayList<XMLNode>();
+        try
+        {
+            //get the nodes of the appropriate type from the database
+            nodes = nodeBuilder.getNodes(connectedTo.getName(), 
+                    IsARelationshipType.getEnum(connectedTo.getType()), 
+                    BetweenNodesRelationshipType.getEnum(relationshipType), 
+                    getDirection(direction));
+            
+            for (Node node : nodes)
+            {
+                //wrap each node in a SocialMediaNode wrapper
+                xmlNodes.add(convertToXMLNode(new SocialMediaNode(node)));
+            }
+            //make the transaction as a success (This is important!)
+            tx.success();
+        }
+        finally
+        {
+            //close the transaction
+            tx.finish();
 
-    public List<XMLRelationship> getRelationships(XMLNode connectedTo)
+        }
+        return xmlNodes;
+    }
+
+    public List<XMLRelationship> getRelationships(XMLNode connectedTo) throws RelationshipNotFoundException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
@@ -302,6 +364,10 @@ public class GraphManager
             rels = nodeBuilder.getNode(IsARelationshipType.getEnum(connectedTo.getName()),
                     SocialMediaNode.NAME_KEY,
                     connectedTo.getName()).getRelationships();
+            
+            if(rels == null)
+                throw new RelationshipNotFoundException(connectedTo.getName(), 
+                        connectedTo.getType() );
 
             for (Relationship rel : rels)
             {
@@ -320,7 +386,8 @@ public class GraphManager
         return xmlRels;
     }
 
-    public List<XMLRelationship> getRelationships(XMLNode connectedTo, String direction) throws Exception
+    public List<XMLRelationship> getRelationships(XMLNode connectedTo, 
+            String direction) throws InvalidArgumentException, RelationshipNotFoundException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
@@ -335,6 +402,10 @@ public class GraphManager
             rels = nodeBuilder.getNode(IsARelationshipType.getEnum(connectedTo.getName()),
                     SocialMediaNode.NAME_KEY,
                     connectedTo.getName()).getRelationships(getDirection(direction));
+            
+            if(rels == null)
+                throw new RelationshipNotFoundException(connectedTo.getName(), 
+                        connectedTo.getType(), direction);
 
             for (Relationship rel : rels)
             {
@@ -355,7 +426,8 @@ public class GraphManager
 
     public List<XMLRelationship> getRelationships(XMLNode connectedTo,
             String relationshipType,
-            String direction) throws Exception
+            String direction) throws RelationshipNotFoundException, 
+            InvalidArgumentException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
@@ -372,6 +444,10 @@ public class GraphManager
                     connectedTo.getName()).getRelationships(
                     IsARelationshipType.getEnum(relationshipType), 
                     getDirection(direction));
+            
+            if(rels == null)
+                throw new RelationshipNotFoundException(connectedTo.getName(),
+                        connectedTo.getType(), direction, relationshipType);
             
             for (Relationship rel : rels)
             {
@@ -390,7 +466,7 @@ public class GraphManager
         return xmlRels;
     }
 
-    public void addRelationship(XMLRelationship rel)
+    public void addRelationship(XMLRelationship rel) throws NodeNotFoundException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
@@ -420,15 +496,22 @@ public class GraphManager
         }
     }
 
-    public XMLRelationship getRelationship(long id)
+    public XMLRelationship getRelationship(long id) throws RelationshipNotFoundException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
         XMLRelationship xmlRel = null;
+        Relationship rel = null;
         try
         {
-            xmlRel = convertToXMLRelationship(new SocialMediaRelationship(
-                    nodeBuilder.getRelationship(id)));
+            rel = nodeBuilder.getRelationship(id);
+            
+            if(rel == null)
+                throw new RelationshipNotFoundException(id);
+            
+            xmlRel = convertToXMLRelationship(new SocialMediaRelationship(rel));
+            
+            
 
             //make the transaction as a success (This is important!)
             tx.success();
@@ -442,7 +525,9 @@ public class GraphManager
         return xmlRel;
     }
 
-    public XMLRelationship getRelationship(String type, XMLNode startNode, XMLNode endNode)
+    public XMLRelationship getRelationship(String type, XMLNode startNode, 
+            XMLNode endNode) throws NodeNotFoundException, 
+            RelationshipNotFoundException
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
@@ -455,6 +540,11 @@ public class GraphManager
                     SocialMediaNode.NAME_KEY, startNode.getName(),
                     IsARelationshipType.getEnum(endNode.getType()),
                     SocialMediaNode.NAME_KEY, endNode.getName());
+            
+            if(rel == null)
+                throw new RelationshipNotFoundException(type, startNode.getName(),
+                        startNode.getType(), endNode.getName(), endNode.getType());
+            
             xmlRel = convertToXMLRelationship(new SocialMediaRelationship(rel));
                     
 
@@ -504,11 +594,23 @@ public class GraphManager
     {
         XMLNode n = new XMLNode();
 
-        n.setName(smNode.getName());
-        n.setID(smNode.getUnderNode().getId());
-        n.setType(smNode.getType());
-        n.setEndTime(dtf.newXMLGregorianCalendar(smNode.getEndTime()));
-        n.setStartTime(dtf.newXMLGregorianCalendar(smNode.getStartTime()));
+        Transaction tx = neo.beginTx();
+        
+        try
+        {
+            n.setName(smNode.getName());
+            n.setID(smNode.getUnderNode().getId());
+            n.setType(smNode.getType());
+            n.setEndTime(dtf.newXMLGregorianCalendar(smNode.getEndTime()));
+            n.setStartTime(dtf.newXMLGregorianCalendar(smNode.getStartTime()));
+            
+            tx.success();
+        }
+        finally
+        {
+            tx.finish();
+        }
+        
 
         return n;
 
@@ -517,19 +619,31 @@ public class GraphManager
     public XMLRelationship convertToXMLRelationship(SocialMediaRelationship smRel)
     {
         XMLRelationship xmlRel = new XMLRelationship();
-        ArrayList<XMLNode> nodes = (ArrayList<XMLNode>)xmlRel.getXMLNode();
-        nodes.add(convertToXMLNode(new SocialMediaNode(smRel.getStartNode())));
-        nodes.add(convertToXMLNode(new SocialMediaNode(smRel.getEndNode())));
-        //xmlRel.setStartNode(convertToXMLNode(new SocialMediaNode(smRel.getStartNode())));
-        //xmlRel.setEndNode(convertToXMLNode(new SocialMediaNode(smRel.getEndNode())));
-        xmlRel.setID(smRel.getID());
-        xmlRel.setType(smRel.getType());
+        
+        Transaction tx = neo.beginTx();
+        
+        try
+        {
+            ArrayList<XMLNode> nodes = (ArrayList<XMLNode>)xmlRel.getXMLNode();
+            nodes.add(convertToXMLNode(new SocialMediaNode(smRel.getStartNode())));
+            nodes.add(convertToXMLNode(new SocialMediaNode(smRel.getEndNode())));
+            //xmlRel.setStartNode(convertToXMLNode(new SocialMediaNode(smRel.getStartNode())));
+            //xmlRel.setEndNode(convertToXMLNode(new SocialMediaNode(smRel.getEndNode())));
+            xmlRel.setID(smRel.getID());
+            xmlRel.setType(smRel.getType());
+
+            tx.success();
+        }
+        finally
+        {
+            tx.finish();
+        }
 
         return xmlRel;
 
     }
 
-    public Direction getDirection(String directionName) throws Exception
+    public Direction getDirection(String directionName) throws InvalidArgumentException
     {
         if (directionName.equals(Direction.INCOMING.name()))
         {
@@ -545,7 +659,7 @@ public class GraphManager
         }
         else
         {
-            throw new Exception(directionName + "is not a valid direction name!");
+            throw new InvalidArgumentException(directionName + "is not a valid direction name!");
         }
     } 
     
@@ -571,4 +685,5 @@ public class GraphManager
         
         return areEqual;
     }
+
 }
