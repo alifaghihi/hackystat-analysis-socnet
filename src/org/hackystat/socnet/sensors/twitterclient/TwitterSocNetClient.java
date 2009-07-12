@@ -28,9 +28,10 @@ public class TwitterSocNetClient  {
 
     String serveruri = "http://localhost:9876/socnet/";
     SocNetClient client;
-    public TwitterSocNetClient() throws JAXBException
+    public TwitterSocNetClient(String host) throws JAXBException
     {
-        client = new SocNetClient(serveruri);
+        this.serveruri = host;
+        client = new SocNetClient(this.serveruri);
     }
     
     
