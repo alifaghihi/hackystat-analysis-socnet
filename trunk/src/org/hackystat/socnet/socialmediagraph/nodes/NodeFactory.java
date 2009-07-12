@@ -2,6 +2,7 @@ package org.hackystat.socnet.socialmediagraph.nodes;
 
 import java.util.ArrayList;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +22,25 @@ public class NodeFactory
 {
 
     private final NeoService neo;
+
+    public Iterable<Node> getNodes()
+    {
+        return neo.getAllNodes();
+    }
+
+    public Iterable<Relationship> getRelationships()
+    {
+        Iterable<Node> allNodes = neo.getAllNodes();
+        
+        ArrayList<Relationship> allRels = new ArrayList<Relationship>();
+        
+        for(Node node: allNodes)
+        {
+            allRels.addAll((Collection<Relationship>) node.getRelationships());
+        }
+        
+        return allRels;
+    }
 
     /**
      * ReferenceNodeRelationshipType connect the database's reference node (the
@@ -148,6 +168,9 @@ public class NodeFactory
         //nodes
         this.neo = neo;
 
+        if(neo == null)
+            throw new RuntimeException("Neo cannot be null.");
+        
         //create an arraylist to store the subreference nodes. All nodes of a 
         //certain type are connect to a subreference node of that type.
         //For instance, all Coder objects are connected to the Coders subreference
@@ -205,6 +228,8 @@ public class NodeFactory
         //create the underlying node for our new SocialMediaNode
         Node newNode = neo.createNode();
 
+        if(whatKindOfNode==null)
+            throw new RuntimeException("whatKindOfNode is null, which is a bad sign");
         //create a relationship between the subreference node of the appropriate
         //type and the new node we just created
         newNode.createRelationshipTo(subreferenceNodes.get(
@@ -275,6 +300,7 @@ public class NodeFactory
                     d);
             Iterator it = traverser.iterator();
             Node node = null;
+            
             while(it.hasNext())
             {
                 node = (Node) it.next();
@@ -304,6 +330,16 @@ public class NodeFactory
     {
             Node node1 = getNode(node1Type, node1Key, node1Name);
             Node node2 = getNode(node2Type, node2Key, node2Name);
+            
+            if(node1 == null)
+                throw new RuntimeException("Node 1, " + node1Name + ", is not found and is therefore null");
+            
+            if(node2 == null)
+                throw new RuntimeException("Node 2, " + node2Name + ", is not found and is therefore null");
+            
+            if(relationship == null)
+                throw new RuntimeException("Relationship is null");
+            
             return node1.createRelationshipTo(node2, relationship);
     }
     
@@ -312,22 +348,27 @@ public class NodeFactory
        return neo.getRelationshipById(relationshipID);
     }
     
-    public Relationship getRelationship(RelationshipType relationship, boolean
-            isBidirectional, IsARelationshipType node1Type, String node1Key, 
+    public Relationship getRelationship(RelationshipType relationship, 
+            IsARelationshipType node1Type, String node1Key, 
             String node1Name, IsARelationshipType node2Type, String node2Key, 
             String node2Name)
     {
-        Node startNode = this.getNode(node1Type, node1Key, node1Key);
-        Node endNode = this.getNode(node2Type, node2Key, node2Key);
+        Node startNode = this.getNode(node1Type, node1Key, node1Name);
+        Node endNode = this.getNode(node2Type, node2Key, node2Name);
         Iterable<Relationship> rels;
         
-        if(isBidirectional)
-             rels = startNode.getRelationships(relationship, Direction.BOTH);
-        
-        else
-            rels = startNode.getRelationships(relationship, Direction.OUTGOING);
+        rels = startNode.getRelationships(relationship, Direction.OUTGOING);
         
         Iterator it = rels.iterator();
+        Relationship r;
+       
+        while(it.hasNext())
+        {
+            r = (Relationship) it.next();
+            
+            if(r.getEndNode().equals(endNode))
+                return r;
+        }
         
         return (Relationship) it.next();
     }

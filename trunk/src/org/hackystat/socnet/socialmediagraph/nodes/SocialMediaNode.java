@@ -20,6 +20,14 @@ public class SocialMediaNode implements SocialMediaNodeInterface
     
     public static final String TYPE_KEY = "type";
     
+    public static final String NAME_DEFAULT = "No Name Assigned";
+    
+    public static final String START_TIME_DEFAULT = "1696-09-01T00:00:00Z";
+    
+    public static final String END_TIME_DEFAULT = "1696-09-01T00:00:00Z";
+    
+    public static final String TYPE_DEFAULT = "No Type Assigned";
+    
     
     public SocialMediaNode(Node underlyingNode)
     {
@@ -28,10 +36,7 @@ public class SocialMediaNode implements SocialMediaNodeInterface
     
     public String getName()
     {
-        if(underNode.hasProperty(NAME_KEY))
-            return (String) underNode.getProperty(NAME_KEY);
-        else
-            return null;
+        return (String) underNode.getProperty(NAME_KEY, NAME_DEFAULT);
     }
     
     public void setName(String name)
@@ -85,20 +90,18 @@ public class SocialMediaNode implements SocialMediaNodeInterface
     
     public String getStartTime()
     {
-        return (String) underNode.getProperty(START_TIME_KEY);
+        return (String) underNode.getProperty(START_TIME_KEY, START_TIME_DEFAULT);
     }
     
     public String getEndTime()
     {
-        return (String) underNode.getProperty(END_TIME_KEY);
+        return (String) underNode.getProperty(END_TIME_KEY, START_TIME_DEFAULT);
     }
     
     public String getType()
     {
-        if(underNode.hasProperty(TYPE_KEY))
-            return (String) underNode.getProperty(TYPE_KEY);
-        else
-            return null;
+        return (String) underNode.getProperty(TYPE_KEY, TYPE_DEFAULT);
+    
     }
     
     public boolean hasType()

@@ -1,8 +1,11 @@
 package org.hackystat.socnet.socialmediagraph.graphmanagement;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLNode;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationship;
 import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory;
@@ -15,7 +18,6 @@ import org.neo4j.api.core.EmbeddedNeo;
 import org.neo4j.api.core.NeoService;
 import org.neo4j.api.core.Node;
 import org.neo4j.api.core.Relationship;
-import org.neo4j.api.core.RelationshipType;
 import org.neo4j.api.core.Transaction;
 
 public class GraphManager
@@ -173,29 +175,21 @@ public class GraphManager
         }
     }
 
-    /**
-     * This method retrieves all of the nodes of a certain type from the
-     * database.
-     *
-     * @param nodeType
-     * @return
-     */
-    public Iterable<SocialMediaNode> getNodes(String nodeType)
+    public ArrayList<XMLNode> getNodes()
     {
         //start a new transaction
         Transaction tx = neo.beginTx();
         Iterable<Node> nodes = null;
-        ArrayList<SocialMediaNode> socNodes = new ArrayList<SocialMediaNode>();
+        ArrayList<XMLNode> xmlNodes = new ArrayList<XMLNode>();
         try
         {
             //get the nodes of the appropriate type from the database
-            nodes = nodeBuilder.getNodes(
-                    IsARelationshipType.getEnum(nodeType));
+            nodes = nodeBuilder.getNodes();
 
             for (Node node : nodes)
             {
                 //wrap each node in a SocialMediaNode wrapper
-                socNodes.add(new SocialMediaNode(node));
+                xmlNodes.add(convertToXMLNode(new SocialMediaNode(node)));
             }
             //make the transaction as a success (This is important!)
             tx.success();
@@ -206,7 +200,194 @@ public class GraphManager
             tx.finish();
 
         }
-        return socNodes;
+        return xmlNodes;
+    }
+    
+   public void relateNodes(String node1Type, String node1Name, 
+           String node2Type, String node2Name, String relationship)
+   {
+       Transaction tx = neo.beginTx();
+       
+       try
+       {
+           nodeBuilder.relateNodes(IsARelationshipType.getEnum(node1Type), 
+                   SocialMediaNode.NAME_KEY, node1Name, 
+                   IsARelationshipType.getEnum(node2Type), 
+                   SocialMediaNode.NAME_KEY, node2Name, 
+                   BetweenNodesRelationshipType.getEnum(relationship));
+           tx.success();
+       }
+       finally
+       {
+           tx.finish();
+       }
+       
+   }
+
+    public ArrayList<XMLRelationship> getRelationships()
+    {
+        //start a new transaction
+        Transaction tx = neo.beginTx();
+        Iterable<Relationship> rels = null;
+        ArrayList<XMLRelationship> xmlRels = new ArrayList<XMLRelationship>();
+        try
+        {
+            //get the nodes of the appropriate type from the database
+            rels = nodeBuilder.getRelationships();
+
+            for (Relationship rel : rels)
+            {
+                //wrap each node in a SocialMediaNode wrapper
+                xmlRels.add(convertToXMLRelationship(new SocialMediaRelationship(rel)));
+            }
+            //make the transaction as a success (This is important!)
+            tx.success();
+        }
+        finally
+        {
+            //close the transaction
+            tx.finish();
+
+        }
+        return xmlRels;
+    }
+
+    /**
+     * This method retrieves all of the nodes of a certain type from the
+     * database.
+     *
+     * @param nodeType
+     * @return
+     */
+    public ArrayList<XMLNode> getNodes(String nodeType)
+    {
+        //start a new transaction
+        Transaction tx = neo.beginTx();
+        Iterable<Node> nodes = null;
+        ArrayList<XMLNode> xmlNodes = new ArrayList<XMLNode>();
+        try
+        {
+            //get the nodes of the appropriate type from the database
+            nodes = nodeBuilder.getNodes(
+                    IsARelationshipType.getEnum(nodeType));
+
+            for (Node node : nodes)
+            {
+                //wrap each node in a SocialMediaNode wrapper
+                xmlNodes.add(convertToXMLNode(new SocialMediaNode(node)));
+            }
+            //make the transaction as a success (This is important!)
+            tx.success();
+        }
+        finally
+        {
+            //close the transaction
+            tx.finish();
+
+        }
+        return xmlNodes;
+    }
+
+    public List<XMLRelationship> getRelationships(XMLNode connectedTo)
+    {
+        //start a new transaction
+        Transaction tx = neo.beginTx();
+
+        Iterable<Relationship> rels = null;
+
+        ArrayList<XMLRelationship> xmlRels = new ArrayList<XMLRelationship>();
+        try
+        {
+            //get the nodes of the appropriate type from the database
+            rels = nodeBuilder.getNode(IsARelationshipType.getEnum(connectedTo.getName()),
+                    SocialMediaNode.NAME_KEY,
+                    connectedTo.getName()).getRelationships();
+
+            for (Relationship rel : rels)
+            {
+                //wrap each node in a SocialMediaNode wrapper
+                xmlRels.add(convertToXMLRelationship(new SocialMediaRelationship(rel)));
+            }
+            //make the transaction as a success (This is important!)
+            tx.success();
+        }
+        finally
+        {
+            //close the transaction
+            tx.finish();
+
+        }
+        return xmlRels;
+    }
+
+    public List<XMLRelationship> getRelationships(XMLNode connectedTo, String direction) throws Exception
+    {
+        //start a new transaction
+        Transaction tx = neo.beginTx();
+
+        Iterable<Relationship> rels = null;
+
+        ArrayList<XMLRelationship> xmlRels = new ArrayList<XMLRelationship>();
+
+        try
+        {
+            //get the nodes of the appropriate type from the database
+            rels = nodeBuilder.getNode(IsARelationshipType.getEnum(connectedTo.getName()),
+                    SocialMediaNode.NAME_KEY,
+                    connectedTo.getName()).getRelationships(getDirection(direction));
+
+            for (Relationship rel : rels)
+            {
+                //wrap each node in a SocialMediaNode wrapper
+                xmlRels.add(convertToXMLRelationship(new SocialMediaRelationship(rel)));
+            }
+            //make the transaction as a success (This is important!)
+            tx.success();
+        }
+        finally
+        {
+            //close the transaction
+            tx.finish();
+
+        }
+        return xmlRels;
+    }
+
+    public List<XMLRelationship> getRelationships(XMLNode connectedTo,
+            String relationshipType,
+            String direction) throws Exception
+    {
+        //start a new transaction
+        Transaction tx = neo.beginTx();
+
+        Iterable<Relationship> rels = null;
+
+        ArrayList<XMLRelationship> xmlRels = new ArrayList<XMLRelationship>();
+
+        try
+        {
+            //get the nodes of the appropriate type from the database
+            rels = nodeBuilder.getNode(IsARelationshipType.getEnum(connectedTo.getName()),
+                    SocialMediaNode.NAME_KEY,
+                    connectedTo.getName()).getRelationships(
+                    IsARelationshipType.getEnum(relationshipType), 
+                    getDirection(direction));
+            
+            for (Relationship rel : rels)
+            {
+                //wrap each node in a SocialMediaNode wrapper
+                xmlRels.add(convertToXMLRelationship(new SocialMediaRelationship(rel)));
+            }
+            //make the transaction as a success (This is important!)
+            tx.success();
+        }
+        finally
+        {
+            //close the transaction
+            tx.finish();
+
+        }
+        return xmlRels;
     }
 
     public void addRelationship(XMLRelationship rel)
@@ -215,9 +396,10 @@ public class GraphManager
         Transaction tx = neo.beginTx();
         try
         {
-            XMLNode startNode = rel.getStartNode();
-            XMLNode endNode = rel.getEndNode();
-
+            //XMLNode startNode = rel.getStartNode();
+            //XMLNode endNode = rel.getEndNode();
+            XMLNode startNode = rel.getXMLNode().get(0);
+            XMLNode endNode = rel.getXMLNode().get(1);
             nodeBuilder.relateNodes(
                     IsARelationshipType.getEnum(startNode.getType()),
                     SocialMediaNode.NAME_KEY,
@@ -237,14 +419,57 @@ public class GraphManager
 
         }
     }
-    
+
     public XMLRelationship getRelationship(long id)
     {
-        return convertToXMLRelationship(new SocialMediaRelationship(
-                nodeBuilder.getRelationship(id)));
-    }
-    
+        //start a new transaction
+        Transaction tx = neo.beginTx();
+        XMLRelationship xmlRel = null;
+        try
+        {
+            xmlRel = convertToXMLRelationship(new SocialMediaRelationship(
+                    nodeBuilder.getRelationship(id)));
 
+            //make the transaction as a success (This is important!)
+            tx.success();
+        }
+        finally
+        {
+            //close the transaction
+            tx.finish();
+
+        }
+        return xmlRel;
+    }
+
+    public XMLRelationship getRelationship(String type, XMLNode startNode, XMLNode endNode)
+    {
+        //start a new transaction
+        Transaction tx = neo.beginTx();
+        XMLRelationship xmlRel = null;
+        try
+        {
+            Relationship rel = nodeBuilder.getRelationship(
+                    BetweenNodesRelationshipType.getEnum(type),
+                    IsARelationshipType.getEnum(startNode.getType()),
+                    SocialMediaNode.NAME_KEY, startNode.getName(),
+                    IsARelationshipType.getEnum(endNode.getType()),
+                    SocialMediaNode.NAME_KEY, endNode.getName());
+            xmlRel = convertToXMLRelationship(new SocialMediaRelationship(rel));
+                    
+
+            //make the transaction as a success (This is important!)
+            tx.success();
+        }
+        finally
+        {
+            //close the transaction
+            tx.finish();
+
+        }
+
+        return xmlRel;
+    }
 
     /**
      * This method is ONLY for testing purposes. All interactions with the
@@ -275,7 +500,7 @@ public class GraphManager
         return false;
     }
 
-    public XMLNode convertToJAXBNode(SocialMediaNode smNode)
+    public XMLNode convertToXMLNode(SocialMediaNode smNode)
     {
         XMLNode n = new XMLNode();
 
@@ -288,17 +513,62 @@ public class GraphManager
         return n;
 
     }
-    
+
     public XMLRelationship convertToXMLRelationship(SocialMediaRelationship smRel)
     {
         XMLRelationship xmlRel = new XMLRelationship();
-        xmlRel.setStartNode(convertToJAXBNode(new SocialMediaNode(smRel.getStartNode())));
-        xmlRel.setEndNode(convertToJAXBNode(new SocialMediaNode(smRel.getEndNode())));
+        ArrayList<XMLNode> nodes = (ArrayList<XMLNode>)xmlRel.getXMLNode();
+        nodes.add(convertToXMLNode(new SocialMediaNode(smRel.getStartNode())));
+        nodes.add(convertToXMLNode(new SocialMediaNode(smRel.getEndNode())));
+        //xmlRel.setStartNode(convertToXMLNode(new SocialMediaNode(smRel.getStartNode())));
+        //xmlRel.setEndNode(convertToXMLNode(new SocialMediaNode(smRel.getEndNode())));
         xmlRel.setID(smRel.getID());
         xmlRel.setType(smRel.getType());
-        
+
         return xmlRel;
-   
+
     }
-   
+
+    public Direction getDirection(String directionName) throws Exception
+    {
+        if (directionName.equals(Direction.INCOMING.name()))
+        {
+            return Direction.INCOMING;
+        }
+        else if (directionName.equals(Direction.OUTGOING))
+        {
+            return Direction.OUTGOING;
+        }
+        else if (directionName.equals(Direction.BOTH))
+        {
+            return Direction.BOTH;
+        }
+        else
+        {
+            throw new Exception(directionName + "is not a valid direction name!");
+        }
+    } 
+    
+    public static boolean areEqual(XMLNode n1, XMLNode n2)
+    {
+        boolean areEqual = false;
+        
+        if(n1.getName().equals(n2.getName()) 
+                && n1.getType().equals(n2.getType()))
+            areEqual = true;
+        
+        return areEqual;
+    }
+    
+    public static boolean areEqual(XMLRelationship r1, XMLRelationship r2)
+    {
+        boolean areEqual = false;
+        
+        if(r1.getType().equals(r2.getType())
+                && GraphManager.areEqual(r1.getXMLNode().get(0), r2.getXMLNode().get(0))
+                && GraphManager.areEqual(r1.getXMLNode().get(1), r2.getXMLNode().get(1)))
+            areEqual = true;
+        
+        return areEqual;
+    }
 }

@@ -44,6 +44,7 @@ public abstract class SocNetResource extends Resource
     protected Server server;
     /** Everyone generally wants to create one of these, so declare it here. */
     protected String responseMsg;
+    
     protected UserManager userManager;
     /** The authenticated user, retrieved from the ChallengeResponse, or null. */
     protected String authUser = null;
