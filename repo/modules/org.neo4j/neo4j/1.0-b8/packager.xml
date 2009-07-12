@@ -27,7 +27,6 @@
     <build>
         <!-- jar -->
         <move file="archive/${archive}/neo-1.0-b8.jar" tofile="artifacts/jars/neo4j.jar"/>
-	<move file="archive/${archive}/jta-1_1.jar" tofile="artifacts/jars/jta-1_1.jar"/>
 	<!-- javadoc -->
 	<move file="archive/${archive}/javadoc" tofile="artifacts/javadoc" />	
 
