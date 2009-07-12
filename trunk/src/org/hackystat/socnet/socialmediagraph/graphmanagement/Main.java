@@ -32,7 +32,7 @@ public class Main
         GraphManager gm = new GraphManager(f.getAbsolutePath());
 
       
-        for (SocialMediaNode node : gm.getNodes(IsARelationshipType.IS_USER))
+        for (SocialMediaNode node : gm.getNodes("IS_USER"))
         {
             Transaction tx = gm.getTransaction();
             try

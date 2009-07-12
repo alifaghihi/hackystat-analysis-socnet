@@ -1,8 +1,9 @@
 package org.hackystat.socnet.server.resource;
 
-
 import org.hackystat.socnet.server.resource.ResponseMessage;
 import org.hackystat.socnet.server.Server;
+import org.hackystat.socnet.server.resource.users.UserManager;
+import org.hackystat.socnet.server.resource.users.jaxb.User;
 import org.restlet.Context;
 import org.restlet.data.CharacterSet;
 import org.restlet.data.Language;
@@ -36,87 +37,126 @@ import org.restlet.resource.Variant;
  * @author Philip Johnson
  *
  */
-public abstract class SocNetResource extends Resource {
-  
-  /** The server. */
-  protected Server server; 
-  
-  /** Everyone generally wants to create one of these, so declare it here. */
-  protected String responseMsg;
-  
-  /**
-   * Provides the following representational variants: TEXT_XML.
-   * @param context The context.
-   * @param request The request object.
-   * @param response The response object.
-   */
-  public SocNetResource(Context context, Request request, Response response) {
-    super(context, request, response);
-  
-    getVariants().clear(); // copied from BookmarksResource.java, not sure why needed.
-    getVariants().add(new Variant(MediaType.TEXT_XML));
-  }
-  
+public abstract class SocNetResource extends Resource
+{
 
-  /**
-   * The Restlet getRepresentation method which must be overridden by all concrete Resources.
-   * @param variant The variant requested.
-   * @return The Representation. 
-   */
-  @Override
-  public abstract Representation represent(Variant variant);
-  
-  /**
-   * Creates and returns a new Restlet StringRepresentation built from xmlData.
-   * The xmlData will be prefixed with a processing instruction indicating UTF-8 and version 1.0.
-   * @param xmlData The xml data as a string. 
-   * @return A StringRepresentation of that xmldata. 
-   */
-  public static StringRepresentation getStringRepresentation(String xmlData) {
-    StringBuilder builder = new StringBuilder(500);
-    builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-    builder.append(xmlData);
-    return new StringRepresentation(builder, MediaType.TEXT_XML, Language.ALL, CharacterSet.UTF_8);
-  }
-  
-  
-  /**
-   * Helper function that removes any newline characters from the supplied string and 
-   * replaces them with a blank line. 
-   * @param msg The msg whose newlines are to be removed. 
-   * @return The string without newlines. 
-   */
-  private String removeNewLines(String msg) {
-    return msg.replace(System.getProperty("line.separator"), " ");
-  }
-  
-  /**
-   * Called when an exception is caught while processing a request.
-   * Just sets the response code.  
-   * @param timestamp The timestamp that could not be parsed.
-   */
-  protected void setStatusBadTimestamp (String timestamp) { 
-    this.responseMsg = ResponseMessage.badTimestamp(this, timestamp);
-    getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg)); 
-  }
-  
-  
-  /**
-   * Called when an exception is caught while processing a request.
-   * Just sets the response code.  
-   * @param e The exception that was caught.
-   */
-  protected void setStatusInternalError (Exception e) { 
-    this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
-    getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
-  }
-  
-  /**
-   * Called when a miscellaneous "one off" error is caught during processing.
-   * @param msg A description of the error.
-   */
-  protected void setStatusMiscError (String msg) { 
-    this.responseMsg = ResponseMessage.miscError(this, msg);
-    getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
-  }
+    /** The server. */
+    protected Server server;
+    /** Everyone generally wants to create one of these, so declare it here. */
+    protected String responseMsg;
+    protected UserManager userManager;
+    /** The authenticated user, retrieved from the ChallengeResponse, or null. */
+    protected String authUser = null;
+    /** To be retrieved from the URL as the 'user' template parameter, or null. */
+    protected String uriUser = null;
+    /** The user instance corresponding to the user indicated in the URI string, or null. */
+    protected User user = null;
+
+    /**
+     * Provides the following representational variants: TEXT_XML.
+     * @param context The context.
+     * @param request The request object.
+     * @param response The response object.
+     */
+    public SocNetResource(Context context, Request request, Response response)
+    {
+        super(context, request, response);
+
+        getVariants().clear(); // copied from BookmarksResource.java, not sure why needed.
+        getVariants().add(new Variant(MediaType.TEXT_XML));
+        userManager = (UserManager) getContext().getAttributes().get("UserManager");
+    }
+
+    /**
+     * The Restlet getRepresentation method which must be overridden by all concrete Resources.
+     * @param variant The variant requested.
+     * @return The Representation. 
+     */
+    @Override
+    public abstract Representation represent(Variant variant);
+
+    /**
+     * Creates and returns a new Restlet StringRepresentation built from xmlData.
+     * The xmlData will be prefixed with a processing instruction indicating UTF-8 and version 1.0.
+     * @param xmlData The xml data as a string. 
+     * @return A StringRepresentation of that xmldata. 
+     */
+    public static StringRepresentation getStringRepresentation(String xmlData)
+    {
+        StringBuilder builder = new StringBuilder(500);
+        builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        builder.append(xmlData);
+        return new StringRepresentation(builder, MediaType.TEXT_XML, Language.ALL, CharacterSet.UTF_8);
+    }
+
+    /**
+     * Helper function that removes any newline characters from the supplied string and 
+     * replaces them with a blank line. 
+     * @param msg The msg whose newlines are to be removed. 
+     * @return The string without newlines. 
+     */
+    private String removeNewLines(String msg)
+    {
+        return msg.replace(System.getProperty("line.separator"), " ");
+    }
+
+    /**
+     * Called when an exception is caught while processing a request.
+     * Just sets the response code.  
+     * @param timestamp The timestamp that could not be parsed.
+     */
+    protected void setStatusBadTimestamp(String timestamp)
+    {
+        this.responseMsg = ResponseMessage.badTimestamp(this, timestamp);
+        getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
+    }
+
+    /**
+     * Called when an exception is caught while processing a request.
+     * Just sets the response code.  
+     * @param e The exception that was caught.
+     */
+    protected void setStatusInternalError(Exception e)
+    {
+        this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
+        getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
+    }
+
+    /**
+     * Called when a miscellaneous "one off" error is caught during processing.
+     * @param msg A description of the error.
+     */
+    protected void setStatusMiscError(String msg)
+    {
+        this.responseMsg = ResponseMessage.miscError(this, msg);
+        getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
+    }
+
+    /**
+     * Returns true if the authorized user is the administrator.
+     * Otherwise sets the Response status and returns false. 
+     * @return True if the authorized user is the admin. 
+     */
+    protected boolean validateAuthUserIsAdmin()
+    {
+        try
+        {
+            if (userManager.isAdmin(this.authUser))
+            {
+                return true;
+            }
+            else
+            {
+                this.responseMsg = ResponseMessage.adminOnly(this);
+                getResponse().setStatus(Status.CLIENT_ERROR_UNAUTHORIZED, removeNewLines(this.responseMsg));
+                return false;
+            }
+        }
+        catch (RuntimeException e)
+        {
+            this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
+            getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
+        }
+        return false;
+    }
 }

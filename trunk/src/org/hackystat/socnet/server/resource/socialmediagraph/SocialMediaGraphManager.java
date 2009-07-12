@@ -5,26 +5,19 @@
 package org.hackystat.socnet.server.resource.socialmediagraph;
 
 
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.hackystat.socnet.server.Server;
-import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.Node;
+import org.hackystat.socnet.server.ServerProperties;
+import org.hackystat.socnet.server.db.GraphDBImpl;
+import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLNode;
+import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationship;
 import org.hackystat.socnet.utils.JAXBHelper;
 import org.hackystat.utilities.stacktrace.StackTrace;
-import org.w3c.dom.Document;
 
 /**
  *
@@ -32,15 +25,21 @@ import org.w3c.dom.Document;
  */
 public class SocialMediaGraphManager
 {
-
+    /** Talks to the database*/
+    private GraphDBImpl graphImp;
+    
     /** Holds the class-wide JAXBContext, which is thread-safe. */
     private JAXBContext jaxbContext;
+    
     /** The Server associated with this SocialMediaGraphManager. */
     Server server;
 
     public SocialMediaGraphManager(Server server)
     {
         this.server = server;
+        this.graphImp = (GraphDBImpl) server.getContext().getAttributes().get(
+                ServerProperties.GRAPH_IMPL_KEY);
+        
         try
         {
             this.jaxbContext =
@@ -56,19 +55,44 @@ public class SocialMediaGraphManager
     }
 
     /**
-     * Takes a String encoding of a Node in XML format and converts it to an instance. 
+     * Takes a String encoding of a XMLNode in XML format and converts it to an instance. 
      * 
      * @param xmlString The XML string representing a SensorData.
-     * @return The corresponding Node instance. 
+     * @return The corresponding XMLNode instance. 
      * @throws Exception If problems occur during unmarshalling.
      */
-    public Node makeNode(String xmlString) throws Exception
+    public XMLNode makeNode(String xmlString) throws Exception
     {
-       return (Node) JAXBHelper.unmarshall(xmlString, jaxbContext);
+       return (XMLNode) JAXBHelper.unmarshall(xmlString, jaxbContext);
     }
 
-    public String getNodeRepresentation(Node node) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
+    public String getNodeRepresentation(XMLNode node) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
     {
         return JAXBHelper.marshall(node, jaxbContext);
+    }
+    
+    public XMLRelationship makeRelationship(String xmlString) throws Exception
+    {
+        return (XMLRelationship) JAXBHelper.unmarshall(xmlString, jaxbContext);
+    }
+    
+    public String getRelationshipRepresentation(XMLRelationship rel) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
+    {
+        return JAXBHelper.marshall(rel, jaxbContext);
+    }
+    
+    public void storeRelationship(XMLRelationship rel)
+    {
+        graphImp.storeRelationship(rel);
+    }
+    
+    public void storeNode(XMLNode node)
+    {
+        graphImp.storeNode(node);
+    }
+    
+    public List<XMLNode> getNodes()
+    {
+        return graphImp.getNodes();
     }
 }

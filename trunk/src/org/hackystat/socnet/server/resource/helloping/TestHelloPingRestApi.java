@@ -1,5 +1,6 @@
 package org.hackystat.socnet.server.resource.helloping;
 
+import org.hackystat.socnet.server.test.SocNetRestApiHelper;
 import org.junit.Test;
 import org.restlet.Client;
 import org.restlet.data.Method;
@@ -8,7 +9,7 @@ import org.restlet.data.Request;
 import org.restlet.data.Response;
 import static org.junit.Assert.assertTrue;
 
-public class TestHelloPingRestApi {
+public class TestHelloPingRestApi extends SocNetRestApiHelper {
 	  /**
 	   * Test that GET {host}/ping returns the service name, and that
 	   * GET {host}/ping?user={user}&password={password} is OK. 
@@ -18,7 +19,7 @@ public class TestHelloPingRestApi {
 	  @Test
 	  public void testHelloPing() throws Exception {
   
-	    assertTrue("Checking ping", isHelloWorld("localhost"));
+	    assertTrue("Checking ping", isHelloWorld(server.getHostName()));
     
 	  }
 	  
@@ -32,7 +33,7 @@ public class TestHelloPingRestApi {
 		      Client client = new Client(Protocol.HTTP);
 		      Response response = client.handle(request);
 		      String pingText = response.getEntity().getText();
-		      boolean isHelloWorld = (response.getStatus().isSuccess() && "Hello, World!".equals(pingText)); 
+		      boolean isHelloWorld = (response.getStatus().isSuccess() && "Hello, World".equals(pingText)); 
 		      
 		      return isHelloWorld;
 		    }

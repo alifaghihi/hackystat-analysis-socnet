@@ -16,9 +16,13 @@ import static org.hackystat.socnet.server.ServerProperties.CONTEXT_ROOT_KEY;
 import static org.hackystat.socnet.server.ServerProperties.LOGGING_LEVEL_KEY;
 
 import java.util.logging.Logger;
+import org.hackystat.socnet.server.db.derby.DerbyUserDB;
+import org.hackystat.socnet.server.db.neo.NeoGraphDB;
 import org.hackystat.socnet.server.resource.helloping.HelloPingResource;
 import org.hackystat.socnet.server.resource.socialmediagraph.SocialMediaGraphManager;
-import org.hackystat.socnet.server.resource.socialmediagraph.SocialMediaGraphResource;
+import org.hackystat.socnet.server.resource.socialmediagraph.NodeResource;
+import org.hackystat.socnet.server.resource.socialmediagraph.RelationshipResource;
+import org.hackystat.socnet.server.resource.users.UserManager;
 
 /**
  * Sets up the HTTP Server process and dispatching to the associated resources. 
@@ -99,6 +103,11 @@ public class Server extends Application {
       server.getContext().getAttributes();
     attributes.put("SocNetServer", server);
     attributes.put("ServerProperties", server.serverProperties);
+    DerbyUserDB userDB = new DerbyUserDB(server);
+    userDB.initialize();
+    attributes.put("UserDB", userDB);
+    attributes.put("GraphDB", new NeoGraphDB(server));
+    attributes.put("UserManager", new UserManager(server));
     attributes.put("SocialMediaGraphManager", new SocialMediaGraphManager(server));
     // Now let's open for business. 
     server.logger.info("Maximum Java heap size (MB): " + 
@@ -135,7 +144,8 @@ public class Server extends Application {
     // authentication, but all other URI patterns will go to the guarded Router. 
     Router router = new Router(getContext());
     router.attach("/ping", HelloPingResource.class);
-    router.attach("/nodes/{nodetype}/{node}", SocialMediaGraphResource.class);
+    router.attach("/nodes/{nodetype}/{node}", NodeResource.class);
+    router.attach("/relationships/{relationshiptype}", RelationshipResource.class);
     return router;
   }
 
@@ -160,6 +170,7 @@ public class Server extends Application {
     return this.hostName;
   }
   
+ 
   /**
    * Returns the ServerProperties instance associated with this server. 
    * @return The server properties.

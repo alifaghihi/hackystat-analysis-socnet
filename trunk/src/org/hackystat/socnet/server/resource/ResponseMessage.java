@@ -70,5 +70,16 @@ public class ResponseMessage {
         resource.getRequest().getMethod().getName(),
         resource.getRequest().getResourceRef().toString());
   }
+  
+    /**
+   * The error message for requests that only the admin can handle. 
+   * @param resource The resource associated with this request. 
+   * @return A string describing the problem.
+   */
+   static String adminOnly(SocNetResource resource) {
+    return String.format("Request requires administrator privileges:%n  Request: %s %s",
+        resource.getRequest().getMethod().getName(),
+        resource.getRequest().getResourceRef().toString());
+  }
 
 }

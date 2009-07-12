@@ -20,7 +20,12 @@
 
   <target name="jaxb" description="Runs the XJC compiler.">
     <echo message="Compiling using ${env.JAXB_HOME} for target version ${env.JAXB_TARGET}."/>
-    <xjc schema="${basedir}/xml/schema/nodes.xsd" extension="true" destdir="src" 
+    <xjc schema="${basedir}/xml/schema/users.xsd" extension="true" destdir="src" 
+      target="${env.JAXB_TARGET}"
+      package="org.hackystat.socnet.server.resource.users.jaxb">
+      <produces dir="${src.dir}/org/hackystat/socnet/server/resource/users/jaxb" includes="*" />
+    </xjc>
+    <xjc schema="${basedir}/xml/schema/socialmediagraph.xsd" extension="true" destdir="src" 
       target="${env.JAXB_TARGET}"
       package="org.hackystat.socnet.server.resource.socialmediagraph.jaxb">
       <produces dir="${src.dir}/org/hackystat/socnet/server/resource/socialmediagraph/jaxb" includes="*" />
