@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import org.hackystat.socnet.socialmediagraph.nodes.interfaces.SocialMediaNodeInterface;
-
+import org.hackystat.socnet.socialmediagraph.graphmanagement.NodeNotFoundException;
+import org.hackystat.socnet.socialmediagraph.graphmanagement.RelationshipNotFoundException;
 import org.neo4j.api.core.Direction;
 import org.neo4j.api.core.NeoService;
 import org.neo4j.api.core.Node;
@@ -254,6 +253,7 @@ public class NodeFactory
         Iterable<Relationship> isARels = subreferenceNodes.get(
                 whatKindOfNode.ordinal()).getRelationships(whatKindOfNode);
 
+   
         //create an array list to store the nodes 
         ArrayList<Node> nodes = new ArrayList<Node>();
 
@@ -265,6 +265,36 @@ public class NodeFactory
         }
 
         //return the list of nodes
+        return nodes;
+    }
+    
+    public Iterable<Node> getNodes(String connectedToNodeName, 
+            IsARelationshipType connectedToNodeType, 
+            BetweenNodesRelationshipType relationshipType,
+            Direction relationshipDirection) 
+            throws NodeNotFoundException, RelationshipNotFoundException
+    {
+        Node hub = this.getNode(connectedToNodeType, SocialMediaNode.NAME_KEY, connectedToNodeName);
+    
+        if(hub == null)
+            throw new NodeNotFoundException(connectedToNodeName, connectedToNodeType.name());
+        
+        Iterable<Relationship> rels = hub.getRelationships(relationshipType, relationshipDirection);
+        
+        if(rels == null)
+            throw new RelationshipNotFoundException(connectedToNodeName, connectedToNodeType.name(), 
+            relationshipDirection.name(), relationshipType.name());
+        
+        ArrayList<Node> nodes = new ArrayList<Node>();
+        int i = 0;
+        for(Relationship rel: rels)
+        {
+            if(nodes.contains(rel))
+                continue;
+            else
+                nodes.add(rel.getOtherNode(hub));
+        }
+        
         return nodes;
     }
     
@@ -326,19 +356,18 @@ public class NodeFactory
      */
     public Relationship relateNodes(IsARelationshipType node1Type, String node1Key,
             String node1Name, IsARelationshipType node2Type, String node2Key,
-            String node2Name, RelationshipType relationship)
+            String node2Name, RelationshipType relationship) throws NodeNotFoundException
     {
             Node node1 = getNode(node1Type, node1Key, node1Name);
             Node node2 = getNode(node2Type, node2Key, node2Name);
             
             if(node1 == null)
-                throw new RuntimeException("Node 1, " + node1Name + ", is not found and is therefore null");
+                throw new NodeNotFoundException(node1Name, node1Type.name());
             
             if(node2 == null)
-                throw new RuntimeException("Node 2, " + node2Name + ", is not found and is therefore null");
+                throw new NodeNotFoundException(node2Name, node2Type.name());
             
-            if(relationship == null)
-                throw new RuntimeException("Relationship is null");
+
             
             return node1.createRelationshipTo(node2, relationship);
     }
@@ -351,10 +380,17 @@ public class NodeFactory
     public Relationship getRelationship(RelationshipType relationship, 
             IsARelationshipType node1Type, String node1Key, 
             String node1Name, IsARelationshipType node2Type, String node2Key, 
-            String node2Name)
+            String node2Name) throws NodeNotFoundException
     {
         Node startNode = this.getNode(node1Type, node1Key, node1Name);
         Node endNode = this.getNode(node2Type, node2Key, node2Name);
+        
+        if(startNode == null)
+                throw new NodeNotFoundException(node1Name, node1Type.name());
+            
+        if(endNode == null)
+                throw new NodeNotFoundException(node2Name, node2Type.name());
+        
         Iterable<Relationship> rels;
         
         rels = startNode.getRelationships(relationship, Direction.OUTGOING);

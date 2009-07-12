@@ -5,7 +5,8 @@
 
 package org.hackystat.socnet.server.client;
 
-import java.util.ArrayList;
+import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLNodes;
+import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationships;
 import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory.IsARelationshipType;
 import org.neo4j.api.core.RelationshipType;
 
@@ -24,7 +25,7 @@ public interface SocNetClientInterface {
      * @param nodeName - the name of the node to be added to the graph
      * @param nodeType - the type of the node to be added to the graph
      */
-    public void addNode(String nodeName, IsARelationshipType nodeType);
+    public void addNode(String nodeName, String nodeType) throws Exception;
     
     /**
      * Creates a relationship between two nodes in the database.
@@ -34,16 +35,20 @@ public interface SocNetClientInterface {
      * @param endNodeName
      * @param endNodeType
      */
-    public void addRelationshipTo(String startNodeName, IsARelationshipType startNodeType,
-            String endNodeName, IsARelationshipType endNodeType, 
-            RelationshipType relationshipBetweenNodes);
+    public void addRelationshipTo(String startNodeName, String startNodeType,
+            String endNodeName, String endNodeType, 
+            String relationshipType) throws Exception;
     
-    public ArrayList<String> getNodes(IsARelationshipType nodeType);
+    public XMLNodes getNodes(String nodeType) throws Exception;
+    
+    public XMLRelationships getNodes(String nodeName, 
+                                       String nodeType, 
+                                       String relationshipType) throws Exception;
     
     
-    public boolean endRelationship(String startNodeName, IsARelationshipType startNodeType,
-            String endNodeName, IsARelationshipType endNodeType, 
-            RelationshipType relationshipBetweenNodes);
+    public boolean endRelationship(String startNodeName, String startNodeType,
+            String endNodeName, String endNodeType, 
+            String relationshipBetweenNodes) throws Exception;
     
     
 

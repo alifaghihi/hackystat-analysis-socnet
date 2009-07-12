@@ -172,6 +172,16 @@
       </classpath>
     </java>
   </target>
+  
+  <target name="twitterclient" depends="compile" description="Test to see if the put command works">
+    <java classname="org.hackystat.socnet.sensors.twitterclient.TwitterClient" fork="yes">
+      <classpath>
+        <pathelement location="${build.dir}/classes" />
+        <path refid="compile.classpath" />
+      </classpath>
+    </java>
+  </target>
+  
 </project>
 
 
