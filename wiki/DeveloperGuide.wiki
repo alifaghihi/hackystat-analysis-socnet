@@ -24,8 +24,10 @@ Install [http://ant.apache.org/ ANT] 2.0.
 
 Purportedly, in Java 1.6 JAXB and JavaMail are included, however in Ubuntu at least that was not the case, so for installation instructions for JavaMail, check out Hackystat's great pages on the subject [http://code.google.com/p/hackystat/wiki/InstallingJAXBinJava5/ Installing JAXB]  and [http://code.google.com/p/hackystat/wiki/InstallingJavaMail/ Installing JavaMail]. 
 
-The last one, the Java Transaction Library, requires some special treatment because of click-through licenses disagreeing with Ivy. 
+The last one, the Java Transaction Library, requires some special treatment because of click-through licenses disagreeing with Ivy. You can download the library [http://java.sun.com/javaee/technologies/jta/index.jsp/ here].
 
+Download Java Transaction API Specification 1.1 Maintenance Release, both the class files and the Javadocs to whatever the environment variable ${java.io.tmpdir} resolves to. In Linux, this is "/tmp". Ivy will look for this library in the temporary folder, so once it's downloaded that's all you need to do.
 
+Now we're ready to get down to business.
 
-
+==2.1 Checking out the SocNet Sources ==
