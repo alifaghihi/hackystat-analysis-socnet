@@ -1,14 +1,46 @@
 #summary A guide to installing the system from a binary distribution
 #labels Featured
+=1.0 Introduction=
 
-= Introduction =
-
-Add your content here.
+The SocNet binary distribution contains almost everything you need to run the system. If you've got Java 1.6, you are all set!
 
 
-= Details =
+= 2.0 Downloading the SocNet Sources =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+==2.1 Install Necessary Tools ==
+For this, you will need:
+  *  Java 1.6
+
+Install [http://java.sun.com/ Java] 1.6.
+
+Now we're ready to get down to business.
+
+==2.1 Download the Distribution ==
+
+Download the latest release of SocNet from the featured downloads on the Project Home Page.
+
+=3.0 Running SocNet =
+
+==3.1 Set Up Configuration Files ==
+
+The socnet.properties file should be placed in the computer's home directory in the hackystat home folder. This file is not strictly necessary, but if you want to use it, it allows additional specification and configuration. Note that as of this release, the serve does not authenticate any of the web service calls. A sample file can be viewed/downloaded [http://hackystat-analysis-socnet.googlecode.com/svn/trunk/config/socnet.properties.sample/ here].
+
+The socnet.twitter.properties file should be placed in the same place as the socnet.properties file. Note that the socnet.twitter.properties files must contain a valid Twitter username and valid Twitter password. The default API call limit for a Twitter account is 150 calls per hour.  Raise this at your peril--Twitter will blacklist your account if you repeatedly go over your call limit. It is included in the configuration file so that after Twitter has raised the API call limit, it is easy to change. A sample file can be viewed/downloaded [http://hackystat-analysis-socnet.googlecode.com/svn/trunk/config/socnet.twitter.properties.sample / here].
+
+*All values in the socnet.twitter.properties configuration file are mandatory*
+
+Now it's time to run this bad boy
+
+==3.2 Running SocNet ==
+
+First, we have to start up the server. To do this, execute
+
+||java -jar socnetserver.jar||
+
+in the top level directory.
+
+Then, execute
+
+||java -jar socnet_twitter.jar||
+
+to start up the Twitter Client.
