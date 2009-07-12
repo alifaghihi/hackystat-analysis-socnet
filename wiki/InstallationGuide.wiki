@@ -44,3 +44,5 @@ Then, execute
 ||java -jar socnet_twitter.jar||
 
 to start up the Twitter Client.
+
+Known Issues: The very first time you initialize the twitter account, the server throws an exception. This causes the Twitter client to throw an exception as well. If this occurs, restart both programs and it should run fine. I thought that this problem had been resolved, as it only appears on the very first initialization, but apparently the issue has reappeared. 
