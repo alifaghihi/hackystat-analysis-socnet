@@ -1,0 +1,19 @@
+# Sample SocNet Server properties file. 
+# Rename this file to 'socnet.properties', and place in ~/.hackystat/socnet
+# On Windows, use '\\' as the  path separator.
+# Do not allow trailing blanks on lines. 
+
+# Properties you MUST change
+socnet.server.admin.email = admin@hackystat.org
+socnet.server.admin.password = admin@hackystat.org
+socnet.server.smtp.host = mail.hawaii.edu
+
+# Properties you almost always want to change 
+#socnet.server.hostname = localhost
+#socnet.server.db.user.dir = c:\\hackystat\\socnet\\db\\user
+#socnet.server.db.graph.dir = c:\\hackystat\\socnet\\db\\graph
+
+# Properties you typically don't need to change. 
+socnet.server.context.root = socnet
+#socnet.server.logging.level = SEVERE
+socnet.server.port = 9999

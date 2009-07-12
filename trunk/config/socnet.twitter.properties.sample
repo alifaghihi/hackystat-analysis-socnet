@@ -1,0 +1,7 @@
+# Sample SocNet TwitterClient properties file. 
+# Rename this file to 'socnet.twitter.properties', and place in ~/.hackystat/socnet
+
+socnet.twitter.username=YourTwitterName
+socnet.twitter.password=YourTwitterPassword
+socnet.twitter.apilimit=150
+socnet.twitter.serveraddress=http://localhost:9999/socnet/
