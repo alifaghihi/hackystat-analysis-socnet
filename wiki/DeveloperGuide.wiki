@@ -22,13 +22,9 @@ Install [http://java.sun.com/ Java] 1.6.
 
 Install [http://ant.apache.org/ ANT] 2.0.
 
-Install [https://jaxb.dev.java.net/ JAXB]
+Purportedly, in Java 1.6 JAXB and JavaMail are included, however in Ubuntu at least that was not the case, so for installation instructions for JavaMail, check out Hackystat's great pages on the subject [http://code.google.com/p/hackystat/wiki/InstallingJAXBinJava5/ Installing JAXB]  and [http://code.google.com/p/hackystat/wiki/InstallingJavaMail/ Installing JavaMail]. 
 
-Purportedly, in Java 1.6 JAXB and JavaMail are included, however in Ubuntu at least that was not the case, so for installation instructions for JavaMail, check out Hackystat's great pages on the subject [http://code.google.com/p/hackystat/wiki/InstallingJavaMail/ Installing JavaMail]. 
-
-The last one, the Java Transaction Library, requires some special treatment because of click-through licenses
-
-
+The last one, the Java Transaction Library, requires some special treatment because of click-through licenses disagreeing with Ivy. 
 
 
 
