@@ -1,0 +1,21 @@
+#summary A guide to using the SocNet system
+#labels Featured
+
+= 1.0 Introduction =
+
+Currently, only a few of the planned SocNet services are available to users. Sensors that have been implemented include:
+  *  Twitter Sensor
+
+Coming sensors are:
+  *  Hackystat Sensor
+  *  Ohloh Sensor
+  *  Facebook Sensor
+
+Future sensors that could also be fun include media player sensors, to log the music you listen to while you code.
+
+See the individual sections below for instructions on registering with each of the SocNet sensors.
+
+
+= 2.0 Twitter Sensor =
+
+To register with the SocNet Twitter sensor, follow the Twitter account "HackystatSocNet". The sensor will then be able to ascertain who you are following and who follows you, and will persist that relationship information in the SocNet social media graph.
