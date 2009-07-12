@@ -3,7 +3,7 @@
 
 =1.0 Introduction=
 
-Add your content here.
+I have tried to make downloading, compiling, and running the SocNet system as painless and easy as possible. You'll need a few tools to start off with, but once you've got those in place it should come together quickly.
 
 
 = 2.0 Downloading the SocNet Sources =
