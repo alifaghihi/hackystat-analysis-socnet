@@ -1,9 +1,14 @@
 #summary The REST API Specification for the SocNet Server
 
 = Introduction =
+SocNet services communicate with each other using [http://en.wikipedia.org/wiki/Representational_State_Transfer/ REST] architectural principles. This means that storing, accessing, and managing data in the persistent store are done by HTTP calls of GET, PUT, POST, and DELETE.
 
-Add your content here.
-
+The resources in the persistent store are
+*  nodetypes - Constant values used to identify different types of nodes, such as a Twitter account or a Facebook friend.
+*  relationshiptypes - Constant values used to identify different types of relationships, such as a Facebook friend relationship or an Ohloh contributes to relationship.
+*  clients - Authenticated users who are allowed to manipulate data in the store.
+*  nodes - The vertices of the social media graph, representing people, projects, and other objects.
+*  relationships - The edges of the social media graph, representing the connections between people, projects, and other objects.
 
 = Details =
 ||GET ||{host}/nodetypes          ||Returns a list of all of the node types in the graph||
