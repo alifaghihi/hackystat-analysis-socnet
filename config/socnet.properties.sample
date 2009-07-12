@@ -3,7 +3,7 @@
 # On Windows, use '\\' as the  path separator.
 # Do not allow trailing blanks on lines. 
 
-# Properties you MUST change
+#Not used yet
 socnet.server.admin.email = admin@hackystat.org
 socnet.server.admin.password = admin@hackystat.org
 socnet.server.smtp.host = mail.hawaii.edu
