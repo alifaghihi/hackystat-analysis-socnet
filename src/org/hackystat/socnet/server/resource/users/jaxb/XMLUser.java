@@ -48,7 +48,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "role"
 })
 @XmlRootElement(name = "User")
-public class User
+public class XMLUser
     implements Serializable
 {
 

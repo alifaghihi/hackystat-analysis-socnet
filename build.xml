@@ -173,6 +173,24 @@
     </java>
   </target>
   
+  <target name="registertest" depends="compile" description="Test to see if the user registration command works">
+    <java classname="org.hackystat.socnet.server.resource.registration.TestRegistrationResource" fork="yes">
+      <classpath>
+        <pathelement location="${build.dir}/classes" />
+        <path refid="compile.classpath" />
+      </classpath>
+    </java>
+  </target>
+  
+    <target name="mailertest" depends="compile" description="Test to see if the user registration command works">
+    <java classname="org.hackystat.socnet.server.mailer.TestMailer" fork="yes">
+      <classpath>
+        <pathelement location="${build.dir}/classes" />
+        <path refid="compile.classpath" />
+      </classpath>
+    </java>
+  </target>
+  
   <target name="twitterclient" depends="compile" description="Test to see if the put command works">
     <java classname="org.hackystat.socnet.sensors.twitterclient.TwitterClient" fork="yes">
       <classpath>

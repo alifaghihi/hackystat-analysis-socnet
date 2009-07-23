@@ -29,7 +29,7 @@ import org.restlet.resource.Variant;
  */
 public class NodeResource extends SocNetResource
 {
-    SocialMediaGraphManager manager;
+    SocialMediaGraphManager smGraphManager;
     String nodeName;
     String nodeType;
     String relationshipType;
@@ -38,7 +38,7 @@ public class NodeResource extends SocNetResource
     public NodeResource(Context context, Request request, Response response)
     {
         super(context, request, response);
-        manager = (SocialMediaGraphManager) getContext().getAttributes().get("SocialMediaGraphManager");
+        smGraphManager = (SocialMediaGraphManager) getContext().getAttributes().get("SocialMediaGraphManager");
         
         nodeName = (String) request.getAttributes().get("node");
         nodeType = (String) request.getAttributes().get("nodetype");
@@ -57,23 +57,23 @@ public class NodeResource extends SocNetResource
                     && relationshipType == null 
                     && relationshipDirection == null)
             {
-                return manager.getRepresentation(manager.getNodes(nodeType));
+                return smGraphManager.getRepresentation(smGraphManager.getNodes(nodeType));
             }
             else if(nodeName != null 
                     && nodeType != null
                     && relationshipType == null 
                     && relationshipDirection == null)
             {
-                XMLNode returnedNode = manager.getNode(nodeType, nodeName);
-                return manager.getNodeRepresentation(returnedNode);
+                XMLNode returnedNode = smGraphManager.getNode(nodeType, nodeName);
+                return smGraphManager.getNodeRepresentation(returnedNode);
             }
             else if(nodeName!= null
                     && nodeType != null
                     && relationshipType != null 
                     && relationshipDirection != null)
             {
-                 return manager.getRepresentation(manager.getNodes(
-                        manager.getNode(nodeType, nodeName), relationshipType, 
+                 return smGraphManager.getRepresentation(smGraphManager.getNodes(
+                        smGraphManager.getNode(nodeType, nodeName), relationshipType, 
                         relationshipDirection));
             }
             
@@ -151,8 +151,8 @@ public class NodeResource extends SocNetResource
         XMLNode n = null;
         try
         {
-            n = manager.makeNode(entityString);
-            manager.storeNode(n);
+            n = smGraphManager.makeNode(entityString);
+            smGraphManager.storeNode(n);
         }
         catch (Exception ex)
         {

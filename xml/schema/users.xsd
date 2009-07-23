@@ -21,7 +21,7 @@
   <xs:element name="Role" type="xs:string"/>
   <xs:attribute name="LastMod" type="xs:dateTime"/>
 
-  <xs:element name="User">
+  <xs:element name="XMLUser">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="Email" minOccurs="1" maxOccurs="1"/>
@@ -32,16 +32,16 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="Users">
+  <xs:element name="XMLUsers">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="User" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element ref="XMLUser" minOccurs="1" maxOccurs="unbounded"/>
       </xs:sequence>
   </xs:complexType>
   </xs:element>
 
 
-  <xs:element name="UserRef">
+  <xs:element name="XMLUserRef">
     <xs:complexType>
       <xs:attribute ref="Email" use="required"/>
       <xs:attribute ref="Href" use="required"/> 
@@ -49,7 +49,7 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="UserIndex">
+  <xs:element name="XMLUserIndex">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="UserRef" minOccurs="0" maxOccurs="unbounded"/>

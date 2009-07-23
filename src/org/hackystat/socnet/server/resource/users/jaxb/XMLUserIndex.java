@@ -13,9 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -28,8 +31,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{}User" maxOccurs="unbounded"/>
+ *         &lt;element ref="{}XMLUserRef" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
+ *       &lt;attribute ref="{}LastMod use="required""/>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -39,52 +43,83 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "user"
+    "userRef"
 })
-@XmlRootElement(name = "Users")
-public class Users
+@XmlRootElement(name = "UserIndex")
+public class XMLUserIndex
     implements Serializable
 {
 
     private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "User", required = true)
-    protected List<User> user;
+    @XmlElement(name = "UserRef")
+    protected List<XMLUserRef> userRef;
+    @XmlAttribute(name = "LastMod", required = true)
+    @XmlSchemaType(name = "dateTime")
+    protected XMLGregorianCalendar lastMod;
 
     /**
-     * Gets the value of the user property.
+     * Gets the value of the userRef property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the user property.
+     * This is why there is not a <CODE>set</CODE> method for the userRef property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getUser().add(newItem);
+     *    getUserRef().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link User }
+     * {@link XMLUserRef }
      * 
      * 
      */
-    public List<User> getUser() {
-        if (user == null) {
-            user = new ArrayList<User>();
+    public List<XMLUserRef> getUserRef() {
+        if (userRef == null) {
+            userRef = new ArrayList<XMLUserRef>();
         }
-        return this.user;
+        return this.userRef;
     }
 
-    public boolean isSetUser() {
-        return ((this.user!= null)&&(!this.user.isEmpty()));
+    public boolean isSetUserRef() {
+        return ((this.userRef!= null)&&(!this.userRef.isEmpty()));
     }
 
-    public void unsetUser() {
-        this.user = null;
+    public void unsetUserRef() {
+        this.userRef = null;
+    }
+
+    /**
+     * Gets the value of the lastMod property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public XMLGregorianCalendar getLastMod() {
+        return lastMod;
+    }
+
+    /**
+     * Sets the value of the lastMod property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link XMLGregorianCalendar }
+     *     
+     */
+    public void setLastMod(XMLGregorianCalendar value) {
+        this.lastMod = value;
+    }
+
+    public boolean isSetLastMod() {
+        return (this.lastMod!= null);
     }
 
 }

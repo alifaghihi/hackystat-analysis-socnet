@@ -40,7 +40,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "UserRef")
-public class UserRef
+public class XMLUserRef
     implements Serializable
 {
 

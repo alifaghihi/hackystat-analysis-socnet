@@ -3,7 +3,7 @@ package org.hackystat.socnet.server.resource;
 import org.hackystat.socnet.server.resource.ResponseMessage;
 import org.hackystat.socnet.server.Server;
 import org.hackystat.socnet.server.resource.users.UserManager;
-import org.hackystat.socnet.server.resource.users.jaxb.User;
+import org.hackystat.socnet.server.resource.users.jaxb.XMLUser;
 import org.restlet.Context;
 import org.restlet.data.CharacterSet;
 import org.restlet.data.Language;
@@ -44,14 +44,13 @@ public abstract class SocNetResource extends Resource
     protected Server server;
     /** Everyone generally wants to create one of these, so declare it here. */
     protected String responseMsg;
-    
     protected UserManager userManager;
     /** The authenticated user, retrieved from the ChallengeResponse, or null. */
     protected String authUser = null;
     /** To be retrieved from the URL as the 'user' template parameter, or null. */
     protected String uriUser = null;
     /** The user instance corresponding to the user indicated in the URI string, or null. */
-    protected User user = null;
+    protected XMLUser user = null;
 
     /**
      * Provides the following representational variants: TEXT_XML.
@@ -66,6 +65,7 @@ public abstract class SocNetResource extends Resource
         getVariants().clear(); // copied from BookmarksResource.java, not sure why needed.
         getVariants().add(new Variant(MediaType.TEXT_XML));
         userManager = (UserManager) getContext().getAttributes().get("UserManager");
+        server = (Server) getContext().getAttributes().get("SocNetServer");
     }
 
     /**
@@ -160,4 +160,57 @@ public abstract class SocNetResource extends Resource
         }
         return false;
     }
+
+    /**
+     * Returns true if the user in the URI string is defined in the UserManager.
+     * Otherwise sets the Response status and returns false.
+     * If it returns true, then this.user has the corresponding User instance. 
+     * @return True if the URI user is a real user.
+     */
+    protected boolean validateUriUserIsUser()
+    {
+        try
+        {
+            this.user = this.userManager.getUser(this.uriUser);
+            if (this.user == null)
+            {
+                this.responseMsg = ResponseMessage.undefinedUser(this, this.uriUser);
+                getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        catch (RuntimeException e)
+        {
+            this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
+            getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
+        }
+        return false;
+    }
+    
+      /**
+   * Returns true if the authorized user is either the admin or user in the URI string.
+   * Otherwise sets the Response status and returns false.
+   * @return True if the authorized user is the admin or the URI user. 
+   */
+  protected boolean validateAuthUserIsAdminOrUriUser() {
+    try {
+      if (userManager.isAdmin(this.authUser) || this.uriUser.equals(this.authUser)) {
+        return true;
+      }
+      else {
+        this.responseMsg = ResponseMessage.adminOrAuthUserOnly(this, this.authUser, this.uriUser);
+        getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
+        return false;
+      }
+    }
+    catch (RuntimeException e) {
+      this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
+      getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
+    }
+    return false;
+  }
 }
