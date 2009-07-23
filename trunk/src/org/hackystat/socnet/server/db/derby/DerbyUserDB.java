@@ -8,7 +8,7 @@ package org.hackystat.socnet.server.db.derby;
 import static org.hackystat.socnet.server.ServerProperties.USER_DB_DIR_KEY;
 
 import org.hackystat.socnet.server.db.UserDBImpl;
-import org.hackystat.socnet.server.resource.users.jaxb.User;
+import org.hackystat.socnet.server.resource.users.jaxb.XMLUser;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -323,12 +323,12 @@ public class DerbyUserDB implements UserDBImpl{
    * @param users The list of users whose ownership is being searched for.
    * @return The String to be used in the where clause to check for ownership.
    */
-  private String constructOwnerClause(List<User> users) {
+  private String constructOwnerClause(List<XMLUser> users) {
     StringBuffer buff = new StringBuffer();
     buff.append('(');
     // Use old school iterator so we can do a hasNext() inside the loop.
-    for (Iterator<User> i = users.iterator(); i.hasNext(); ) {
-      User user = i.next();
+    for (Iterator<XMLUser> i = users.iterator(); i.hasNext(); ) {
+      XMLUser user = i.next();
       buff.append(ownerEquals);
       buff.append(user.getEmail());
       buff.append('\'');
@@ -340,8 +340,8 @@ public class DerbyUserDB implements UserDBImpl{
     return buff.toString();
   }
   
-  // ********************   Start  User specific stuff here *****************  //
-  /** The SQL string for creating the SocnetUser table. So named because 'User' is reserved. */
+  // ********************   Start  XMLUser specific stuff here *****************  //
+  /** The SQL string for creating the SocnetUser table. So named because 'XMLUser' is reserved. */
   private static final String createUserTableStatement = 
     "create table SocnetUser  "
     + "("
@@ -354,7 +354,7 @@ public class DerbyUserDB implements UserDBImpl{
     + " PRIMARY KEY (Email) "
     + ")" ;
   
-  /** An SQL string to test whether the User table exists and has the correct schema. */
+  /** An SQL string to test whether the XMLUser table exists and has the correct schema. */
   private static final String testUserTableStatement = 
     " UPDATE SocnetUser SET "
     + " Email = 'TestEmail@foo.com', " 
@@ -388,7 +388,7 @@ public class DerbyUserDB implements UserDBImpl{
 
   /** {@inheritDoc} */
   @Override
-  public boolean storeUser(User user, String xmlUser, String xmlUserRef) {
+  public boolean storeUser(XMLUser user, String xmlUser, String xmlUserRef) {
     Connection conn = null;
     PreparedStatement s = null;
     try {
@@ -600,7 +600,7 @@ public class DerbyUserDB implements UserDBImpl{
   
   /**
    * Returns a string containing the Resource as XML, or null if not found.
-   * @param resourceName The name of the resource, such as "User".
+   * @param resourceName The name of the resource, such as "XMLUser".
    * @param statement The select statement used to retrieve the resultset containing a single
    * row with that resource.
    * @return The string containing the resource as an XML string.

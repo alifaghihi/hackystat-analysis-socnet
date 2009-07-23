@@ -43,35 +43,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UserRef }
+     * Create an instance of {@link XMLUserRef }
      * 
      */
-    public UserRef createUserRef() {
-        return new UserRef();
+    public XMLUserRef createUserRef() {
+        return new XMLUserRef();
     }
 
     /**
-     * Create an instance of {@link User }
+     * Create an instance of {@link XMLUser }
      * 
      */
-    public User createUser() {
-        return new User();
+    public XMLUser createUser() {
+        return new XMLUser();
     }
 
     /**
-     * Create an instance of {@link UserIndex }
+     * Create an instance of {@link XMLUserIndex }
      * 
      */
-    public UserIndex createUserIndex() {
-        return new UserIndex();
+    public XMLUserIndex createUserIndex() {
+        return new XMLUserIndex();
     }
 
     /**
-     * Create an instance of {@link Users }
+     * Create an instance of {@link XMLUsers }
      * 
      */
-    public Users createUsers() {
-        return new Users();
+    public XMLUsers createUsers() {
+        return new XMLUsers();
     }
 
     /**

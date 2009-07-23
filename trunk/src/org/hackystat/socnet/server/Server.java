@@ -18,11 +18,15 @@ import static org.hackystat.socnet.server.ServerProperties.LOGGING_LEVEL_KEY;
 import java.util.logging.Logger;
 import org.hackystat.socnet.server.db.derby.DerbyUserDB;
 import org.hackystat.socnet.server.db.neo.NeoGraphDB;
+import org.hackystat.socnet.server.mailer.Mailer;
 import org.hackystat.socnet.server.resource.helloping.HelloPingResource;
+import org.hackystat.socnet.server.resource.registration.RegistrationResource;
 import org.hackystat.socnet.server.resource.socialmediagraph.SocialMediaGraphManager;
 import org.hackystat.socnet.server.resource.socialmediagraph.NodeResource;
 import org.hackystat.socnet.server.resource.socialmediagraph.RelationshipResource;
 import org.hackystat.socnet.server.resource.users.UserManager;
+import org.hackystat.socnet.server.resource.users.UserResource;
+import org.restlet.Guard;
 
 /**
  * Sets up the HTTP Server process and dispatching to the associated resources. 
@@ -95,7 +99,14 @@ public class Server extends Application {
     server.logger.warning("Host: " + server.hostName);
     server.logger.info(server.serverProperties.echoProperties());
 
-  
+      try {
+      Mailer.getInstance();
+    }
+    catch (Throwable e) {
+       
+      String msg = "ERROR: JavaMail not installed correctly! Mail services will fail!";
+      server.logger.warning(msg);
+    }
 
     // Now create all of the Resource Managers and store them in the Context.
 
@@ -140,17 +151,27 @@ public class Server extends Application {
     // requests will require authentication.
     Router authRouter = new Router(getContext());
    
+    authRouter.attach("/ping", HelloPingResource.class);
+    authRouter.attach("/nodes/{nodetype}/{node}", NodeResource.class);
+    authRouter.attach("/nodes/{nodetype}", NodeResource.class);
+    authRouter.attach("/nodes/{nodetype}/{node}/{relationshiptype}/{relationshipdirection}", 
+            NodeResource.class);
+    authRouter.attach("/relationships/{relationshiptype}", RelationshipResource.class);
+    authRouter.attach("/relationships/{relationshiptype}/{startnodetype}/{startnodename}/{endnodetype}/{endnodename}", 
+            RelationshipResource.class);
+    authRouter.attach("/users/{user}", UserResource.class);
+    
+    // Here's the Guard that we will place in front of authRouter.
+    Guard guard = new Authenticator(getContext());
+    guard.setNext(authRouter);
+    
     // Now create our "top-level" router which will allow the registration URI to proceed without
     // authentication, but all other URI patterns will go to the guarded Router. 
     Router router = new Router(getContext());
-    router.attach("/ping", HelloPingResource.class);
-    router.attach("/nodes/{nodetype}/{node}", NodeResource.class);
-    router.attach("/nodes/{nodetype}", NodeResource.class);
-    router.attach("/nodes/{nodetype}/{node}/{relationshiptype}/{relationshipdirection}", 
-            NodeResource.class);
-    router.attach("/relationships/{relationshiptype}", RelationshipResource.class);
-    router.attach("/relationships/{relationshiptype}/{startnodetype}/{startnodename}/{endnodetype}/{endnodename}", 
-            RelationshipResource.class);
+    router.attach("/register", RegistrationResource.class);
+    router.attachDefault(guard);
+    
+    
     return router;
   }
 

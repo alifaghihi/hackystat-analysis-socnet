@@ -13,6 +13,23 @@ import org.hackystat.utilities.stacktrace.StackTrace;
  */
 public class ResponseMessage {
   
+    
+     /**
+   * The error message for requests where the authorized user must be the same as the user
+   * in the URI string, or the authorized use is the admin (and then the user in the URI string
+   * can be anyone).
+   * @param resource The resource associated with this request.
+   * @param authUser The authorized user. 
+   * @param uriUser The user in the URI string.  
+   * @return A string describing the problem.
+   */
+  static String adminOrAuthUserOnly(SocNetResource resource, String authUser, 
+      String uriUser) {
+    return String.format("Request requires authorized user (%s) to be the same user as the " +
+        "URL user (%s):%n  Request: %s %s", authUser, uriUser, 
+        resource.getRequest().getMethod().getName(),
+        resource.getRequest().getResourceRef().toString());
+  }
  
   /**
    * The error message for requests that generate an unspecified internal error. 
