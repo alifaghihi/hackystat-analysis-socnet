@@ -101,7 +101,7 @@ public class Mailer
      */
     public boolean send(String fromAddr, String toAddr, String subject, String body)
     {
-        if (this.testInstall.equals("true") || toAddr.endsWith(this.testDomain))
+       if (this.testInstall.equals("true") || toAddr.endsWith(this.testDomain))
         {
             return true;
         }

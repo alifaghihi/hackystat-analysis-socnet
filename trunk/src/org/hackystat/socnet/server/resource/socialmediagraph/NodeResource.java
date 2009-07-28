@@ -29,6 +29,7 @@ import org.restlet.resource.Variant;
  */
 public class NodeResource extends SocNetResource
 {
+
     SocialMediaGraphManager smGraphManager;
     String nodeName;
     String nodeType;
@@ -39,7 +40,7 @@ public class NodeResource extends SocNetResource
     {
         super(context, request, response);
         smGraphManager = (SocialMediaGraphManager) getContext().getAttributes().get("SocialMediaGraphManager");
-        
+
         nodeName = (String) request.getAttributes().get("node");
         nodeType = (String) request.getAttributes().get("nodetype");
         relationshipType = (String) request.getAttributes().get("relationshiptype");
@@ -52,47 +53,47 @@ public class NodeResource extends SocNetResource
     {
         try
         {
-          
-            if(nodeName == null 
-                    && relationshipType == null 
-                    && relationshipDirection == null)
+            if (!validateUriUserIsUser() ||
+                    !validateAuthUserIsAdminOrUriUser())
+            {
+                System.out.println("User not validated!");
+                return null;
+            }
+
+
+            if (nodeName == null && relationshipType == null && relationshipDirection == null)
             {
                 return smGraphManager.getRepresentation(smGraphManager.getNodes(nodeType));
             }
-            else if(nodeName != null 
-                    && nodeType != null
-                    && relationshipType == null 
-                    && relationshipDirection == null)
+            else if (nodeName != null && nodeType != null && relationshipType == null && relationshipDirection == null)
             {
                 XMLNode returnedNode = smGraphManager.getNode(nodeType, nodeName);
                 return smGraphManager.getNodeRepresentation(returnedNode);
             }
-            else if(nodeName!= null
-                    && nodeType != null
-                    && relationshipType != null 
-                    && relationshipDirection != null)
+            else if (nodeName != null && nodeType != null && relationshipType != null && relationshipDirection != null)
             {
-                 return smGraphManager.getRepresentation(smGraphManager.getNodes(
-                        smGraphManager.getNode(nodeType, nodeName), relationshipType, 
+                return smGraphManager.getRepresentation(smGraphManager.getNodes(
+                        smGraphManager.getNode(nodeType, nodeName), relationshipType,
                         relationshipDirection));
             }
-            
             else
+            {
                 throw new InvalidArgumentException("The HTTP request is malformed.");
+            }
         }
-        catch(InvalidArgumentException iae)
+        catch (InvalidArgumentException iae)
         {
             iae.printStackTrace();
             getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, iae);
             Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, iae);
         }
-        catch(NodeNotFoundException nnfe)
+        catch (NodeNotFoundException nnfe)
         {
             nnfe.printStackTrace();
             getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND, nnfe);
             Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, nnfe);
         }
-        catch(RelationshipNotFoundException rnfe)
+        catch (RelationshipNotFoundException rnfe)
         {
             rnfe.printStackTrace();
             getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND, rnfe);
@@ -104,9 +105,9 @@ public class NodeResource extends SocNetResource
             getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, ex);
             Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
-       
+
     }
 
     /**
@@ -161,6 +162,6 @@ public class NodeResource extends SocNetResource
             setStatusMiscError("JAXB failed for some reason");
             return;
         }
-           
+
     }
 }

@@ -1,11 +1,12 @@
 package org.hackystat.socnet.server.resource.registration;
 
+import org.hackystat.socnet.server.resource.registration.*;
 import static org.hackystat.socnet.server.ServerProperties.ADMIN_EMAIL_KEY;
 import static org.hackystat.socnet.server.ServerProperties.HOSTNAME_KEY;
 
 import org.hackystat.socnet.server.mailer.Mailer;
 import org.hackystat.socnet.server.resource.SocNetResource;
-import org.hackystat.socnet.server.resource.users.InvalidRegistrationRequestException;
+import org.hackystat.socnet.server.resource.registration.InvalidRegistrationRequestException;
 import org.hackystat.socnet.server.resource.users.jaxb.XMLUser;
 import org.hackystat.utilities.email.ValidateEmailSyntax;
 import org.restlet.Context;

@@ -61,7 +61,7 @@ public class TestRegistrationResource extends SocNetRestApiHelper
             throw new RuntimeException(msg, e);
         }
 
-        String email = "pen.named@gmail.com";
+        String email = "pennamed@gmail.com";
         XMLUser user = new XMLUser();
         user.setEmail(email);
 
@@ -72,7 +72,7 @@ public class TestRegistrationResource extends SocNetRestApiHelper
 
         System.out.println("URI for Registration Test: " + uri);
 
-      /*  Response response = POST(uri, xml);
+        /*Response response = POST(uri, xml);
 
         if (!response.getStatus().isSuccess())
         {
@@ -83,14 +83,15 @@ public class TestRegistrationResource extends SocNetRestApiHelper
         else
         {
             System.out.println("POST was successful");
+            return true;
         }*/
+        
+       uri = getURI("users/" + email);
 
-        uri = getURI("users/" + email);
-
-        String getResult = GET(uri, "pen.named@gmail.com", "gzbdtLQrEbSe");
+        String getResult = GET(uri, "pennamed@gmail.com", "rjPZUAy42wQX");
 
         XMLUser user1 = (XMLUser) JAXBHelper.unmarshall(getResult, jaxbContext);
-        System.out.print("The returned user is registered under: " + user1.getEmail());
+        System.out.println("The returned user is registered under: " + user1.getEmail());
 
         return user1.getEmail().equals(email);
 

@@ -61,10 +61,16 @@ public abstract class SocNetResource extends Resource
     public SocNetResource(Context context, Request request, Response response)
     {
         super(context, request, response);
+        if (request.getChallengeResponse() != null)
+        {
+            this.authUser = request.getChallengeResponse().getIdentifier();
+        }
 
         getVariants().clear(); // copied from BookmarksResource.java, not sure why needed.
         getVariants().add(new Variant(MediaType.TEXT_XML));
         userManager = (UserManager) getContext().getAttributes().get("UserManager");
+        this.uriUser = (String) request.getAttributes().get("user");
+
         server = (Server) getContext().getAttributes().get("SocNetServer");
     }
 
@@ -169,18 +175,50 @@ public abstract class SocNetResource extends Resource
      */
     protected boolean validateUriUserIsUser()
     {
+        System.out.println("ValidateUriUserIsUser: " + this.uriUser);
         try
         {
             this.user = this.userManager.getUser(this.uriUser);
             if (this.user == null)
             {
+                System.out.println("validateUriUserIsUser got null!!");
                 this.responseMsg = ResponseMessage.undefinedUser(this, this.uriUser);
                 getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
                 return false;
             }
             else
             {
+                System.out.println("ValidateUriUserIsUser user is valiid");
                 return true;
+            }
+        }
+        catch (RuntimeException e)
+        {
+            e.printStackTrace();
+            this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
+            getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the authorized user is either the admin or user in the URI string.
+     * Otherwise sets the Response status and returns false.
+     * @return True if the authorized user is the admin or the URI user.
+     */
+    protected boolean validateAuthUserIsAdminOrUriUser()
+    {
+        try
+        {
+            if (userManager.isAdmin(this.authUser) || this.uriUser.equals(this.authUser))
+            {
+                return true;
+            }
+            else
+            {
+                this.responseMsg = ResponseMessage.adminOrAuthUserOnly(this, this.authUser, this.uriUser);
+                getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
+                return false;
             }
         }
         catch (RuntimeException e)
@@ -190,27 +228,4 @@ public abstract class SocNetResource extends Resource
         }
         return false;
     }
-    
-      /**
-   * Returns true if the authorized user is either the admin or user in the URI string.
-   * Otherwise sets the Response status and returns false.
-   * @return True if the authorized user is the admin or the URI user. 
-   */
-  protected boolean validateAuthUserIsAdminOrUriUser() {
-    try {
-      if (userManager.isAdmin(this.authUser) || this.uriUser.equals(this.authUser)) {
-        return true;
-      }
-      else {
-        this.responseMsg = ResponseMessage.adminOrAuthUserOnly(this, this.authUser, this.uriUser);
-        getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
-        return false;
-      }
-    }
-    catch (RuntimeException e) {
-      this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
-      getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
-    }
-    return false;
-  }
 }
