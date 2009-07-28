@@ -33,15 +33,17 @@ public class UserResource extends SocNetResource
         super(context, request, response);
 
         userEmail = (String) request.getAttributes().get("user");
+        System.out.println("In UserResouce Init: " + userEmail);
     }
 
     @Override
     public Representation represent(Variant variant)
     {
-
+        System.out.println("UserResource: represent");
         if (!validateUriUserIsUser() ||
                 !validateAuthUserIsAdminOrUriUser())
         {
+            System.out.println("User not validated!");
             return null;
         }
 
@@ -50,11 +52,13 @@ public class UserResource extends SocNetResource
             if (variant.getMediaType().equals(MediaType.TEXT_XML))
             {
                 String xmlData = super.userManager.getUserString(this.uriUser);
+                System.out.println("UserResouce returning");
                 return super.getStringRepresentation(xmlData);
             }
         }
         catch (RuntimeException e)
         {
+            e.printStackTrace();
             setStatusInternalError(e);
         }
         return null;

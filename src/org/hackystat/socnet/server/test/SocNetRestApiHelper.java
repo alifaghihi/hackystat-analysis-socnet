@@ -109,12 +109,14 @@ public class SocNetRestApiHelper
             String requestString, String username, String password,
             Representation entity)
     {
-
         Reference reference = new Reference(requestString);
-        Request request = (entity == null) ? new Request(method, reference) : new Request(method,
-                reference, entity);
-        request.getClientInfo().getAcceptedMediaTypes().add(new Preference<MediaType>(MediaType.TEXT_XML));
-        ChallengeResponse authentication = new ChallengeResponse(ChallengeScheme.HTTP_BASIC, username, password);
+        System.out.println("Reference: " + reference.toString());
+        Request request = (entity == null) ? new Request(method, reference) : 
+            new Request(method, reference, entity);
+        request.getClientInfo().getAcceptedMediaTypes().add(
+                new Preference<MediaType>(MediaType.TEXT_XML));
+        ChallengeResponse authentication = new ChallengeResponse(
+                ChallengeScheme.HTTP_BASIC, username, password);
         request.setChallengeResponse(authentication);
         
         Client client = new Client(Protocol.HTTP);

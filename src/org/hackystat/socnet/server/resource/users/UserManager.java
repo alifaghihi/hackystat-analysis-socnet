@@ -27,6 +27,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.hackystat.socnet.server.Server;
 import org.hackystat.socnet.server.db.UserDBImpl;
+import org.hackystat.socnet.server.resource.registration.InvalidRegistrationRequestException;
 import org.hackystat.socnet.server.resource.users.jaxb.XMLUser;
 import org.hackystat.socnet.server.resource.users.jaxb.XMLUserIndex;
 import org.hackystat.socnet.server.resource.users.jaxb.XMLUserRef;
