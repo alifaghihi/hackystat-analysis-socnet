@@ -53,6 +53,14 @@ public class RelationshipResource extends SocNetResource{
         
         try
         {
+            if (!validateAuthUserIsUser() ||
+                    !validateAuthUserIsAdminOrUser())
+            {
+                System.out.println("User not validated!");
+                return null;
+                
+            }
+            
             if(startnodetype == null || startnodename == null 
                     || endnodetype == null || startnodename == null
                     || relationshiptype == null)
@@ -127,7 +135,20 @@ public class RelationshipResource extends SocNetResource{
         String entityString = null;
         try
         {
+            if (!validateAuthUserIsUser() ||
+                    !validateAuthUserIsAdminOrUser())
+            {
+                System.out.println("User not validated!");
+                throw new UserNotAuthorizedException();
+            }
+            
             entityString = entity.getText();
+        }
+        catch(UserNotAuthorizedException unae)
+        {
+            unae.printStackTrace();
+            setStatusMiscError("The Authenticated User is not authorized to " +
+                    "put.");
         }
         catch (IOException e)
         {

@@ -64,8 +64,8 @@ public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper
         n1.setName("ElizaDoolittle");
         String xml = JAXBHelper.marshall(n1, jaxbContext);
         String uri = getURI("nodes/" + n1.getType() + "/" + n1.getName());
-        Response response = PUT(uri, xml);
-
+        Response response = PUT(uri, xml, TEST_EMAIL, TEST_EMAIL);
+        
         if (!response.getStatus().isSuccess())
         {
             System.out.println(response.getStatus().getDescription());
@@ -75,7 +75,7 @@ public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper
         else
         {
         }
-        String getResult = GET(uri);
+        String getResult = GET(uri, TEST_EMAIL, TEST_EMAIL);
 
         XMLNode n2 = (XMLNode) JAXBHelper.unmarshall(getResult, jaxbContext);
         return n1.getType().equals(n2.getType()) &&
@@ -124,7 +124,7 @@ public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper
 
         String xml = JAXBHelper.marshall(endNode, jaxbContext);
         String uri = getURI("nodes/" + endNode.getType() + "/" + endNode.getName());
-        Response response = PUT(uri, xml);
+        Response response = PUT(uri, xml, TEST_EMAIL, TEST_EMAIL);
 
         XMLNode startNode = new XMLNode();
         startNode.setName(node2name);
@@ -409,6 +409,6 @@ public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper
     public static void main(String[] args) throws Exception
     {
         SocNetRestApiHelper.setupServer();
-        isSuccessfulPutAndGetNodes();
+        putAndGetNodeSuccessful();
     }
 }

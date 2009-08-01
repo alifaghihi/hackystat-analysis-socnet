@@ -52,6 +52,7 @@ public abstract class SocNetResource extends Resource
     /** The user instance corresponding to the user indicated in the URI string, or null. */
     protected XMLUser user = null;
 
+
     /**
      * Provides the following representational variants: TEXT_XML.
      * @param context The context.
@@ -60,18 +61,20 @@ public abstract class SocNetResource extends Resource
      */
     public SocNetResource(Context context, Request request, Response response)
     {
+       
         super(context, request, response);
         if (request.getChallengeResponse() != null)
         {
             this.authUser = request.getChallengeResponse().getIdentifier();
         }
-
-        getVariants().clear(); // copied from BookmarksResource.java, not sure why needed.
-        getVariants().add(new Variant(MediaType.TEXT_XML));
+        
         userManager = (UserManager) getContext().getAttributes().get("UserManager");
-        this.uriUser = (String) request.getAttributes().get("user");
+        uriUser = (String) request.getAttributes().get("user");
 
         server = (Server) getContext().getAttributes().get("SocNetServer");
+        
+        getVariants().clear(); // copied from BookmarksResource.java, not sure why needed.
+        getVariants().add(new Variant(MediaType.TEXT_XML));
     }
 
     /**
@@ -176,6 +179,7 @@ public abstract class SocNetResource extends Resource
     protected boolean validateUriUserIsUser()
     {
         System.out.println("ValidateUriUserIsUser: " + this.uriUser);
+        System.out.println("User " + user);
         try
         {
             this.user = this.userManager.getUser(this.uriUser);
@@ -201,6 +205,59 @@ public abstract class SocNetResource extends Resource
         return false;
     }
 
+    
+    
+    protected boolean validateAuthUserIsUser()
+    {
+        System.out.println("ValidateAuthUserIsUser: " + this.authUser);
+        try
+        {
+            this.user = this.userManager.getUser(this.authUser);
+            if (this.user == null)
+            {
+                System.out.println("validateAuthUserIsUser got null!!");
+                this.responseMsg = ResponseMessage.undefinedUser(this, this.authUser);
+                getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
+                return false;
+            }
+            else
+            {
+                System.out.println("ValidateAuthUserIsUser user is valiid");
+                return true;
+            }
+        }
+        catch (RuntimeException e)
+        {
+            e.printStackTrace();
+            this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
+            getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
+        }
+        return false;
+    }
+    
+    protected boolean validateAuthUserIsAdminOrUser()
+    {
+        try
+        {
+            if (userManager.isAdmin(this.authUser) || this.authUser.equals(this.authUser))
+            {
+                return true;
+            }
+            else
+            {
+                this.responseMsg = ResponseMessage.adminOrAuthUserOnly(this, this.authUser, this.uriUser);
+                getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
+                return false;
+            }
+        }
+        catch (RuntimeException e)
+        {
+            this.responseMsg = ResponseMessage.internalError(this, this.getLogger(), e);
+            getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, removeNewLines(this.responseMsg));
+        }
+        return false;
+    }
+    
     /**
      * Returns true if the authorized user is either the admin or user in the URI string.
      * Otherwise sets the Response status and returns false.
