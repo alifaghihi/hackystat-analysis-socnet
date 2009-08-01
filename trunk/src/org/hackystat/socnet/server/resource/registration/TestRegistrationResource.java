@@ -31,16 +31,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestRegistrationResource extends SocNetRestApiHelper
 {
-
+          
     @Test
     public void testPutAndGetUser() throws Exception
     {
-        assertTrue("testPutAndGetUser failed", isSuccessfulPutAndGetUser());
+        assertTrue("testPutAndGetUser failed", isSuccessfulPutUser());
     }
 
-    public static boolean isSuccessfulPutAndGetUser() throws JAXBException,
-            ParserConfigurationException, TransformerConfigurationException,
-            TransformerException, IOException, Exception
+    public static boolean isSuccessfulPutUser() throws Exception
     {
         boolean result = false;
 
@@ -61,9 +59,9 @@ public class TestRegistrationResource extends SocNetRestApiHelper
             throw new RuntimeException(msg, e);
         }
 
-        String email = "pennamed@gmail.com";
+        
         XMLUser user = new XMLUser();
-        user.setEmail(email);
+        user.setEmail(TEST_EMAIL);
 
         String xml = JAXBHelper.marshall(user, jaxbContext);
         System.out.println("The xml string is: " + xml);
@@ -72,7 +70,7 @@ public class TestRegistrationResource extends SocNetRestApiHelper
 
         System.out.println("URI for Registration Test: " + uri);
 
-        /*Response response = POST(uri, xml);
+        Response response = POST(uri, xml);
 
         if (!response.getStatus().isSuccess())
         {
@@ -84,16 +82,39 @@ public class TestRegistrationResource extends SocNetRestApiHelper
         {
             System.out.println("POST was successful");
             return true;
-        }*/
+        }
+    }
+    
+    public static boolean isSuccessfulGetUser() throws JAXBException,
+            ParserConfigurationException, TransformerConfigurationException,
+            TransformerException, IOException, Exception
+    {
         
-       uri = getURI("users/" + email);
+        JAXBContext jaxbContext = null;
 
-        String getResult = GET(uri, "pennamed@gmail.com", "rjPZUAy42wQX");
+        getCleanGraphDB();
+
+        try
+        {
+            jaxbContext =
+                    JAXBContext.newInstance(
+                    org.hackystat.socnet.server.resource.users.jaxb.ObjectFactory.class);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            String msg = "Exception during SocialMediaGraphManager initialization processing";
+            throw new RuntimeException(msg, e);
+        }
+        
+        String uri = getURI("users/" + TEST_EMAIL);
+
+        String getResult = GET(uri, TEST_EMAIL, TEST_EMAIL);
 
         XMLUser user1 = (XMLUser) JAXBHelper.unmarshall(getResult, jaxbContext);
         System.out.println("The returned user is registered under: " + user1.getEmail());
 
-        return user1.getEmail().equals(email);
+        return user1.getEmail().equals(TEST_EMAIL);
 
 
     }
@@ -101,7 +122,8 @@ public class TestRegistrationResource extends SocNetRestApiHelper
     public static void main(String[] args) throws Exception
     {
         SocNetRestApiHelper.setupServer();
-        isSuccessfulPutAndGetUser();
+        //isSuccessfulPutUser();
+        isSuccessfulGetUser();
         System.exit(0);
     }
 }

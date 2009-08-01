@@ -151,7 +151,7 @@ public class Server extends Application {
     // requests will require authentication.
     Router authRouter = new Router(getContext());
    
-    authRouter.attach("/ping", HelloPingResource.class);
+    
     authRouter.attach("/nodes/{nodetype}/{node}", NodeResource.class);
     authRouter.attach("/nodes/{nodetype}", NodeResource.class);
     authRouter.attach("/nodes/{nodetype}/{node}/{relationshiptype}/{relationshipdirection}", 
@@ -169,6 +169,7 @@ public class Server extends Application {
     // authentication, but all other URI patterns will go to the guarded Router. 
     Router router = new Router(getContext());
     router.attach("/register", RegistrationResource.class);
+    router.attach("/ping", HelloPingResource.class);
     router.attachDefault(guard);
     
     

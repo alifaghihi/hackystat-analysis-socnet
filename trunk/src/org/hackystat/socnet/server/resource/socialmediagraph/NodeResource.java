@@ -53,8 +53,8 @@ public class NodeResource extends SocNetResource
     {
         try
         {
-            if (!validateUriUserIsUser() ||
-                    !validateAuthUserIsAdminOrUriUser())
+            if (!validateAuthUserIsUser() ||
+                    !validateAuthUserIsAdminOrUser())
             {
                 System.out.println("User not validated!");
                 return null;
@@ -142,7 +142,20 @@ public class NodeResource extends SocNetResource
         String entityString = null;
         try
         {
+            if (!validateAuthUserIsUser() ||
+                    !validateAuthUserIsAdminOrUser())
+            {
+                System.out.println("User not validated!");
+                throw new UserNotAuthorizedException();
+            }
+            
             entityString = entity.getText();
+        }
+        catch(UserNotAuthorizedException unae)
+        {
+            unae.printStackTrace();
+            setStatusMiscError("The Authenticated User is not authorized to " +
+                    "put.");
         }
         catch (IOException e)
         {

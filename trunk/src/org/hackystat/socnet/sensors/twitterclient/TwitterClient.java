@@ -19,20 +19,30 @@ import twitter4j.TwitterException;
 public class TwitterClient
 {
 
+     public static final String TWITTER_USERNAME_KEY = "socnet.twitter.username";
+     public static final String TWITTER_PASSWORD_KEY = "socnet.twitter.password";
+     public static final String EMAIL_KEY = "socnet.twitter.email";
+     public static final String SERVER_PASSWORD_KEY = "socnet.twitter.server.password";
+     public static final String TWITTER_API_LIMIT_KEY ="socnet.twitter.apilimit";
+     public static final String SERVER_ADDRESS_KEY = "socnet.twitter.serveraddress";
+    
+    
     public static void printErrorMsg(String propFile)
     {
         System.err.println("Error!  Cannot start the app without a propeties file!");
         System.err.println("The file must be located at " + propFile);
         System.err.println("It must contain the following keys: ");
-        System.err.println("socnet.twitter.username");
-        System.err.println("socnet.twitter.password");
-        System.err.println("socnet.twitter.apilimit");
-        System.err.println("socnet.twitter.serveraddress");
+        System.err.println(TWITTER_USERNAME_KEY);
+        System.err.println(TWITTER_PASSWORD_KEY);
+        System.err.println(TWITTER_API_LIMIT_KEY);
+        System.err.println(SERVER_ADDRESS_KEY);
+        System.err.println(EMAIL_KEY);
+        System.err.println(SERVER_PASSWORD_KEY);
         System.err.println("See SocNet documentation");
         System.exit(-1);
     }
 
-    public static void main(String[] args) throws FileNotFoundException, IOException, TwitterException, InterruptedException, JAXBException
+    public static void main(String[] args) throws FileNotFoundException, IOException, TwitterException, InterruptedException, JAXBException, Exception
     {
 
         //create the twitterPoller object
@@ -47,18 +57,23 @@ public class TwitterClient
         Properties properties = new Properties();
         properties.load(new FileReader(propFile));
 
-        String username = properties.getProperty("socnet.twitter.username");
-        String password = properties.getProperty("socnet.twitter.password");
-        String apistr = properties.getProperty("socnet.twitter.apilimit");
-        String serveraddress = properties.getProperty("socnet.twitter.serveraddress");
+        String username = properties.getProperty(TWITTER_USERNAME_KEY);
+        String password = properties.getProperty(TWITTER_PASSWORD_KEY);
+        String apistr = properties.getProperty(TWITTER_API_LIMIT_KEY);
+        String serveraddress = properties.getProperty(SERVER_ADDRESS_KEY);
+        String email = properties.getProperty(EMAIL_KEY);
+        String server_password = properties.getProperty(SERVER_PASSWORD_KEY);
+        
         if(username == null || password == null || apistr == null || serveraddress == null)
         {
             printErrorMsg(propFile);
         }
         
         int apiCallsPerHour = Integer.parseInt(apistr);
-        TwitterPoller twitterPoller = new TwitterPoller(username, password, 
-                                                        apiCallsPerHour, serveraddress);
+        TwitterPoller twitterPoller = new TwitterPoller(username, password, email,
+                                                        server_password,
+                                                        apiCallsPerHour, 
+                                                        serveraddress);
 
         //begin polling!
         while (true)

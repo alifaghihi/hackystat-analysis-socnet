@@ -16,7 +16,7 @@ import org.neo4j.api.core.RelationshipType;
  */
 public interface SocNetClientInterface {
     
-    
+    public void registerClient() throws Exception;
 
     /**
      * Constructs an http PUT call to insert a node of the given type and name 
