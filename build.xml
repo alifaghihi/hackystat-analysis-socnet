@@ -81,8 +81,16 @@
     <fileset dir="${lib.dir}/hackystat-utilities">
       <include name="*.jar"/>
     </fileset>
-  </path> 
+  </path>
+  
+ <ivy:retrieve organisation="org.hackystat" module="hackystat-sensor-shell" revision="latest.integration" pattern="${lib.dir}/hackystat-sensor-shell/[artifact].[ext]" sync="true" inline="true" conf="default" log="download-only" transitive="false" type="jar, javadoc, source" />
+    <path id="hackystat-sensor-shell.path" location="${lib.dir}/hackystat-sensor-shell/sensorshell.jar" >
+     <fileset dir="${lib.dir}/hackystat-sensor-shell">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
 
+  
   <!-- Make sure that JavaMail is accessible. -->
   <available classname="javax.mail.Message" property="javamail.available" />
   <fail message="This package requires JavaMail. See http://code.google.com/p/hackystat/wiki/InstallingJavaMail." unless="javamail.available" />
@@ -118,6 +126,7 @@
     <path refid="neo4j.path" />
     <path refid="twitter4j.path"/>
     <path refid="jta.path" />
+    <path refid="hackystat-sensor-shell.path" />
   </path>
 
   <target name="compile" description="Compiles the code.">
@@ -193,6 +202,15 @@
   
   <target name="twitterclient" depends="compile" description="Test to see if the put command works">
     <java classname="org.hackystat.socnet.sensors.twitterclient.TwitterClient" fork="yes">
+      <classpath>
+        <pathelement location="${build.dir}/classes" />
+        <path refid="compile.classpath" />
+      </classpath>
+    </java>
+  </target>
+  
+    <target name="hackystatclient" depends="compile" description="Test to see if the put command works">
+    <java classname="org.hackystat.socnet.sensors.hackystatclient.HackystatClient" fork="yes">
       <classpath>
         <pathelement location="${build.dir}/classes" />
         <path refid="compile.classpath" />
