@@ -40,7 +40,8 @@ public class HackystatClient {
     public static void main(String[] args) throws IOException, SensorBaseClientException
     {
         String userHome = System.getProperty("user.home");
-        String propFile = userHome + "/.hackystat/.hackystat/sensorshell/sensorshell.properties";
+        System.out.println(userHome);
+        String propFile = userHome + "/.hackystat/sensorshell/sensorshell.properties";
         
         if (!new File(propFile).exists())
         {
@@ -63,7 +64,7 @@ public class HackystatClient {
         
         SensorBaseClient sensorBaseClient = new SensorBaseClient(serveraddress, user, password);
         
-        ProjectIndex projects = sensorBaseClient.getProjectIndex();
+        ProjectIndex projects = sensorBaseClient.getProjectIndex(user);
         
         List<ProjectRef> projectRefs = projects.getProjectRef();
         
