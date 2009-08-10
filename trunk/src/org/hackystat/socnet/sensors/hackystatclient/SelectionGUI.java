@@ -36,7 +36,7 @@ public class SelectionGUI extends javax.swing.JFrame
     private ArrayList<String> projectNames;
     private final SensorBaseClient sensorBaseClient;
     private final SocNetClient socNetClient;
-    private final TelemetryClient telemetryClient;
+//    private final TelemetryClient telemetryClient;
 
     /** Creates new form SelectionGUI */
     public SelectionGUI(SensorBaseClient sbc, SocNetClient snc, String userEmail)
@@ -78,6 +78,8 @@ public class SelectionGUI extends javax.swing.JFrame
 
     private SelectionGUI()
     {
+        socNetClient = null;
+        sensorBaseClient = null;
         initComponents();
     }
 
@@ -191,7 +193,7 @@ private void addProjectButtonActionPerformed(java.awt.event.ActionEvent evt) {//
             socNetClient.addNode((String) projectList.getSelectedValue(),
                     NodeFactory.IsARelationshipType.IS_PROJECT.name());
             
-            sensorBaseClient.
+         //   sensorBaseClient.
         }
         catch (JAXBException ex)
         {
