@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright 2009 Rachel Shadoan
+
+    Licensed under the Apache License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may obtain
+    a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+    WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+    License for the specific language governing permissions and limitations
+    under the License.
+-->
+
+<ivy-module version="2.0">
+    <info organisation="twitter4j"
+	module="twitter4j"
+	revision="2.0.8">
+	<license name="BSD Style Licence"
+		url="http://yusuke.homeip.net/twitter4j/en/index.html#license"/>
+	<repository pattern="http://hackystat-analysis-socnet.googlecode.com/svn/trunk/repo/modules/[organisation]/[module]/[revision]/ivy.xml" ivys="true" url="http://hackystat-analysis-socnet.googlecode.com/" name="socnet"/>
+	<description homepage="http://www.toedter.com/en/jcalendar/index.html">
+JCalendar is a Java date chooser bean for graphically picking a date. JCalendar is composed of several other Java beans, a JDayChooser, a JMonthChooser and a JYearChooser. All these beans have a locale property, provide several icons (Color 16x16, Color 32x32, Mono 16x16 and Mono 32x32) and their own locale property editor. So they can easily be used in GUI builders. Also part of the package is a JDateChooser, a bean composed of an IDateEditor (for direct date editing) and a button for opening a JCalendar for selecting the date.
+	</description>
+     </info>
+</ivy-module>
+
