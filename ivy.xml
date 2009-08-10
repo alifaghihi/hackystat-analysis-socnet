@@ -13,5 +13,6 @@
     <dependency org="org.apache.derby" name="derby" rev="${derby.version}" />
     <dependency org="org.hackystat" name="hackystat-utilities" rev="latest.integration" />
     <dependency org="org.hackystat" name="hackystat-sensor-shell" rev="latest.integration" />
+    <dependency org="com.toedter" name="jcalendar" rev="1.3.3"/>
   </dependencies>
 </ivy-module>
