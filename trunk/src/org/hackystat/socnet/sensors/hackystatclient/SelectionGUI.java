@@ -34,28 +34,24 @@ public class SelectionGUI extends javax.swing.JFrame
 
     private String email;
     private ArrayList<String> projectNames;
-    private final SensorBaseClient sensorBaseClient;
-    private final SocNetClient socNetClient;
-//    private final TelemetryClient telemetryClient;
+    
 
     /** Creates new form SelectionGUI */
     public SelectionGUI(SensorBaseClient sbc, SocNetClient snc, String userEmail)
             throws SensorBaseClientException
     {
-        this.sensorBaseClient = sbc;
-        this.socNetClient = snc;
+
         email = userEmail;
 
         projectNames = new ArrayList<String>();
 
-        List<ProjectRef> projects = sensorBaseClient.getProjectIndex(email).
-                getProjectRef();
+        List<ProjectRef> projects;
 
-        for (ProjectRef projectReference : projects)
-        {
-            projectNames.add(projectReference.getName());
-
-        }
+//        for (ProjectRef projectReference : projects)
+//        {
+//            projectNames.add(projectReference.getName());
+//
+//        }
 
         initComponents();
 
@@ -66,10 +62,10 @@ public class SelectionGUI extends javax.swing.JFrame
 
         if (projectName != null)
         {
-            Project project = sensorBaseClient.getProject(email, projectName);
+            /*Project project = sensorBaseClient.getProject(email, projectName);
             XMLGregorianCalendar startTime = project.getStartTime();
             startDate = startTime.toGregorianCalendar().getTime();
-            endDate = project.getEndTime().toGregorianCalendar().getTime();
+            endDate = project.getEndTime().toGregorianCalendar().getTime();*/
         }
 
         startDateChooser.setDate(startDate);
@@ -78,9 +74,7 @@ public class SelectionGUI extends javax.swing.JFrame
 
     private SelectionGUI()
     {
-        socNetClient = null;
-        sensorBaseClient = null;
-        initComponents();
+               initComponents();
     }
 
     /** This method is called from within the constructor to
@@ -187,34 +181,7 @@ public class SelectionGUI extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
 private void addProjectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProjectButtonActionPerformed
-        try
-        {
-
-            socNetClient.addNode((String) projectList.getSelectedValue(),
-                    NodeFactory.IsARelationshipType.IS_PROJECT.name());
-            
-         //   sensorBaseClient.
-        }
-        catch (JAXBException ex)
-        {
-            Logger.getLogger(SelectionGUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
-        catch (ParserConfigurationException ex)
-        {
-            Logger.getLogger(SelectionGUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
-        catch (TransformerConfigurationException ex)
-        {
-            Logger.getLogger(SelectionGUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
-        catch (TransformerException ex)
-        {
-            Logger.getLogger(SelectionGUI.class.getName()).
-                    log(Level.SEVERE, null, ex);
-        }
+       
 }//GEN-LAST:event_addProjectButtonActionPerformed
 
     /**
