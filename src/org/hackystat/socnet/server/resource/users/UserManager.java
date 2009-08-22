@@ -107,7 +107,7 @@ public class UserManager
             server.getLogger().info("Loading User defaults from " + defaultsFile.getPath());
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             XMLUsers users = (XMLUsers) unmarshaller.unmarshal(defaultsFile);
-            for (XMLUser user : users.getUser())
+            for (XMLUser user : users.getXMLUser())
             {
                 //user.setLastMod(Tstamp.makeTimestamp());
                 this.dbManager.storeUser(user, this.makeUser(user), this.makeUserRefString(user));
@@ -121,7 +121,7 @@ public class UserManager
         try
         {
             XMLUserIndex index = makeUserIndex(this.dbManager.getUserIndex());
-            for (XMLUserRef ref : index.getUserRef())
+            for (XMLUserRef ref : index.getXMLUserRef())
             {
                 String email = ref.getEmail();
                 String userString = this.dbManager.getUser(email);

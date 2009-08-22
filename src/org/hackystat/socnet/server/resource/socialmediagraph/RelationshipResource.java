@@ -13,6 +13,8 @@ import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLNode;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationship;
 import org.hackystat.socnet.socialmediagraph.graphmanagement.NodeNotFoundException;
 import org.hackystat.socnet.socialmediagraph.graphmanagement.RelationshipNotFoundException;
+import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory.BetweenNodesRelationshipType;
+import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory.IsARelationshipType;
 import org.restlet.Context;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
@@ -32,7 +34,8 @@ public class RelationshipResource extends SocNetResource{
     String startnodename;
     String endnodetype;
     String endnodename;
-
+    String lastupdated;
+    
     public RelationshipResource(Context context, Request request, Response response)
     {
         super(context, request, response);
@@ -42,7 +45,8 @@ public class RelationshipResource extends SocNetResource{
         startnodename  = (String) request.getAttributes().get("startnodename");
         endnodetype  = (String) request.getAttributes().get("endnodetype");
         endnodename  = (String) request.getAttributes().get("endnodename");
-   
+        lastupdated = (String) request.getAttributes().get("lastupdated");
+            
     }
     
     @Override
@@ -70,9 +74,12 @@ public class RelationshipResource extends SocNetResource{
             
             startNode = manager.getNode(startnodetype, startnodename);
             endNode = manager.getNode(endnodetype, endnodename);
-                        
-            return manager.getRelationshipRepresentation(
-                    manager.getRelationship(relationshiptype, startNode, endNode));
+            
+            if(lastupdated==null)
+                return manager.getRelationshipRepresentation(
+                        manager.getRelationship(relationshiptype, startNode, endNode));
+            else
+                return manager.getRepresentation(manager.getLatestTelemetryDate(startNode, endNode));
             
         }
         catch(InsufficientArgumentsException iae)
@@ -110,6 +117,16 @@ public class RelationshipResource extends SocNetResource{
      */
     @Override
     public boolean allowPut()
+    {
+        return true;
+    }
+    
+    /**
+     * Indicate that the POST method is supported.
+     * @return True
+     */
+    @Override
+    public boolean allowPost()
     {
         return true;
     }
@@ -191,6 +208,77 @@ public class RelationshipResource extends SocNetResource{
         }
                               
     }
+    
+        /**
+     * Implement the POST method that updates the properties associated with a user.
+     * <ul> 
+     * <li> The XMLUser must be currently defined in this UserManager.
+     * <li> Only the authenticated XMLUser or the Admin can update their user's properties. 
+     * <li> The payload must be an XML representation of a Properties instance.
+     * </ul>
+     * @param entity The entity to be posted.
+     */
+    @Override
+    public void acceptRepresentation(Representation entity)
+    {
+        String entityString = null;
+        try
+        {
+            if (!validateAuthUserIsUser() ||
+                    !validateAuthUserIsAdminOrUser())
+            {
+                System.out.println("User not validated!");
+                throw new UserNotAuthorizedException();
+            }
+            
+            entityString = entity.getText();
+        }
+        
+        catch(UserNotAuthorizedException unae)
+        {
+            unae.printStackTrace();
+            setStatusMiscError("The Authenticated User is not authorized to " +
+                    "put.");
+        }
+        catch (IOException e)
+        {
+            setStatusMiscError("Bad or missing content");
+            return;
+        }
+        
+        XMLRelationship r = null;
+        try
+        {
+            r = manager.makeRelationship(entityString);
+            try
+            {
+                manager.getNode(r.getXMLNode().get(0).getType(), r.getXMLNode().get(0).getName());
+            }
+            catch(NodeNotFoundException nnfe)
+            {
+                System.out.println("The node " + r.getXMLNode().get(0).getName() + "does not exist.");
+
+            }
+            
+            try
+            {
+                manager.getNode(r.getXMLNode().get(1).getType(), r.getXMLNode().get(1).getName());
+            }
+            catch(NodeNotFoundException nnfe)
+            {
+                System.out.println("The node " + r.getXMLNode().get(1).getName() + "does not exist." );
+            }
+            
+            manager.updateRelationship(r);
+        }
+        catch (Exception ex)
+        {
+            setStatusMiscError("JAXB failed for some reason");
+            ex.printStackTrace();
+            return;
+        }
+    }
+
 
     class InsufficientArgumentsException extends Exception
     {

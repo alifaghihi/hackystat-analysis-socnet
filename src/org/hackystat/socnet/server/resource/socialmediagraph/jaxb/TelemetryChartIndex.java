@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}XMLRelationshipRef" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}TelemetryChartRef" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,52 +39,52 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "xmlRelationshipRef"
+    "telemetryChartRef"
 })
-@XmlRootElement(name = "XMLRelationshipIndex", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd")
-public class XMLRelationshipIndex
+@XmlRootElement(name = "TelemetryChartIndex")
+public class TelemetryChartIndex
     implements Serializable
 {
 
     private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "XMLRelationshipRef", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd")
-    protected List<XMLRelationshipRef> xmlRelationshipRef;
+    @XmlElement(name = "TelemetryChartRef")
+    protected List<TelemetryChartRef> telemetryChartRef;
 
     /**
-     * Gets the value of the xmlRelationshipRef property.
+     * Gets the value of the telemetryChartRef property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the xmlRelationshipRef property.
+     * This is why there is not a <CODE>set</CODE> method for the telemetryChartRef property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getXMLRelationshipRef().add(newItem);
+     *    getTelemetryChartRef().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link XMLRelationshipRef }
+     * {@link TelemetryChartRef }
      * 
      * 
      */
-    public List<XMLRelationshipRef> getXMLRelationshipRef() {
-        if (xmlRelationshipRef == null) {
-            xmlRelationshipRef = new ArrayList<XMLRelationshipRef>();
+    public List<TelemetryChartRef> getTelemetryChartRef() {
+        if (telemetryChartRef == null) {
+            telemetryChartRef = new ArrayList<TelemetryChartRef>();
         }
-        return this.xmlRelationshipRef;
+        return this.telemetryChartRef;
     }
 
-    public boolean isSetXMLRelationshipRef() {
-        return ((this.xmlRelationshipRef!= null)&&(!this.xmlRelationshipRef.isEmpty()));
+    public boolean isSetTelemetryChartRef() {
+        return ((this.telemetryChartRef!= null)&&(!this.telemetryChartRef.isEmpty()));
     }
 
-    public void unsetXMLRelationshipRef() {
-        this.xmlRelationshipRef = null;
+    public void unsetTelemetryChartRef() {
+        this.telemetryChartRef = null;
     }
 
 }

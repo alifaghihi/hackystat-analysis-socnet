@@ -197,6 +197,20 @@ public class SocNetRestApiHelper
 
         return makeRequest(Method.POST, uri, representation);
     }
+    
+    public static Response POST(String uri, String entity, String username,
+            String password)
+    {
+        StringBuilder builder = new StringBuilder(500);
+
+        builder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        builder.append(entity);
+        Representation representation = new StringRepresentation(builder,
+                MediaType.TEXT_XML, Language.ALL, CharacterSet.UTF_8);
+
+        return makeRequestAuthenticated(Method.POST, uri, username,
+                password, representation);
+    }
 
     public static String getURI(String path)
     {

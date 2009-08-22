@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<xs:schema targetNamespace="http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" 
            xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
            xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+           xmlns:smg="http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd"
+           xmlns:tel="http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd"
            jaxb:extensionBindingPrefixes="xjc"
            jaxb:version="2.1">
-         
-    <xs:annotation>
-       <xs:appinfo>
-          <jaxb:globalBindings generateIsSetMethod="true"> <!--makes what is essentially a check for null method-->
-              <xjc:serializable uid="12343"/> <!--hash to identify a serializable object. somewhat like a version number for an object schema--> 
-          </jaxb:globalBindings> 
-       </xs:appinfo>
-    </xs:annotation>
+
+<xs:import namespace="http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd"
+           schemaLocation="telemetry.resource.xsd"/> 
+        
+
     
   <!--these are the attributes of the object-->
   <xs:element name="Name" type="xs:string"/>
@@ -29,8 +29,8 @@
  <xs:element name="XMLTimeSpan">
      <xs:complexType>
         <xs:sequence>
-           <xs:element ref="StartTime" minOccurs="1" maxOccurs="1"/>
-           <xs:element ref="EndTime"   minOccurs="0" maxOccurs="1"/>
+           <xs:element ref="smg:StartTime" minOccurs="1" maxOccurs="1"/>
+           <xs:element ref="smg:EndTime"   minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
      </xs:complexType>
   </xs:element>
@@ -40,11 +40,11 @@
   <xs:element name="XMLNode">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="Name" minOccurs="1" maxOccurs="1"/>
-	<xs:element ref="Type" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="ID" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="StartTime" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="EndTime" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="smg:Name" minOccurs="1" maxOccurs="1"/>
+	<xs:element ref="smg:Type" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="smg:ID" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="smg:StartTime" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="smg:EndTime" minOccurs="1" maxOccurs="1"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element> 
@@ -53,7 +53,7 @@
   <xs:element name="XMLNodes">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="XMLNode" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element ref="smg:XMLNode" minOccurs="1" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element> 
@@ -61,16 +61,15 @@
 <!--we don't know what this does yet. Possibly it's for returning an index of the nodes? -->
   <xs:element name="XMLNodeRef">
     <xs:complexType>
-      <xs:attribute ref="Name" use="required"/>
-      <xs:attribute ref="Type" use="required"/>
-      <xs:attribute ref="Href" use="required"/>          
+      <xs:attribute ref="smg:Name" use="required"/>
+      <xs:attribute ref="smg:Type" use="required"/>
+      <xs:attribute ref="smg:Href" use="required"/>          
     </xs:complexType>
   </xs:element>
-
   <xs:element name="XMLNodeIndex">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="XMLNodeRef" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="smg:XMLNodeRef" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element> 
@@ -83,11 +82,12 @@
  <xs:element name="XMLRelationship">
     <xs:complexType>
       <xs:sequence>
-	<xs:element ref="Type" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="ID" minOccurs="1" maxOccurs="1"/>
-	<xs:element ref="StartTime" minOccurs="1" maxOccurs="1"/>
-        <xs:element ref="EndTime" minOccurs="0" maxOccurs="1"/>
-        <xs:element ref="XMLNode" minOccurs="2" maxOccurs="2"/>
+	<xs:element ref="smg:Type" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="smg:ID" minOccurs="1" maxOccurs="1"/>
+	<xs:element ref="smg:StartTime" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="smg:EndTime" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="smg:XMLNode" minOccurs="2" maxOccurs="2"/>
+	<xs:element ref="tel:TelemetryStream" minOccurs="0" maxOccurs="9"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -97,7 +97,7 @@
   <xs:element name="XMLRelationships">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="XMLRelationship" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element ref="smg:XMLRelationship" minOccurs="1" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element> 
@@ -105,18 +105,20 @@
 <!--we don't know what this does yet. Possibly it's for returning an index of the nodes? -->
   <xs:element name="XMLRelationshipRef">
     <xs:complexType>
-      <xs:attribute ref="ID" use="required"/>
-      <xs:attribute ref="Href" use="required"/>          
+      <xs:attribute ref="smg:ID" use="required"/>
+      <xs:attribute ref="smg:Href" use="required"/>          
     </xs:complexType>
   </xs:element>
 
   <xs:element name="XMLRelationshipIndex">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="XMLRelationshipRef" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="smg:XMLRelationshipRef" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element> 
+
+
 
 
 </xs:schema>

@@ -12,8 +12,13 @@ import java.util.List;
 import java.util.Properties;
 import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.sensorbase.client.SensorBaseClientException;
+import org.hackystat.sensorbase.resource.projects.jaxb.Project;
 import org.hackystat.sensorbase.resource.projects.jaxb.ProjectIndex;
 import org.hackystat.sensorbase.resource.projects.jaxb.ProjectRef;
+import org.hackystat.telemetry.service.client.TelemetryClient;
+import org.hackystat.telemetry.service.client.TelemetryClientException;
+import org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData;
+import org.hackystat.utilities.tstamp.Tstamp;
 
 /**
  *
@@ -37,44 +42,40 @@ public class HackystatClient {
         System.exit(-1);
     }
     
-    public static void main(String[] args) throws IOException, SensorBaseClientException
+    public static void main(String[] args) throws IOException, SensorBaseClientException, TelemetryClientException, Exception
     {
         String userHome = System.getProperty("user.home");
         System.out.println(userHome);
         String propFile = userHome + "/.hackystat/sensorshell/sensorshell.properties";
-        
-        if (!new File(propFile).exists())
-        {
-            printErrorMsg(propFile);
-        }
-
+        String telPropFile = userHome + "/.hackystat/telemetry/telemetry.properties";
+        System.out.println(telPropFile);
         Properties properties = new Properties();
         properties.load(new FileReader(propFile));
         
+        Properties telProperties = new Properties();
+        properties.load(new FileReader(telPropFile));
         
         String user = properties.getProperty(USER_KEY);
         String password = properties.getProperty(PASSWORD_KEY);
         String serveraddress = properties.getProperty(SERVER_ADDRESS_KEY);
         
+        String telHost = telProperties.getProperty("telemetry.sensorbase.host");
+        System.out.println(telHost);
+        String telDPD = telProperties.getProperty("telemetry.dailyprojectdata.host");
+        String telHostName = telProperties.getProperty("telemetry.hostname ");
         
         if(user == null || password == null ||  serveraddress == null)
         {
             printErrorMsg(propFile);
         }
         
-        SensorBaseClient sensorBaseClient = new SensorBaseClient(serveraddress, user, password);
+    
+        TelemetryClient tc = new TelemetryClient("http://dasha.ics.hawaii.edu:9878/telemetry/", user, password);
         
-        ProjectIndex projects = sensorBaseClient.getProjectIndex(user);
+        TelemetryChartData tcd = tc.getChart("Build", user, "Default", "Day", 
+         Tstamp.makeTimestamp("2009-05-30T23:59:59.999-10:00"), Tstamp.makeTimestamp(), "*,*,*,false");
         
-        List<ProjectRef> projectRefs = projects.getProjectRef();
-        
-        for(ProjectRef ref : projectRefs)
-        {
-            System.out.println(ref.getName());
-        }
-        
-        
-        
-    }
+        System.out.println(tcd.getTelemetryStream().size());
+   }
 
 }

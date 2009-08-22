@@ -6,6 +6,7 @@
 package org.hackystat.socnet.server.db;
 
 import java.util.List;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLNode;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationship;
 import org.hackystat.socnet.socialmediagraph.graphmanagement.InvalidArgumentException;
@@ -18,6 +19,9 @@ import org.hackystat.socnet.socialmediagraph.graphmanagement.RelationshipNotFoun
  */
 public interface GraphDBImpl extends DBImpl
 {
+
+    public XMLGregorianCalendar getDateLastTelemetryData(XMLNode startNode,
+            XMLNode endNode) throws NodeNotFoundException, InvalidArgumentException;
 
     public void storeNode(XMLNode xmlNode);
     
@@ -53,6 +57,8 @@ public interface GraphDBImpl extends DBImpl
     public void terminateRelationship(int relationshipID) throws NodeNotFoundException, RelationshipNotFoundException;
     
     public void terminateRelationship(XMLRelationship xmlRel)throws NodeNotFoundException, RelationshipNotFoundException;
+
+    public void updateRelationship(XMLRelationship r);
             
     
 }

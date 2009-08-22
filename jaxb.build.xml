@@ -30,5 +30,26 @@
       package="org.hackystat.socnet.server.resource.socialmediagraph.jaxb">
       <produces dir="${src.dir}/org/hackystat/socnet/server/resource/socialmediagraph/jaxb" includes="*" />
     </xjc>
+     <xjc target="${env.JAXB_TARGET}" extension="true" schema="${basedir}/xml/schema/telemetry.resource.xsd" destdir="src" 
+         package="org.hackystat.telemetry.service.resource.chart.jaxb">
+      <produces dir="${src.dir}/org/hackystat/socnet/telemetry/service/resource/chart/jaxb" includes="*" />
+    </xjc>
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/reducer.definition.xsd" destdir="src" 
+         package="org.hackystat.telemetry.analyzer.reducer.jaxb">
+      <produces dir="${src.dir}/org/hackystat/socnet/telemetry/analyzer/reducer/jaxb" includes="*" />
+    </xjc>
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/function.definition.xsd" destdir="src" 
+         package="org.hackystat.telemetry.analyzer.function.jaxb">
+      <produces dir="${src.dir}/org/hackystat/socnet/telemetry/analyzer/function/jaxb" includes="*" />
+    </xjc>
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/telemetry.definition.xsd" destdir="src" 
+         package="org.hackystat.telemetry.analyzer.configuration.jaxb">
+      <produces dir="${src.dir}/org/hackystat/socnet/telemetry/analyzer/configuration/jaxb" includes="*" />
+    </xjc> 
+    
+    <xjc target="${env.JAXB_TARGET}" schema="${basedir}/xml/schema/prefetch.definition.xsd" destdir="src" 
+         package="org.hackystat.telemetry.service.prefetch.jaxb">
+      <produces dir="${src.dir}/org/hackystat/socnet/telemetry/service/prefetch/jaxb" includes="*" />
+    </xjc>
 </target>
 </project>
