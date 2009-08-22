@@ -6,8 +6,10 @@ package org.hackystat.socnet.server.client;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -18,6 +20,7 @@ import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationshi
 import org.hackystat.socnet.server.resource.users.jaxb.XMLUser;
 import org.hackystat.socnet.server.test.SocNetRestApiHelper;
 import org.hackystat.socnet.utils.JAXBHelper;
+import org.hackystat.utilities.tstamp.Tstamp;
 import org.restlet.data.Response;
 
 /**
@@ -71,6 +74,32 @@ public class SocNetClient implements SocNetClientInterface
         }
     }
 
+    public void addRelationship(XMLRelationship rel) 
+            throws JAXBException, ParserConfigurationException, 
+            TransformerConfigurationException, TransformerException
+    {
+        List<XMLNode> nodes = rel.getXMLNode();
+        
+        XMLNode startNode = nodes.get(0);
+        XMLNode endNode = nodes.get(1);
+        
+        String servicePath = "relationships/" + rel.getType() + "/" +
+                startNode.getType() + "/" + startNode.getName() + "/" +
+                endNode.getType() + "/" + endNode.getName();
+
+        String serviceuri = SocNetRestApiHelper.getURI(serveruri, servicePath);
+        String xml = JAXBHelper.marshall(rel, jaxbSocialMediaGraphContext);
+
+        Response response = SocNetRestApiHelper.PUT(serviceuri, xml, email,
+                password);
+
+        if (!response.getStatus().isSuccess())
+        {
+            throw new RuntimeException("Add relationship failed!  Message was: " + response.getStatus().
+                    getDescription());
+        }
+    }
+
     public void addRelationshipTo(String startNodeName, String startNodeType,
             String endNodeName, String endNodeType, String relationshipType)
             throws JAXBException, ParserConfigurationException,
@@ -109,6 +138,22 @@ public class SocNetClient implements SocNetClientInterface
             throw new RuntimeException("Add relationship failed!  Message was: " + response.getStatus().
                     getDescription());
         }
+    }
+
+    public XMLGregorianCalendar getDateLastUpdated(String startNodeName, String startNodeType,
+            String endNodeName, String endNodeType, String relationshipType,  
+            String dateLastSent) throws Exception
+    {
+       
+        String servicePath = "relationships/" + relationshipType + "/" +
+                startNodeType + "/" + startNodeName + "/" +
+                endNodeType + "/" + endNodeName +"/" + dateLastSent;
+
+        String serviceuri = SocNetRestApiHelper.getURI(serveruri, servicePath);
+
+        String response = SocNetRestApiHelper.GET(serviceuri, email, password);
+
+        return Tstamp.makeTimestamp(response);
     }
 
     public XMLNodes getNodes(String nodeType) throws IOException, JAXBException
@@ -185,5 +230,30 @@ public class SocNetClient implements SocNetClientInterface
 
 
 
+    }
+
+    public void updateRelationship(XMLRelationship rel) throws JAXBException, ParserConfigurationException, TransformerConfigurationException, TransformerException
+    {
+         List<XMLNode> nodes = rel.getXMLNode();
+        
+        XMLNode startNode = nodes.get(0);
+        XMLNode endNode = nodes.get(1);
+        
+        String servicePath = "relationships/" + rel.getType() + "/" +
+                startNode.getType() + "/" + startNode.getName() + "/" +
+                endNode.getType() + "/" + endNode.getName();
+
+        String serviceuri = SocNetRestApiHelper.getURI(serveruri, servicePath);
+        String xml = JAXBHelper.marshall(rel, jaxbSocialMediaGraphContext);
+
+        Response response = SocNetRestApiHelper
+                .PUT(serviceuri, xml, email,
+                password);
+
+        if (!response.getStatus().isSuccess())
+        {
+            throw new RuntimeException("Add relationship failed!  Message was: " + response.getStatus().
+                    getDescription());
+        }
     }
 }

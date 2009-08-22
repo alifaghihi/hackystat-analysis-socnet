@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -21,6 +22,8 @@ import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.XMLRelationshi
 import org.hackystat.socnet.socialmediagraph.graphmanagement.InvalidArgumentException;
 import org.hackystat.socnet.socialmediagraph.graphmanagement.NodeNotFoundException;
 import org.hackystat.socnet.socialmediagraph.graphmanagement.RelationshipNotFoundException;
+import org.hackystat.socnet.socialmediagraph.nodes.ContributesToRelationship;
+import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory.BetweenNodesRelationshipType;
 import org.hackystat.socnet.utils.JAXBHelper;
 import org.hackystat.utilities.stacktrace.StackTrace;
 import org.restlet.resource.Representation;
@@ -144,5 +147,17 @@ public class SocialMediaGraphManager
         list.addAll(nodes);
         
         return result;
+    }
+
+
+    public XMLGregorianCalendar getLatestTelemetryDate(XMLNode startNode, 
+            XMLNode endNode) throws NodeNotFoundException, InvalidArgumentException
+    {
+        return graphImp.getDateLastTelemetryData(startNode, endNode);
+    }
+
+    public void updateRelationship(XMLRelationship r)
+    {
+        graphImp.updateRelationship(r);
     }
 }

@@ -3,7 +3,7 @@
            xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
            xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
            jaxb:extensionBindingPrefixes="xjc"
-           jaxb:version="2.0">
+           jaxb:version="2.1">
          
     <xs:annotation>
        <xs:appinfo>
@@ -52,7 +52,7 @@
   <xs:element name="XMLUserIndex">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="UserRef" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="XMLUserRef" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute ref="LastMod" use="required"/>       
     </xs:complexType>

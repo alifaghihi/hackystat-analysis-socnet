@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+           xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+           xmlns:tel="http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd"
+           jaxb:extensionBindingPrefixes="xjc"
+           jaxb:version="2.0">
+         
+    <xs:annotation>
+       <xs:appinfo>
+          <jaxb:globalBindings generateIsSetMethod="true">
+              <xjc:serializable uid="12343"/>
+          </jaxb:globalBindings>
+       </xs:appinfo>
+    </xs:annotation>
+    
+  <!-- Primitive elements and attributes -->
+  <xs:attribute name="URI" type="xs:string"/>
+  <xs:attribute name="Time" type="xs:date"/>
+  <xs:attribute name="Name" type="xs:string"/>
+  <xs:attribute name="Value" type="xs:string"/>
+  <xs:attribute name="Units" type="xs:string"/>
+  <xs:attribute name="Href" type="xs:anyURI"/>
+  <xs:attribute name="Default" type="xs:string"/>
+  <xs:attribute name="MinValue" type="xs:string"/>
+  <xs:attribute name="MaxValue" type="xs:string"/>
+
+  <xs:element name="Description" type="xs:string"/>
+  <xs:element name="SourceCode" type="xs:string"/>
+  <xs:element name="Default" type="xs:string"/>
+  <xs:element name="Value" type="xs:string"/>
+  
+  <xs:attribute name="NumberType" type="xs:string"/>
+  <xs:attribute name="LowerBound" type="xs:integer"/>
+  <xs:attribute name="UpperBound" type="xs:integer"/>
+    
+  
+  <xs:element name="TelemetryChartData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tel:Parameter" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="tel:TelemetryStream" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute ref="tel:URI" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Parameter">
+    <xs:complexType>
+      <xs:attribute ref="tel:Name" use="required"/>
+      <xs:attribute ref="tel:Value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TelemetryStream">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tel:Y-Axis" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="tel:TelemetryPoint" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute ref="tel:Name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Y-Axis">
+    <xs:complexType>
+      <xs:attribute ref="tel:Name" use="required"/>
+      <xs:attribute ref="tel:Units" use="required"/>
+      <xs:attribute ref="tel:NumberType" use="optional"/>
+      <xs:attribute ref="tel:LowerBound" use="optional"/>
+      <xs:attribute ref="tel:UpperBound" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TelemetryPoint">
+    <xs:complexType>
+      <xs:attribute ref="tel:Time" use="required"/>
+      <xs:attribute ref="tel:Value" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  
+  
+  <xs:element name="TelemetryChartRef">
+    <xs:complexType>
+      <xs:attribute ref="tel:Name" use="required"/>
+      <xs:attribute ref="tel:Href" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TelemetryChartIndex">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tel:TelemetryChartRef" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element> 
+
+  
+  <xs:element name="ParameterDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tel:Type" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="tel:Description" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute ref="tel:Name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  
+   <xs:element name="Type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tel:Value" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute ref="tel:Name" use="required"/>
+      <xs:attribute ref="tel:Default" use="required"/>
+      <xs:attribute ref="tel:MinValue" use="optional"/>
+      <xs:attribute ref="tel:MaxValue" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="TelemetryChartDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="tel:Description" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="tel:ParameterDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="tel:SourceCode" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute ref="tel:Name" use="required" />
+    </xs:complexType>
+  </xs:element>
+  
+
+</xs:schema>
+
+
+
+
+
+
+
+
+
+
+

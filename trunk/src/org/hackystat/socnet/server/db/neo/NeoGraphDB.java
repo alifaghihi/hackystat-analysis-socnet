@@ -7,6 +7,7 @@ package org.hackystat.socnet.server.db.neo;
 
 import java.io.File;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.XMLGregorianCalendar;
 import static org.hackystat.socnet.server.ServerProperties.GRAPH_DB_DIR_KEY;
 
 import java.util.List;
@@ -162,6 +163,17 @@ public class NeoGraphDB implements GraphDBImpl{
             graphManager.exit();
             graphManager = null;
         }
+    }
+
+    public XMLGregorianCalendar getDateLastTelemetryData(XMLNode startNode,
+            XMLNode endNode) throws NodeNotFoundException, InvalidArgumentException
+    {
+        return graphManager.getLatestTelemetryDate(startNode, endNode);
+    }
+
+    public void updateRelationship(XMLRelationship r)
+    {
+        graphManager.updateRelationship(r);
     }
 
 }

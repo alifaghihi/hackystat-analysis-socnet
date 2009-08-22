@@ -159,6 +159,8 @@ public class Server extends Application {
     authRouter.attach("/relationships/{relationshiptype}", RelationshipResource.class);
     authRouter.attach("/relationships/{relationshiptype}/{startnodetype}/{startnodename}/{endnodetype}/{endnodename}", 
             RelationshipResource.class);
+    authRouter.attach("/relationships/{relationshiptype}/{startnodetype}/{startnodename}/{endnodetype}/{endnodename}/{lastupdated}",
+            RelationshipResource.class);
     authRouter.attach("/users/{user}", UserResource.class);
     
     // Here's the Guard that we will place in front of authRouter.

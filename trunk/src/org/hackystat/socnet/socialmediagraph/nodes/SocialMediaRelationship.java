@@ -14,7 +14,7 @@ import org.neo4j.api.core.Relationship;
  */
 public class SocialMediaRelationship {
     
-    private Relationship underRelationship;
+    protected Relationship underRelationship;
     
     public static final String START_TIME_KEY = "startTime";
     
@@ -23,7 +23,12 @@ public class SocialMediaRelationship {
     public static final String DEFAULT_START_TIME = "";
     
     public static final String DEFAULT_END_TIME = "";
+    
+    public SocialMediaRelationship()
+    {
         
+    }
+    
     public SocialMediaRelationship(Relationship underRel)
     {
         underRelationship = underRel;
@@ -62,22 +67,22 @@ public class SocialMediaRelationship {
     
     public Node getStartNode()
     {
-        return underRelationship.getStartNode();
+        return getUnderRelationship().getStartNode();
     }
     
     public Node getEndNode()
     {
-        return underRelationship.getEndNode();
+        return getUnderRelationship().getEndNode();
     }
     
     public long getID()
     {
-        return underRelationship.getId();
+        return getUnderRelationship().getId();
     }
     
     public String getType()
     {
-        return underRelationship.getType().name();
+        return getUnderRelationship().getType().name();
     }
     
 }

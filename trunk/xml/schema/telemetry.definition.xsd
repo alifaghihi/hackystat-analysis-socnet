@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+ <!-- Primitive elements and attributes -->
+  <xs:element name="Description" type="xs:string"/>
+  <xs:element name="SourceCode" type="xs:string"/>
+  <xs:element name="Value" type="xs:string"/>
+  <xs:attribute name="Name" type="xs:string"/>
+  <xs:attribute name="MinValue" type="xs:string"/>
+  <xs:attribute name="MaxValue" type="xs:string"/>
+  <xs:attribute name="Default" type="xs:string"/>
+  <xs:attribute name="DefinitionType" type="xs:string"/>
+  <xs:attribute name="ShareScope" type="xs:string"/>
+  
+  <xs:element name="Parameter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Type" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="Description" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute ref="Name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="Type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Value" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute ref="Name" use="required"/>
+      <xs:attribute ref="Default" use="required"/>
+      <xs:attribute ref="MinValue" use="optional"/>
+      <xs:attribute ref="MaxValue" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="TelemetryDefinition">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Description" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="Parameter" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element ref="SourceCode" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute ref="DefinitionType" use="required" />
+      <xs:attribute ref="ShareScope" use="required" />
+      <xs:attribute ref="Name" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="TelemetryDefinitions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="TelemetryDefinition" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+
+
+
+
+
+
+
+
+
+
+
