@@ -25,390 +25,344 @@ import org.restlet.data.Response;
 import static org.junit.Assert.assertTrue;
 
 /**
- *
+ * 
  * @author Rachel Shadoan
  */
-public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper
-{
+public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper {
 
-    @Test
-    public void testPutAndGetNode() throws Exception
-    {
-        assertTrue("testPutNode failed", putAndGetNodeSuccessful());
+  @Test
+  public void testPutAndGetNode() throws Exception {
+    assertTrue("testPutNode failed", putAndGetNodeSuccessful());
+  }
+
+  public static boolean putAndGetNodeSuccessful() throws JAXBException,
+      ParserConfigurationException, TransformerConfigurationException, TransformerException,
+      IOException, Exception {
+    boolean result = false;
+
+    JAXBContext jaxbContext = null;
+
+    getCleanGraphDB();
+
+    try {
+      jaxbContext = JAXBContext
+          .newInstance(org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
+    }
+    catch (Exception e) {
+      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      throw new RuntimeException(msg, e);
     }
 
-    public static boolean putAndGetNodeSuccessful() throws JAXBException,
-            ParserConfigurationException, TransformerConfigurationException,
-            TransformerException, IOException, Exception
-    {
-        boolean result = false;
+    XMLNode n1 = new XMLNode();
+    n1.setType(IsARelationshipType.IS_USER.name());
+    n1.setName("ElizaDoolittle");
+    String xml = JAXBHelper.marshall(n1, jaxbContext);
+    String uri = getURI("nodes/" + n1.getType() + "/" + n1.getName());
+    Response response = PUT(uri, xml, TEST_EMAIL, TEST_EMAIL);
 
-        JAXBContext jaxbContext = null;
+    if (!response.getStatus().isSuccess()) {
+      System.out.println(response.getStatus().getDescription());
+      System.out.println("Put was not successful");
+      // return false;
+    }
+    else {
+    }
+    String getResult = GET(uri, TEST_EMAIL, TEST_EMAIL);
 
-        getCleanGraphDB();
+    XMLNode n2 = (XMLNode) JAXBHelper.unmarshall(getResult, jaxbContext);
+    return n1.getType().equals(n2.getType()) && n1.getName().equals(n2.getName());
 
-        try
-        {
-            jaxbContext =
-                    JAXBContext.newInstance(
-                    org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
-        }
-        catch (Exception e)
-        {
-            String msg = "Exception during SocialMediaGraphManager initialization processing";
-            throw new RuntimeException(msg, e);
-        }
+  }
 
-        XMLNode n1 = new XMLNode();
-        n1.setType(IsARelationshipType.IS_USER.name());
-        n1.setName("ElizaDoolittle");
-        String xml = JAXBHelper.marshall(n1, jaxbContext);
-        String uri = getURI("nodes/" + n1.getType() + "/" + n1.getName());
-        Response response = PUT(uri, xml, TEST_EMAIL, TEST_EMAIL);
-        
-        if (!response.getStatus().isSuccess())
-        {
-            System.out.println(response.getStatus().getDescription());
-            System.out.println("Put was not successful");
-        // return false;
-        }
-        else
-        {
-        }
-        String getResult = GET(uri, TEST_EMAIL, TEST_EMAIL);
+  @Test
+  public void testPutAndGetRelationship() throws Exception {
+    assertTrue("testPutAndGetRelationship failed", wasSuccessfulPutAndGetNodeRelationship());
+  }
 
-        XMLNode n2 = (XMLNode) JAXBHelper.unmarshall(getResult, jaxbContext);
-        return n1.getType().equals(n2.getType()) &&
-                n1.getName().equals(n2.getName());
+  public static boolean wasSuccessfulPutAndGetNodeRelationship() throws JAXBException,
+      ParserConfigurationException, TransformerConfigurationException, TransformerException,
+      IOException, Exception {
+    boolean result = false;
 
+    JAXBContext jaxbContext = null;
 
+    getCleanGraphDB();
+
+    try {
+      jaxbContext = JAXBContext
+          .newInstance(org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
+    }
+    catch (Exception e) {
+      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      throw new RuntimeException(msg, e);
     }
 
-    @Test
-    public void testPutAndGetRelationship() throws Exception
-    {
-        assertTrue("testPutAndGetRelationship failed", wasSuccessfulPutAndGetNodeRelationship());
+    String node1type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
+    String node2type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
+    String node1name = "HackstatSocNet";
+    String node2name = "RachelShadoan";
+    String relationshipType = BetweenNodesRelationshipType.IS_FOLLOWING.name();
+
+    XMLNode endNode = new XMLNode();
+    endNode.setType(node1type);
+    endNode.setName(node1name);
+
+    String xml = JAXBHelper.marshall(endNode, jaxbContext);
+    String uri = getURI("nodes/" + endNode.getType() + "/" + endNode.getName());
+    Response response = PUT(uri, xml, TEST_EMAIL, TEST_EMAIL);
+
+    XMLNode startNode = new XMLNode();
+    startNode.setName(node2name);
+    startNode.setType(node2type);
+
+    xml = JAXBHelper.marshall(endNode, jaxbContext);
+    uri = getURI("nodes/" + startNode.getType() + "/" + startNode.getName());
+    response = PUT(uri, xml);
+
+    XMLRelationship rel = new XMLRelationship();
+    rel.setType(relationshipType);
+
+    ArrayList<XMLNode> nodes = (ArrayList<XMLNode>) rel.getXMLNode();
+
+    nodes.add(startNode);
+    nodes.add(endNode);
+
+    xml = JAXBHelper.marshall(rel, jaxbContext);
+    uri = getURI("relationships/" + relationshipType + "/" + startNode.getType() + "/"
+        + startNode.getName() + "/" + endNode.getType() + "/" + endNode.getName());
+
+    response = PUT(uri, xml);
+
+    if (!response.getStatus().isSuccess()) {
+      System.out.println(response.getStatus().getDescription());
+      System.out.println("Put was not successful");
+      return false;
     }
 
-    public static boolean wasSuccessfulPutAndGetNodeRelationship() throws JAXBException,
-            ParserConfigurationException, TransformerConfigurationException,
-            TransformerException, IOException, Exception
-    {
-        boolean result = false;
+    String getResult = GET(uri);
 
-        JAXBContext jaxbContext = null;
+    XMLRelationship r2 = (XMLRelationship) JAXBHelper.unmarshall(getResult, jaxbContext);
 
-        getCleanGraphDB();
+    return r2.getType().equals(relationshipType)
+        && GraphManager.areEqual(r2.getXMLNode().get(0), startNode)
+        && GraphManager.areEqual(r2.getXMLNode().get(1), endNode);
 
-        try
-        {
-            jaxbContext =
-                    JAXBContext.newInstance(
-                    org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
-        }
-        catch (Exception e)
-        {
-            String msg = "Exception during SocialMediaGraphManager initialization processing";
-            throw new RuntimeException(msg, e);
-        }
+  }
 
-        String node1type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
-        String node2type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
-        String node1name = "HackstatSocNet";
-        String node2name = "RachelShadoan";
-        String relationshipType = BetweenNodesRelationshipType.IS_FOLLOWING.name();
+  @Test
+  public void testPutAndGetNodes() throws JAXBException, ParserConfigurationException,
+      TransformerConfigurationException, TransformerException, IOException, Exception {
+    assertTrue("testPutAndGetNodes failed", isSuccessfulPutAndGetNodes());
+  }
 
-        XMLNode endNode = new XMLNode();
-        endNode.setType(node1type);
-        endNode.setName(node1name);
+  public static boolean isSuccessfulPutAndGetNodes() throws JAXBException,
+      ParserConfigurationException, TransformerConfigurationException, TransformerException,
+      IOException, Exception {
+    boolean result = false;
 
-        String xml = JAXBHelper.marshall(endNode, jaxbContext);
-        String uri = getURI("nodes/" + endNode.getType() + "/" + endNode.getName());
-        Response response = PUT(uri, xml, TEST_EMAIL, TEST_EMAIL);
+    JAXBContext jaxbContext = null;
 
-        XMLNode startNode = new XMLNode();
-        startNode.setName(node2name);
-        startNode.setType(node2type);
+    getCleanGraphDB();
 
-        xml = JAXBHelper.marshall(endNode, jaxbContext);
-        uri = getURI("nodes/" + startNode.getType() + "/" + startNode.getName());
-        response = PUT(uri, xml);
-
-        XMLRelationship rel = new XMLRelationship();
-        rel.setType(relationshipType);
-
-        ArrayList<XMLNode> nodes = (ArrayList<XMLNode>) rel.getXMLNode();
-
-        nodes.add(startNode);
-        nodes.add(endNode);
-
-
-        xml = JAXBHelper.marshall(rel, jaxbContext);
-        uri = getURI("relationships/" + relationshipType + "/" +  
-                startNode.getType() + "/" + startNode.getName() + "/" +
-                endNode.getType() + "/" + endNode.getName());
-        
-        response = PUT(uri, xml);
-
-        if (!response.getStatus().isSuccess())
-        {
-            System.out.println(response.getStatus().getDescription());
-            System.out.println("Put was not successful");
-            return false;
-        }
-
-        String getResult = GET(uri);
-
-        XMLRelationship r2 = (XMLRelationship) JAXBHelper.unmarshall(getResult, jaxbContext);
-
-        return r2.getType().equals(relationshipType) 
-                && GraphManager.areEqual(r2.getXMLNode().get(0), startNode) 
-                && GraphManager.areEqual(r2.getXMLNode().get(1), endNode);
-        
-        
+    try {
+      jaxbContext = JAXBContext
+          .newInstance(org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
+    }
+    catch (Exception e) {
+      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      throw new RuntimeException(msg, e);
     }
 
-    @Test
-    public void testPutAndGetNodes() throws JAXBException, 
-            ParserConfigurationException, TransformerConfigurationException, 
-            TransformerException, IOException, Exception
-    {
-        assertTrue("testPutAndGetNodes failed", isSuccessfulPutAndGetNodes());                
+    String node1type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
+    String node2type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
+    String node3type = IsARelationshipType.IS_COUNTRY.name();
+    String node4type = IsARelationshipType.IS_MOVIE.name();
+    String node1name = "HackstatSocNet";
+    String node2name = "RachelShadoan";
+    String node3name = "Ghana";
+    String node4name = "Brick";
+
+    String relationshipType = BetweenNodesRelationshipType.IS_FOLLOWING.name();
+
+    XMLNode endNode = new XMLNode();
+    endNode.setType(node1type);
+    endNode.setName(node1name);
+
+    XMLNode startNode = new XMLNode();
+    startNode.setName(node2name);
+    startNode.setType(node2type);
+
+    XMLNode node3 = new XMLNode();
+    node3.setName(node3name);
+    node3.setType(node3type);
+
+    String xml = JAXBHelper.marshall(endNode, jaxbContext);
+    String uri = getURI("nodes/" + node3.getType() + "/" + node3.getName());
+    Response response = PUT(uri, xml);
+
+    XMLNode node4 = new XMLNode();
+    node4.setName(node4name);
+    node4.setType(node4type);
+
+    xml = JAXBHelper.marshall(endNode, jaxbContext);
+    uri = getURI("nodes/" + node4.getType() + "/" + node4.getName());
+    response = PUT(uri, xml);
+
+    XMLRelationship rel = new XMLRelationship();
+    rel.setType(relationshipType);
+
+    ArrayList<XMLNode> nodes = (ArrayList<XMLNode>) rel.getXMLNode();
+
+    nodes.add(startNode);
+    nodes.add(endNode);
+
+    xml = JAXBHelper.marshall(rel, jaxbContext);
+    uri = getURI("relationships/" + relationshipType + "/" + startNode.getType() + "/"
+        + startNode.getName() + "/" + endNode.getType() + "/" + endNode.getName());
+
+    response = PUT(uri, xml);
+
+    if (!response.getStatus().isSuccess()) {
+      System.out.println(response.getStatus().getDescription());
+      System.out.println("Put was not successful");
+      return false;
     }
-    
-    public static boolean isSuccessfulPutAndGetNodes() throws JAXBException, 
-            ParserConfigurationException, TransformerConfigurationException, 
-            TransformerException, IOException, Exception
-    {
-        boolean result = false;
 
-        JAXBContext jaxbContext = null;
+    uri = getURI("nodes/" + node1type);
 
-        getCleanGraphDB();
+    String getResult = GET(uri);
 
-        try
-        {
-            jaxbContext =
-                    JAXBContext.newInstance(
-                    org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
-        }
-        catch (Exception e)
-        {
-            String msg = "Exception during SocialMediaGraphManager initialization processing";
-            throw new RuntimeException(msg, e);
-        }
+    XMLNodes fetchedNodes = (XMLNodes) JAXBHelper.unmarshall(getResult, jaxbContext);
 
-        String node1type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
-        String node2type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
-        String node3type = IsARelationshipType.IS_COUNTRY.name();
-        String node4type = IsARelationshipType.IS_MOVIE.name();
-        String node1name = "HackstatSocNet";
-        String node2name = "RachelShadoan";
-        String node3name = "Ghana";
-        String node4name = "Brick";
-        
-        String relationshipType = BetweenNodesRelationshipType.IS_FOLLOWING.name();
+    ArrayList<XMLNode> retrievedNodes = (ArrayList<XMLNode>) fetchedNodes.getXMLNode();
 
-        XMLNode endNode = new XMLNode();
-        endNode.setType(node1type);
-        endNode.setName(node1name);
+    boolean containsStartNode = false;
+    boolean containsEndNode = false;
+    boolean containsNoOtherStuff = true;
 
-        XMLNode startNode = new XMLNode();
-        startNode.setName(node2name);
-        startNode.setType(node2type);
-        
-        XMLNode node3 = new XMLNode();
-        node3.setName(node3name);
-        node3.setType(node3type);
+    for (XMLNode xn : retrievedNodes) {
 
-        String xml = JAXBHelper.marshall(endNode, jaxbContext);
-        String uri = getURI("nodes/" + node3.getType() + "/" + node3.getName());
-        Response response = PUT(uri, xml);
-        
-        XMLNode node4 = new XMLNode();
-        node4.setName(node4name);
-        node4.setType(node4type);
-        
-        xml = JAXBHelper.marshall(endNode, jaxbContext);
-        uri = getURI("nodes/" + node4.getType() + "/" + node4.getName());
-        response = PUT(uri, xml);
-
-        XMLRelationship rel = new XMLRelationship();
-        rel.setType(relationshipType);
-
-        ArrayList<XMLNode> nodes = (ArrayList<XMLNode>) rel.getXMLNode();
-
-        nodes.add(startNode);
-        nodes.add(endNode);
-
-
-        xml = JAXBHelper.marshall(rel, jaxbContext);
-        uri = getURI("relationships/" + relationshipType + "/" +  
-                startNode.getType() + "/" + startNode.getName() + "/" +
-                endNode.getType() + "/" + endNode.getName());
-        
-        response = PUT(uri, xml);
-
-        if (!response.getStatus().isSuccess())
-        {
-            System.out.println(response.getStatus().getDescription());
-            System.out.println("Put was not successful");
-            return false;
-        }
-
-        uri = getURI("nodes/" + node1type);
-        
-        String getResult = GET(uri);
-
-        XMLNodes fetchedNodes = (XMLNodes) JAXBHelper.unmarshall(getResult, jaxbContext);
-
-        ArrayList<XMLNode> retrievedNodes = (ArrayList<XMLNode>) fetchedNodes.getXMLNode();
-
-        boolean containsStartNode = false;
-        boolean containsEndNode = false;
-        boolean containsNoOtherStuff = true;
-        
-        for(XMLNode xn : retrievedNodes)
-        {
-
-            if(GraphManager.areEqual(xn, startNode))
-            {
-                 containsStartNode = true;
-            }
-            else if (GraphManager.areEqual(xn, endNode))
-            {
-                containsEndNode = true;
-            }
-            else
-            {
-                containsNoOtherStuff = false;
-            }
-        }
-        
-        return containsStartNode && containsEndNode && containsNoOtherStuff;
-
+      if (GraphManager.areEqual(xn, startNode)) {
+        containsStartNode = true;
+      }
+      else if (GraphManager.areEqual(xn, endNode)) {
+        containsEndNode = true;
+      }
+      else {
+        containsNoOtherStuff = false;
+      }
     }
-    
-    @Test
-    public void testPutAndGetNodesOfType() throws JAXBException, 
-            ParserConfigurationException, TransformerConfigurationException, 
-            TransformerException, IOException, Exception
-    {
-        assertTrue("testPutAndGetNodes failed", isSuccessfulPutAndGetNodesOfType());                
+
+    return containsStartNode && containsEndNode && containsNoOtherStuff;
+
+  }
+
+  @Test
+  public void testPutAndGetNodesOfType() throws JAXBException, ParserConfigurationException,
+      TransformerConfigurationException, TransformerException, IOException, Exception {
+    assertTrue("testPutAndGetNodes failed", isSuccessfulPutAndGetNodesOfType());
+  }
+
+  public static boolean isSuccessfulPutAndGetNodesOfType() throws JAXBException,
+      ParserConfigurationException, TransformerConfigurationException, TransformerException,
+      IOException, Exception {
+    boolean result = false;
+
+    JAXBContext jaxbContext = null;
+
+    getCleanGraphDB();
+
+    try {
+      jaxbContext = JAXBContext
+          .newInstance(org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
     }
-    
-    public static boolean isSuccessfulPutAndGetNodesOfType() throws JAXBException, 
-            ParserConfigurationException, TransformerConfigurationException, 
-            TransformerException, IOException, Exception
-    {
-        boolean result = false;
-
-        JAXBContext jaxbContext = null;
-
-        getCleanGraphDB();
-
-        try
-        {
-            jaxbContext =
-                    JAXBContext.newInstance(
-                    org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
-        }
-        catch (Exception e)
-        {
-            String msg = "Exception during SocialMediaGraphManager initialization processing";
-            throw new RuntimeException(msg, e);
-        }
-
-        String node1type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
-        String node2type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
-        String node3type = IsARelationshipType.IS_COUNTRY.name();
-        String node4type = IsARelationshipType.IS_MOVIE.name();
-        String node1name = "HackstatSocNet";
-        String node2name = "RachelShadoan";
-        String node3name = "Ghana";
-        String node4name = "Brick";
-        
-        String relationshipType = BetweenNodesRelationshipType.IS_FOLLOWING.name();
-
-        XMLNode endNode = new XMLNode();
-        endNode.setType(node1type);
-        endNode.setName(node1name);
-
-        XMLNode startNode = new XMLNode();
-        startNode.setName(node2name);
-        startNode.setType(node2type);
-        
-        XMLNode node3 = new XMLNode();
-        node3.setName(node3name);
-        node3.setType(node3type);
-
-        String xml = JAXBHelper.marshall(endNode, jaxbContext);
-        String uri = getURI("nodes/" + node3.getType() + "/" + node3.getName());
-        Response response = PUT(uri, xml);
-        
-        XMLNode node4 = new XMLNode();
-        node4.setName(node4name);
-        node4.setType(node4type);
-        
-        xml = JAXBHelper.marshall(endNode, jaxbContext);
-        uri = getURI("nodes/" + node4.getType() + "/" + node4.getName());
-        response = PUT(uri, xml);
-
-        XMLRelationship rel = new XMLRelationship();
-        rel.setType(relationshipType);
-
-        ArrayList<XMLNode> nodes = (ArrayList<XMLNode>) rel.getXMLNode();
-
-        nodes.add(startNode);
-        nodes.add(endNode);
-
-
-        xml = JAXBHelper.marshall(rel, jaxbContext);
-        uri = getURI("relationships/" + relationshipType + "/" +  
-                startNode.getType() + "/" + startNode.getName() + "/" +
-                endNode.getType() + "/" + endNode.getName());
-        
-        response = PUT(uri, xml);
-
-        if (!response.getStatus().isSuccess())
-        {
-            System.out.println(response.getStatus().getDescription());
-            System.out.println("Put was not successful");
-            return false;
-        }
-
-        uri = getURI("nodes/" + node1type +"/" + node1name + "/" 
-                + relationshipType + "/" + "INCOMING");
-        
-        String getResult = GET(uri);
-
-        XMLNodes fetchedNodes = (XMLNodes) JAXBHelper.unmarshall(getResult, jaxbContext);
-
-        ArrayList<XMLNode> retrievedNodes = (ArrayList<XMLNode>) fetchedNodes.getXMLNode();
-
-        boolean containsStartNode = false;
-        boolean containsNoOtherStuff = true;
-        
-        for(XMLNode xn : retrievedNodes)
-        {
-            System.out.println(xn.getName());
-            if(GraphManager.areEqual(xn, startNode))
-            {
-                 containsStartNode = true;
-            }
-            else
-            {
-                containsNoOtherStuff = false;
-            }
-        }
-        
-        return containsStartNode && containsNoOtherStuff;
-
+    catch (Exception e) {
+      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      throw new RuntimeException(msg, e);
     }
-    
-    public static void main(String[] args) throws Exception
-    {
-        SocNetRestApiHelper.setupServer();
-        putAndGetNodeSuccessful();
+
+    String node1type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
+    String node2type = IsARelationshipType.IS_TWITTER_ACCOUNT.name();
+    String node3type = IsARelationshipType.IS_COUNTRY.name();
+    String node4type = IsARelationshipType.IS_MOVIE.name();
+    String node1name = "HackstatSocNet";
+    String node2name = "RachelShadoan";
+    String node3name = "Ghana";
+    String node4name = "Brick";
+
+    String relationshipType = BetweenNodesRelationshipType.IS_FOLLOWING.name();
+
+    XMLNode endNode = new XMLNode();
+    endNode.setType(node1type);
+    endNode.setName(node1name);
+
+    XMLNode startNode = new XMLNode();
+    startNode.setName(node2name);
+    startNode.setType(node2type);
+
+    XMLNode node3 = new XMLNode();
+    node3.setName(node3name);
+    node3.setType(node3type);
+
+    String xml = JAXBHelper.marshall(endNode, jaxbContext);
+    String uri = getURI("nodes/" + node3.getType() + "/" + node3.getName());
+    Response response = PUT(uri, xml);
+
+    XMLNode node4 = new XMLNode();
+    node4.setName(node4name);
+    node4.setType(node4type);
+
+    xml = JAXBHelper.marshall(endNode, jaxbContext);
+    uri = getURI("nodes/" + node4.getType() + "/" + node4.getName());
+    response = PUT(uri, xml);
+
+    XMLRelationship rel = new XMLRelationship();
+    rel.setType(relationshipType);
+
+    ArrayList<XMLNode> nodes = (ArrayList<XMLNode>) rel.getXMLNode();
+
+    nodes.add(startNode);
+    nodes.add(endNode);
+
+    xml = JAXBHelper.marshall(rel, jaxbContext);
+    uri = getURI("relationships/" + relationshipType + "/" + startNode.getType() + "/"
+        + startNode.getName() + "/" + endNode.getType() + "/" + endNode.getName());
+
+    response = PUT(uri, xml);
+
+    if (!response.getStatus().isSuccess()) {
+      System.out.println(response.getStatus().getDescription());
+      System.out.println("Put was not successful");
+      return false;
     }
+
+    uri = getURI("nodes/" + node1type + "/" + node1name + "/" + relationshipType + "/" + "INCOMING");
+
+    String getResult = GET(uri);
+
+    XMLNodes fetchedNodes = (XMLNodes) JAXBHelper.unmarshall(getResult, jaxbContext);
+
+    ArrayList<XMLNode> retrievedNodes = (ArrayList<XMLNode>) fetchedNodes.getXMLNode();
+
+    boolean containsStartNode = false;
+    boolean containsNoOtherStuff = true;
+
+    for (XMLNode xn : retrievedNodes) {
+      System.out.println(xn.getName());
+      if (GraphManager.areEqual(xn, startNode)) {
+        containsStartNode = true;
+      }
+      else {
+        containsNoOtherStuff = false;
+      }
+    }
+
+    return containsStartNode && containsNoOtherStuff;
+
+  }
+
+  public static void main(String[] args) throws Exception {
+    SocNetRestApiHelper.setupServer();
+    putAndGetNodeSuccessful();
+  }
 }

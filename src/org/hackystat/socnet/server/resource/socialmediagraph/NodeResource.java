@@ -24,157 +24,135 @@ import org.restlet.resource.Representation;
 import org.restlet.resource.Variant;
 
 /**
- *
+ * 
  * @author Rachel Shadoan
  */
-public class NodeResource extends SocNetResource
-{
+public class NodeResource extends SocNetResource {
 
-    SocialMediaGraphManager smGraphManager;
-    String nodeName;
-    String nodeType;
-    String relationshipType;
-    String relationshipDirection;
+  SocialMediaGraphManager smGraphManager;
+  String nodeName;
+  String nodeType;
+  String relationshipType;
+  String relationshipDirection;
 
-    public NodeResource(Context context, Request request, Response response)
-    {
-        super(context, request, response);
-        smGraphManager = (SocialMediaGraphManager) getContext().getAttributes().get("SocialMediaGraphManager");
+  public NodeResource(Context context, Request request, Response response) {
+    super(context, request, response);
+    smGraphManager = (SocialMediaGraphManager) getContext().getAttributes().get(
+        "SocialMediaGraphManager");
 
-        nodeName = (String) request.getAttributes().get("node");
-        nodeType = (String) request.getAttributes().get("nodetype");
-        relationshipType = (String) request.getAttributes().get("relationshiptype");
-        relationshipDirection = (String) request.getAttributes().get("relationshipdirection");
-        //System.out.println("NODE RESOURCE CREATED FOR" + "NAME: " + nodeName + " TYPE: " + nodeType);
-    }
+    nodeName = (String) request.getAttributes().get("node");
+    nodeType = (String) request.getAttributes().get("nodetype");
+    relationshipType = (String) request.getAttributes().get("relationshiptype");
+    relationshipDirection = (String) request.getAttributes().get("relationshipdirection");
+    // System.out.println("NODE RESOURCE CREATED FOR" + "NAME: " + nodeName
+    // + " TYPE: " + nodeType);
+  }
 
-    @Override
-    public Representation represent(Variant variant)
-    {
-        try
-        {
-            if (!validateAuthUserIsUser() ||
-                    !validateAuthUserIsAdminOrUser())
-            {
-                System.out.println("User not validated!");
-                return null;
-            }
-
-
-            if (nodeName == null && relationshipType == null && relationshipDirection == null)
-            {
-                return smGraphManager.getRepresentation(smGraphManager.getNodes(nodeType));
-            }
-            else if (nodeName != null && nodeType != null && relationshipType == null && relationshipDirection == null)
-            {
-                XMLNode returnedNode = smGraphManager.getNode(nodeType, nodeName);
-                return smGraphManager.getNodeRepresentation(returnedNode);
-            }
-            else if (nodeName != null && nodeType != null && relationshipType != null && relationshipDirection != null)
-            {
-                return smGraphManager.getRepresentation(smGraphManager.getNodes(
-                        smGraphManager.getNode(nodeType, nodeName), relationshipType,
-                        relationshipDirection));
-            }
-            else
-            {
-                throw new InvalidArgumentException("The HTTP request is malformed.");
-            }
-        }
-        catch (InvalidArgumentException iae)
-        {
-            iae.printStackTrace();
-            getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, iae);
-            Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, iae);
-        }
-        catch (NodeNotFoundException nnfe)
-        {
-            nnfe.printStackTrace();
-            getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND, nnfe);
-            Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, nnfe);
-        }
-        catch (RelationshipNotFoundException rnfe)
-        {
-            rnfe.printStackTrace();
-            getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND, rnfe);
-            Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, rnfe);
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, ex);
-            Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+  @Override
+  public Representation represent(Variant variant) {
+    try {
+      if (!validateAuthUserIsUser() || !validateAuthUserIsAdminOrUser()) {
+        System.out.println("User not validated!");
         return null;
+      }
 
+      if (nodeName == null && relationshipType == null && relationshipDirection == null) {
+        return smGraphManager.getRepresentation(smGraphManager.getNodes(nodeType));
+      }
+      else if (nodeName != null && nodeType != null && relationshipType == null
+          && relationshipDirection == null) {
+        XMLNode returnedNode = smGraphManager.getNode(nodeType, nodeName);
+        return smGraphManager.getNodeRepresentation(returnedNode);
+      }
+      else if (nodeName != null && nodeType != null && relationshipType != null
+          && relationshipDirection != null) {
+        return smGraphManager.getRepresentation(smGraphManager.getNodes(smGraphManager.getNode(
+            nodeType, nodeName), relationshipType, relationshipDirection));
+      }
+      else {
+        throw new InvalidArgumentException("The HTTP request is malformed.");
+      }
+    }
+    catch (InvalidArgumentException iae) {
+      iae.printStackTrace();
+      getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, iae);
+      Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, iae);
+    }
+    catch (NodeNotFoundException nnfe) {
+      nnfe.printStackTrace();
+      getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND, nnfe);
+      Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, nnfe);
+    }
+    catch (RelationshipNotFoundException rnfe) {
+      rnfe.printStackTrace();
+      getResponse().setStatus(Status.CLIENT_ERROR_NOT_FOUND, rnfe);
+      Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, rnfe);
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      getResponse().setStatus(Status.SERVER_ERROR_INTERNAL, ex);
+      Logger.getLogger(NodeResource.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    /**
-     * Indicate the PUT method is supported.
-     * 
-     * @return True.
-     */
-    @Override
-    public boolean allowPut()
-    {
-        return true;
+    return null;
+
+  }
+
+  /**
+   * Indicate the PUT method is supported.
+   * 
+   * @return True.
+   */
+  @Override
+  public boolean allowPut() {
+    return true;
+  }
+
+  /**
+   * Implement the PUT method that creates a new sensor data instance.
+   * <ul>
+   * <li>The XML must be marshallable into a sensor data instance.
+   * <li>The timestamp in the URL must match the timestamp in the XML.
+   * <li>The User and SDT must exist.
+   * </ul>
+   * Note that we are not validating that this sensor data instance contains all of the Required
+   * Properties specified by the SDT. This should be done later, on demand, as part of analyses.
+   * <p>
+   * We are also not at this point checking to see whether the User and SDT exist.
+   * 
+   * @param entity The XML representation of the new sensor data instance..
+   */
+  @Override
+  public void storeRepresentation(Representation entity) {
+    // Get the payload.
+    String entityString = null;
+    try {
+      if (!validateAuthUserIsUser() || !validateAuthUserIsAdminOrUser()) {
+        System.out.println("User not validated!");
+        throw new UserNotAuthorizedException();
+      }
+
+      entityString = entity.getText();
+    }
+    catch (UserNotAuthorizedException unae) {
+      unae.printStackTrace();
+      setStatusMiscError("The Authenticated User is not authorized to " + "put.");
+    }
+    catch (IOException e) {
+      setStatusMiscError("Bad or missing content");
+      return;
+    }
+    XMLNode n = null;
+    try {
+      n = smGraphManager.makeNode(entityString);
+      smGraphManager.storeNode(n);
+    }
+    catch (Exception ex) {
+      System.out.println(ex.getClass() + ": " + ex.getMessage());
+      ex.printStackTrace();
+      setStatusMiscError("JAXB failed for some reason");
+      return;
     }
 
-    /**
-     * Implement the PUT method that creates a new sensor data instance.
-     * <ul>
-     * <li> The XML must be marshallable into a sensor data instance.
-     * <li> The timestamp in the URL must match the timestamp in the XML.
-     * <li> The User and SDT must exist.
-     * </ul>
-     * Note that we are not validating that this sensor data instance contains all of the Required
-     * Properties specified by the SDT. This should be done later, on demand, as part of analyses.
-     * <p>
-     * We are also not at this point checking to see whether the User and SDT exist.
-     * 
-     * @param entity The XML representation of the new sensor data instance..
-     */
-    @Override
-    public void storeRepresentation(Representation entity)
-    {
-        // Get the payload.
-        String entityString = null;
-        try
-        {
-            if (!validateAuthUserIsUser() ||
-                    !validateAuthUserIsAdminOrUser())
-            {
-                System.out.println("User not validated!");
-                throw new UserNotAuthorizedException();
-            }
-            
-            entityString = entity.getText();
-        }
-        catch(UserNotAuthorizedException unae)
-        {
-            unae.printStackTrace();
-            setStatusMiscError("The Authenticated User is not authorized to " +
-                    "put.");
-        }
-        catch (IOException e)
-        {
-            setStatusMiscError("Bad or missing content");
-            return;
-        }
-        XMLNode n = null;
-        try
-        {
-            n = smGraphManager.makeNode(entityString);
-            smGraphManager.storeNode(n);
-        }
-        catch (Exception ex)
-        {
-            System.out.println(ex.getClass() + ": " + ex.getMessage());
-            ex.printStackTrace();
-            setStatusMiscError("JAXB failed for some reason");
-            return;
-        }
-
-    }
+  }
 }

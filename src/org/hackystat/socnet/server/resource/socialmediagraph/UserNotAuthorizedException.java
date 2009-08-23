@@ -6,15 +6,14 @@
 package org.hackystat.socnet.server.resource.socialmediagraph;
 
 /**
- *
+ * 
  * @author Rachel Shadoan
  */
-public class UserNotAuthorizedException extends Exception{
+public class UserNotAuthorizedException extends Exception {
 
-    private static final long serialVersionUID = 1;
-    
-    public UserNotAuthorizedException()
-    {
-    }
+  private static final long serialVersionUID = 1;
+
+  public UserNotAuthorizedException() {
+  }
 
 }

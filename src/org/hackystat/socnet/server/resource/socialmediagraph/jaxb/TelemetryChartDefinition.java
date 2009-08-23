@@ -5,7 +5,6 @@
 // Generated on: 2009.08.18 at 12:12:04 AM CDT 
 //
 
-
 package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
 
 import java.io.Serializable;
@@ -18,169 +17,151 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Description" minOccurs="0"/>
- *         &lt;element ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}ParameterDefinition" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}SourceCode"/>
- *       &lt;/sequence>
- *       &lt;attribute ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Name use="required""/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Description&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}ParameterDefinition&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}SourceCode&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Name use=&quot;required&quot;&quot;/&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "description",
-    "parameterDefinition",
-    "sourceCode"
-})
+@XmlType(name = "", propOrder = { "description", "parameterDefinition", "sourceCode" })
 @XmlRootElement(name = "TelemetryChartDefinition")
-public class TelemetryChartDefinition
-    implements Serializable
-{
+public class TelemetryChartDefinition implements Serializable {
 
-    private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "Description")
-    protected String description;
-    @XmlElement(name = "ParameterDefinition")
-    protected List<ParameterDefinition> parameterDefinition;
-    @XmlElement(name = "SourceCode", required = true)
-    protected String sourceCode;
-    @XmlAttribute(name = "Name", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", required = true)
-    protected String name;
+  private final static long serialVersionUID = 12343L;
+  @XmlElement(name = "Description")
+  protected String description;
+  @XmlElement(name = "ParameterDefinition")
+  protected List<ParameterDefinition> parameterDefinition;
+  @XmlElement(name = "SourceCode", required = true)
+  protected String sourceCode;
+  @XmlAttribute(name = "Name", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", required = true)
+  protected String name;
 
-    /**
-     * Gets the value of the description property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getDescription() {
-        return description;
+  /**
+   * Gets the value of the description property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * Sets the value of the description property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setDescription(String value) {
+    this.description = value;
+  }
+
+  public boolean isSetDescription() {
+    return (this.description != null);
+  }
+
+  /**
+   * Gets the value of the parameterDefinition property.
+   * 
+   * <p>
+   * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+   * modification you make to the returned list will be present inside the JAXB object. This is why
+   * there is not a <CODE>set</CODE> method for the parameterDefinition property.
+   * 
+   * <p>
+   * For example, to add a new item, do as follows:
+   * 
+   * <pre>
+   * getParameterDefinition().add(newItem);
+   * </pre>
+   * 
+   * 
+   * <p>
+   * Objects of the following type(s) are allowed in the list {@link ParameterDefinition }
+   * 
+   * 
+   */
+  public List<ParameterDefinition> getParameterDefinition() {
+    if (parameterDefinition == null) {
+      parameterDefinition = new ArrayList<ParameterDefinition>();
     }
+    return this.parameterDefinition;
+  }
 
-    /**
-     * Sets the value of the description property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
+  public boolean isSetParameterDefinition() {
+    return ((this.parameterDefinition != null) && (!this.parameterDefinition.isEmpty()));
+  }
 
-    public boolean isSetDescription() {
-        return (this.description!= null);
-    }
+  public void unsetParameterDefinition() {
+    this.parameterDefinition = null;
+  }
 
-    /**
-     * Gets the value of the parameterDefinition property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the parameterDefinition property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getParameterDefinition().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ParameterDefinition }
-     * 
-     * 
-     */
-    public List<ParameterDefinition> getParameterDefinition() {
-        if (parameterDefinition == null) {
-            parameterDefinition = new ArrayList<ParameterDefinition>();
-        }
-        return this.parameterDefinition;
-    }
+  /**
+   * Gets the value of the sourceCode property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getSourceCode() {
+    return sourceCode;
+  }
 
-    public boolean isSetParameterDefinition() {
-        return ((this.parameterDefinition!= null)&&(!this.parameterDefinition.isEmpty()));
-    }
+  /**
+   * Sets the value of the sourceCode property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setSourceCode(String value) {
+    this.sourceCode = value;
+  }
 
-    public void unsetParameterDefinition() {
-        this.parameterDefinition = null;
-    }
+  public boolean isSetSourceCode() {
+    return (this.sourceCode != null);
+  }
 
-    /**
-     * Gets the value of the sourceCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getSourceCode() {
-        return sourceCode;
-    }
+  /**
+   * Gets the value of the name property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * Sets the value of the sourceCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setSourceCode(String value) {
-        this.sourceCode = value;
-    }
+  /**
+   * Sets the value of the name property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setName(String value) {
+    this.name = value;
+  }
 
-    public boolean isSetSourceCode() {
-        return (this.sourceCode!= null);
-    }
-
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
-
-    public boolean isSetName() {
-        return (this.name!= null);
-    }
+  public boolean isSetName() {
+    return (this.name != null);
+  }
 
 }

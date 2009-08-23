@@ -5,7 +5,6 @@
 // Generated on: 2009.08.18 at 12:12:04 AM CDT 
 //
 
-
 package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
 
 import java.io.Serializable;
@@ -18,137 +17,124 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Y-Axis"/>
- *         &lt;element ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}TelemetryPoint" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Name use="required""/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Y-Axis&quot;/&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}TelemetryPoint&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Name use=&quot;required&quot;&quot;/&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "yAxis",
-    "telemetryPoint"
-})
+@XmlType(name = "", propOrder = { "yAxis", "telemetryPoint" })
 @XmlRootElement(name = "TelemetryStream")
-public class TelemetryStream
-    implements Serializable
-{
+public class TelemetryStream implements Serializable {
 
-    private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "Y-Axis", required = true)
-    protected YAxis yAxis;
-    @XmlElement(name = "TelemetryPoint")
-    protected List<TelemetryPoint> telemetryPoint;
-    @XmlAttribute(name = "Name", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", required = true)
-    protected String name;
+  private final static long serialVersionUID = 12343L;
+  @XmlElement(name = "Y-Axis", required = true)
+  protected YAxis yAxis;
+  @XmlElement(name = "TelemetryPoint")
+  protected List<TelemetryPoint> telemetryPoint;
+  @XmlAttribute(name = "Name", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", required = true)
+  protected String name;
 
-    /**
-     * Gets the value of the yAxis property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link YAxis }
-     *     
-     */
-    public YAxis getYAxis() {
-        return yAxis;
+  /**
+   * Gets the value of the yAxis property.
+   * 
+   * @return possible object is {@link YAxis }
+   * 
+   */
+  public YAxis getYAxis() {
+    return yAxis;
+  }
+
+  /**
+   * Sets the value of the yAxis property.
+   * 
+   * @param value allowed object is {@link YAxis }
+   * 
+   */
+  public void setYAxis(YAxis value) {
+    this.yAxis = value;
+  }
+
+  public boolean isSetYAxis() {
+    return (this.yAxis != null);
+  }
+
+  /**
+   * Gets the value of the telemetryPoint property.
+   * 
+   * <p>
+   * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+   * modification you make to the returned list will be present inside the JAXB object. This is why
+   * there is not a <CODE>set</CODE> method for the telemetryPoint property.
+   * 
+   * <p>
+   * For example, to add a new item, do as follows:
+   * 
+   * <pre>
+   * getTelemetryPoint().add(newItem);
+   * </pre>
+   * 
+   * 
+   * <p>
+   * Objects of the following type(s) are allowed in the list {@link TelemetryPoint }
+   * 
+   * 
+   */
+  public List<TelemetryPoint> getTelemetryPoint() {
+    if (telemetryPoint == null) {
+      telemetryPoint = new ArrayList<TelemetryPoint>();
     }
+    return this.telemetryPoint;
+  }
 
-    /**
-     * Sets the value of the yAxis property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link YAxis }
-     *     
-     */
-    public void setYAxis(YAxis value) {
-        this.yAxis = value;
-    }
+  public boolean isSetTelemetryPoint() {
+    return ((this.telemetryPoint != null) && (!this.telemetryPoint.isEmpty()));
+  }
 
-    public boolean isSetYAxis() {
-        return (this.yAxis!= null);
-    }
+  public void unsetTelemetryPoint() {
+    this.telemetryPoint = null;
+  }
 
-    /**
-     * Gets the value of the telemetryPoint property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the telemetryPoint property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTelemetryPoint().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TelemetryPoint }
-     * 
-     * 
-     */
-    public List<TelemetryPoint> getTelemetryPoint() {
-        if (telemetryPoint == null) {
-            telemetryPoint = new ArrayList<TelemetryPoint>();
-        }
-        return this.telemetryPoint;
-    }
+  /**
+   * Gets the value of the name property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getName() {
+    return name;
+  }
 
-    public boolean isSetTelemetryPoint() {
-        return ((this.telemetryPoint!= null)&&(!this.telemetryPoint.isEmpty()));
-    }
+  /**
+   * Sets the value of the name property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setName(String value) {
+    this.name = value;
+  }
 
-    public void unsetTelemetryPoint() {
-        this.telemetryPoint = null;
-    }
-
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
-
-    public boolean isSetName() {
-        return (this.name!= null);
-    }
+  public boolean isSetName() {
+    return (this.name != null);
+  }
 
 }

@@ -5,7 +5,6 @@
 // Generated on: 2009.08.17 at 10:50:34 PM CDT 
 //
 
-
 package org.hackystat.socnet.server.resource.users.jaxb;
 
 import java.io.Serializable;
@@ -18,161 +17,140 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{}Email"/>
- *         &lt;element ref="{}Password"/>
- *         &lt;element ref="{}Role" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute ref="{}LastMod"/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element ref=&quot;{}Email&quot;/&gt;
+ *         &lt;element ref=&quot;{}Password&quot;/&gt;
+ *         &lt;element ref=&quot;{}Role&quot; minOccurs=&quot;0&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute ref=&quot;{}LastMod&quot;/&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "email",
-    "password",
-    "role"
-})
+@XmlType(name = "", propOrder = { "email", "password", "role" })
 @XmlRootElement(name = "XMLUser")
-public class XMLUser
-    implements Serializable
-{
+public class XMLUser implements Serializable {
 
-    private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "Email", required = true)
-    protected String email;
-    @XmlElement(name = "Password", required = true)
-    protected String password;
-    @XmlElement(name = "Role")
-    protected String role;
-    @XmlAttribute(name = "LastMod")
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastMod;
+  private final static long serialVersionUID = 12343L;
+  @XmlElement(name = "Email", required = true)
+  protected String email;
+  @XmlElement(name = "Password", required = true)
+  protected String password;
+  @XmlElement(name = "Role")
+  protected String role;
+  @XmlAttribute(name = "LastMod")
+  @XmlSchemaType(name = "dateTime")
+  protected XMLGregorianCalendar lastMod;
 
-    /**
-     * Gets the value of the email property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getEmail() {
-        return email;
-    }
+  /**
+   * Gets the value of the email property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getEmail() {
+    return email;
+  }
 
-    /**
-     * Sets the value of the email property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setEmail(String value) {
-        this.email = value;
-    }
+  /**
+   * Sets the value of the email property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setEmail(String value) {
+    this.email = value;
+  }
 
-    public boolean isSetEmail() {
-        return (this.email!= null);
-    }
+  public boolean isSetEmail() {
+    return (this.email != null);
+  }
 
-    /**
-     * Gets the value of the password property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPassword() {
-        return password;
-    }
+  /**
+   * Gets the value of the password property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getPassword() {
+    return password;
+  }
 
-    /**
-     * Sets the value of the password property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPassword(String value) {
-        this.password = value;
-    }
+  /**
+   * Sets the value of the password property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setPassword(String value) {
+    this.password = value;
+  }
 
-    public boolean isSetPassword() {
-        return (this.password!= null);
-    }
+  public boolean isSetPassword() {
+    return (this.password != null);
+  }
 
-    /**
-     * Gets the value of the role property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getRole() {
-        return role;
-    }
+  /**
+   * Gets the value of the role property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getRole() {
+    return role;
+  }
 
-    /**
-     * Sets the value of the role property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setRole(String value) {
-        this.role = value;
-    }
+  /**
+   * Sets the value of the role property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setRole(String value) {
+    this.role = value;
+  }
 
-    public boolean isSetRole() {
-        return (this.role!= null);
-    }
+  public boolean isSetRole() {
+    return (this.role != null);
+  }
 
-    /**
-     * Gets the value of the lastMod property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getLastMod() {
-        return lastMod;
-    }
+  /**
+   * Gets the value of the lastMod property.
+   * 
+   * @return possible object is {@link XMLGregorianCalendar }
+   * 
+   */
+  public XMLGregorianCalendar getLastMod() {
+    return lastMod;
+  }
 
-    /**
-     * Sets the value of the lastMod property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setLastMod(XMLGregorianCalendar value) {
-        this.lastMod = value;
-    }
+  /**
+   * Sets the value of the lastMod property.
+   * 
+   * @param value allowed object is {@link XMLGregorianCalendar }
+   * 
+   */
+  public void setLastMod(XMLGregorianCalendar value) {
+    this.lastMod = value;
+  }
 
-    public boolean isSetLastMod() {
-        return (this.lastMod!= null);
-    }
+  public boolean isSetLastMod() {
+    return (this.lastMod != null);
+  }
 
 }

@@ -7,3 +7,4 @@
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
+

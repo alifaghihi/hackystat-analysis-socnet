@@ -26,104 +26,88 @@ import org.restlet.data.Response;
 import static org.junit.Assert.assertTrue;
 
 /**
- *
+ * 
  * @author Rachel Shadoan
  */
-public class TestRegistrationResource extends SocNetRestApiHelper
-{
-          
-    @Test
-    public void testPutAndGetUser() throws Exception
-    {
-        assertTrue("testPutAndGetUser failed", isSuccessfulPutUser());
+public class TestRegistrationResource extends SocNetRestApiHelper {
+
+  @Test
+  public void testPutAndGetUser() throws Exception {
+    assertTrue("testPutAndGetUser failed", isSuccessfulPutUser());
+  }
+
+  public static boolean isSuccessfulPutUser() throws Exception {
+    boolean result = false;
+
+    JAXBContext jaxbContext = null;
+
+    getCleanGraphDB();
+
+    try {
+      jaxbContext = JAXBContext
+          .newInstance(org.hackystat.socnet.server.resource.users.jaxb.ObjectFactory.class);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      throw new RuntimeException(msg, e);
     }
 
-    public static boolean isSuccessfulPutUser() throws Exception
-    {
-        boolean result = false;
+    XMLUser user = new XMLUser();
+    user.setEmail(TEST_EMAIL);
 
-        JAXBContext jaxbContext = null;
+    String xml = JAXBHelper.marshall(user, jaxbContext);
+    System.out.println("The xml string is: " + xml);
 
-        getCleanGraphDB();
+    String uri = getURI("register/");
 
-        try
-        {
-            jaxbContext =
-                    JAXBContext.newInstance(
-                    org.hackystat.socnet.server.resource.users.jaxb.ObjectFactory.class);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            String msg = "Exception during SocialMediaGraphManager initialization processing";
-            throw new RuntimeException(msg, e);
-        }
+    System.out.println("URI for Registration Test: " + uri);
 
-        
-        XMLUser user = new XMLUser();
-        user.setEmail(TEST_EMAIL);
+    Response response = POST(uri, xml);
 
-        String xml = JAXBHelper.marshall(user, jaxbContext);
-        System.out.println("The xml string is: " + xml);
-
-        String uri = getURI("register/");
-
-        System.out.println("URI for Registration Test: " + uri);
-
-        Response response = POST(uri, xml);
-
-        if (!response.getStatus().isSuccess())
-        {
-            System.out.println(response.getStatus().getDescription());
-            System.out.println("POST was not successful");
-            return false;
-        }
-        else
-        {
-            System.out.println("POST was successful");
-            return true;
-        }
+    if (!response.getStatus().isSuccess()) {
+      System.out.println(response.getStatus().getDescription());
+      System.out.println("POST was not successful");
+      return false;
     }
-    
-    public static boolean isSuccessfulGetUser() throws JAXBException,
-            ParserConfigurationException, TransformerConfigurationException,
-            TransformerException, IOException, Exception
-    {
-        
-        JAXBContext jaxbContext = null;
+    else {
+      System.out.println("POST was successful");
+      return true;
+    }
+  }
 
-        getCleanGraphDB();
+  public static boolean isSuccessfulGetUser() throws JAXBException, ParserConfigurationException,
+      TransformerConfigurationException, TransformerException, IOException, Exception {
 
-        try
-        {
-            jaxbContext =
-                    JAXBContext.newInstance(
-                    org.hackystat.socnet.server.resource.users.jaxb.ObjectFactory.class);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            String msg = "Exception during SocialMediaGraphManager initialization processing";
-            throw new RuntimeException(msg, e);
-        }
-        
-        String uri = getURI("users/" + TEST_EMAIL);
+    JAXBContext jaxbContext = null;
 
-        String getResult = GET(uri, TEST_EMAIL, TEST_EMAIL);
+    getCleanGraphDB();
 
-        XMLUser user1 = (XMLUser) JAXBHelper.unmarshall(getResult, jaxbContext);
-        System.out.println("The returned user is registered under: " + user1.getEmail());
-
-        return user1.getEmail().equals(TEST_EMAIL);
-
-
+    try {
+      jaxbContext = JAXBContext
+          .newInstance(org.hackystat.socnet.server.resource.users.jaxb.ObjectFactory.class);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      throw new RuntimeException(msg, e);
     }
 
-    public static void main(String[] args) throws Exception
-    {
-        SocNetRestApiHelper.setupServer();
-        //isSuccessfulPutUser();
-        isSuccessfulGetUser();
-        System.exit(0);
-    }
+    String uri = getURI("users/" + TEST_EMAIL);
+
+    String getResult = GET(uri, TEST_EMAIL, TEST_EMAIL);
+
+    XMLUser user1 = (XMLUser) JAXBHelper.unmarshall(getResult, jaxbContext);
+    System.out.println("The returned user is registered under: " + user1.getEmail());
+
+    return user1.getEmail().equals(TEST_EMAIL);
+
+  }
+
+  public static void main(String[] args) throws Exception {
+    SocNetRestApiHelper.setupServer();
+    // isSuccessfulPutUser();
+    isSuccessfulGetUser();
+    System.exit(0);
+  }
 }

@@ -5,7 +5,6 @@
 // Generated on: 2009.08.18 at 12:12:04 AM CDT 
 //
 
-
 package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
 
 import java.io.Serializable;
@@ -19,237 +18,216 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}Type"/>
- *         &lt;element ref="{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}ID"/>
- *         &lt;element ref="{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}StartTime"/>
- *         &lt;element ref="{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}EndTime" minOccurs="0"/>
- *         &lt;element ref="{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}XMLNode" maxOccurs="2" minOccurs="2"/>
- *         &lt;element ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}TelemetryStream" maxOccurs="9" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}Type&quot;/&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}ID&quot;/&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}StartTime&quot;/&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}EndTime&quot; minOccurs=&quot;0&quot;/&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}XMLNode&quot; maxOccurs=&quot;2&quot; minOccurs=&quot;2&quot;/&gt;
+ *         &lt;element ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}TelemetryStream&quot; maxOccurs=&quot;9&quot; minOccurs=&quot;0&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "type",
-    "id",
-    "startTime",
-    "endTime",
-    "xmlNode",
-    "telemetryStream"
-})
+@XmlType(name = "", propOrder = { "type", "id", "startTime", "endTime", "xmlNode",
+    "telemetryStream" })
 @XmlRootElement(name = "XMLRelationship", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd")
-public class XMLRelationship
-    implements Serializable
-{
+public class XMLRelationship implements Serializable {
 
-    private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "Type", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
-    protected String type;
-    @XmlElement(name = "ID", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd")
-    protected long id;
-    @XmlElement(name = "StartTime", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar startTime;
-    @XmlElement(name = "EndTime", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd")
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar endTime;
-    @XmlElement(name = "XMLNode", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
-    protected List<XMLNode> xmlNode;
-    @XmlElement(name = "TelemetryStream")
-    protected List<TelemetryStream> telemetryStream;
+  private final static long serialVersionUID = 12343L;
+  @XmlElement(name = "Type", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
+  protected String type;
+  @XmlElement(name = "ID", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd")
+  protected long id;
+  @XmlElement(name = "StartTime", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
+  @XmlSchemaType(name = "dateTime")
+  protected XMLGregorianCalendar startTime;
+  @XmlElement(name = "EndTime", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd")
+  @XmlSchemaType(name = "dateTime")
+  protected XMLGregorianCalendar endTime;
+  @XmlElement(name = "XMLNode", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
+  protected List<XMLNode> xmlNode;
+  @XmlElement(name = "TelemetryStream")
+  protected List<TelemetryStream> telemetryStream;
 
-    /**
-     * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getType() {
-        return type;
+  /**
+   * Gets the value of the type property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getType() {
+    return type;
+  }
+
+  /**
+   * Sets the value of the type property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setType(String value) {
+    this.type = value;
+  }
+
+  public boolean isSetType() {
+    return (this.type != null);
+  }
+
+  /**
+   * Gets the value of the id property.
+   * 
+   */
+  public long getID() {
+    return id;
+  }
+
+  /**
+   * Sets the value of the id property.
+   * 
+   */
+  public void setID(long value) {
+    this.id = value;
+  }
+
+  public boolean isSetID() {
+    return true;
+  }
+
+  /**
+   * Gets the value of the startTime property.
+   * 
+   * @return possible object is {@link XMLGregorianCalendar }
+   * 
+   */
+  public XMLGregorianCalendar getStartTime() {
+    return startTime;
+  }
+
+  /**
+   * Sets the value of the startTime property.
+   * 
+   * @param value allowed object is {@link XMLGregorianCalendar }
+   * 
+   */
+  public void setStartTime(XMLGregorianCalendar value) {
+    this.startTime = value;
+  }
+
+  public boolean isSetStartTime() {
+    return (this.startTime != null);
+  }
+
+  /**
+   * Gets the value of the endTime property.
+   * 
+   * @return possible object is {@link XMLGregorianCalendar }
+   * 
+   */
+  public XMLGregorianCalendar getEndTime() {
+    return endTime;
+  }
+
+  /**
+   * Sets the value of the endTime property.
+   * 
+   * @param value allowed object is {@link XMLGregorianCalendar }
+   * 
+   */
+  public void setEndTime(XMLGregorianCalendar value) {
+    this.endTime = value;
+  }
+
+  public boolean isSetEndTime() {
+    return (this.endTime != null);
+  }
+
+  /**
+   * Gets the value of the xmlNode property.
+   * 
+   * <p>
+   * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+   * modification you make to the returned list will be present inside the JAXB object. This is why
+   * there is not a <CODE>set</CODE> method for the xmlNode property.
+   * 
+   * <p>
+   * For example, to add a new item, do as follows:
+   * 
+   * <pre>
+   * getXMLNode().add(newItem);
+   * </pre>
+   * 
+   * 
+   * <p>
+   * Objects of the following type(s) are allowed in the list {@link XMLNode }
+   * 
+   * 
+   */
+  public List<XMLNode> getXMLNode() {
+    if (xmlNode == null) {
+      xmlNode = new ArrayList<XMLNode>();
     }
+    return this.xmlNode;
+  }
 
-    /**
-     * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setType(String value) {
-        this.type = value;
-    }
+  public boolean isSetXMLNode() {
+    return ((this.xmlNode != null) && (!this.xmlNode.isEmpty()));
+  }
 
-    public boolean isSetType() {
-        return (this.type!= null);
-    }
+  public void unsetXMLNode() {
+    this.xmlNode = null;
+  }
 
-    /**
-     * Gets the value of the id property.
-     * 
-     */
-    public long getID() {
-        return id;
+  /**
+   * Gets the value of the telemetryStream property.
+   * 
+   * <p>
+   * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+   * modification you make to the returned list will be present inside the JAXB object. This is why
+   * there is not a <CODE>set</CODE> method for the telemetryStream property.
+   * 
+   * <p>
+   * For example, to add a new item, do as follows:
+   * 
+   * <pre>
+   * getTelemetryStream().add(newItem);
+   * </pre>
+   * 
+   * 
+   * <p>
+   * Objects of the following type(s) are allowed in the list {@link TelemetryStream }
+   * 
+   * 
+   */
+  public List<TelemetryStream> getTelemetryStream() {
+    if (telemetryStream == null) {
+      telemetryStream = new ArrayList<TelemetryStream>();
     }
+    return this.telemetryStream;
+  }
 
-    /**
-     * Sets the value of the id property.
-     * 
-     */
-    public void setID(long value) {
-        this.id = value;
-    }
+  public boolean isSetTelemetryStream() {
+    return ((this.telemetryStream != null) && (!this.telemetryStream.isEmpty()));
+  }
 
-    public boolean isSetID() {
-        return true;
-    }
-
-    /**
-     * Gets the value of the startTime property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getStartTime() {
-        return startTime;
-    }
-
-    /**
-     * Sets the value of the startTime property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setStartTime(XMLGregorianCalendar value) {
-        this.startTime = value;
-    }
-
-    public boolean isSetStartTime() {
-        return (this.startTime!= null);
-    }
-
-    /**
-     * Gets the value of the endTime property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getEndTime() {
-        return endTime;
-    }
-
-    /**
-     * Sets the value of the endTime property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setEndTime(XMLGregorianCalendar value) {
-        this.endTime = value;
-    }
-
-    public boolean isSetEndTime() {
-        return (this.endTime!= null);
-    }
-
-    /**
-     * Gets the value of the xmlNode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the xmlNode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getXMLNode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link XMLNode }
-     * 
-     * 
-     */
-    public List<XMLNode> getXMLNode() {
-        if (xmlNode == null) {
-            xmlNode = new ArrayList<XMLNode>();
-        }
-        return this.xmlNode;
-    }
-
-    public boolean isSetXMLNode() {
-        return ((this.xmlNode!= null)&&(!this.xmlNode.isEmpty()));
-    }
-
-    public void unsetXMLNode() {
-        this.xmlNode = null;
-    }
-
-    /**
-     * Gets the value of the telemetryStream property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the telemetryStream property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTelemetryStream().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TelemetryStream }
-     * 
-     * 
-     */
-    public List<TelemetryStream> getTelemetryStream() {
-        if (telemetryStream == null) {
-            telemetryStream = new ArrayList<TelemetryStream>();
-        }
-        return this.telemetryStream;
-    }
-
-    public boolean isSetTelemetryStream() {
-        return ((this.telemetryStream!= null)&&(!this.telemetryStream.isEmpty()));
-    }
-
-    public void unsetTelemetryStream() {
-        this.telemetryStream = null;
-    }
+  public void unsetTelemetryStream() {
+    this.telemetryStream = null;
+  }
 
 }

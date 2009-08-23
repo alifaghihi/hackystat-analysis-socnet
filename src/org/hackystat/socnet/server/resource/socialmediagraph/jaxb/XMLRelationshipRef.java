@@ -5,7 +5,6 @@
 // Generated on: 2009.08.18 at 12:12:04 AM CDT 
 //
 
-
 package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
 
 import java.io.Serializable;
@@ -16,21 +15,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute ref="{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}ID use="required""/>
- *       &lt;attribute ref="{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}Href use="required""/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}ID use=&quot;required&quot;&quot;/&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd}Href use=&quot;required&quot;&quot;/&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -38,63 +38,57 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "XMLRelationshipRef", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd")
-public class XMLRelationshipRef
-    implements Serializable
-{
+public class XMLRelationshipRef implements Serializable {
 
-    private final static long serialVersionUID = 12343L;
-    @XmlAttribute(name = "ID", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
-    protected int id;
-    @XmlAttribute(name = "Href", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
-    @XmlSchemaType(name = "anyURI")
-    protected String href;
+  private final static long serialVersionUID = 12343L;
+  @XmlAttribute(name = "ID", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
+  protected int id;
+  @XmlAttribute(name = "Href", namespace = "http://hackystat-analysis-socnet.googlecode.com/svn/trunk/xml/schema/socialmediagraph.xsd", required = true)
+  @XmlSchemaType(name = "anyURI")
+  protected String href;
 
-    /**
-     * Gets the value of the id property.
-     * 
-     */
-    public int getID() {
-        return id;
-    }
+  /**
+   * Gets the value of the id property.
+   * 
+   */
+  public int getID() {
+    return id;
+  }
 
-    /**
-     * Sets the value of the id property.
-     * 
-     */
-    public void setID(int value) {
-        this.id = value;
-    }
+  /**
+   * Sets the value of the id property.
+   * 
+   */
+  public void setID(int value) {
+    this.id = value;
+  }
 
-    public boolean isSetID() {
-        return true;
-    }
+  public boolean isSetID() {
+    return true;
+  }
 
-    /**
-     * Gets the value of the href property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getHref() {
-        return href;
-    }
+  /**
+   * Gets the value of the href property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getHref() {
+    return href;
+  }
 
-    /**
-     * Sets the value of the href property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setHref(String value) {
-        this.href = value;
-    }
+  /**
+   * Sets the value of the href property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setHref(String value) {
+    this.href = value;
+  }
 
-    public boolean isSetHref() {
-        return (this.href!= null);
-    }
+  public boolean isSetHref() {
+    return (this.href != null);
+  }
 
 }

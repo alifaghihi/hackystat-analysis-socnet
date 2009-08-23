@@ -5,7 +5,6 @@
 // Generated on: 2009.08.18 at 12:12:04 AM CDT 
 //
 
-
 package org.hackystat.socnet.server.resource.socialmediagraph.jaxb;
 
 import java.io.Serializable;
@@ -16,24 +15,25 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;attribute ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Name use="required""/>
- *       &lt;attribute ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Units use="required""/>
- *       &lt;attribute ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}NumberType"/>
- *       &lt;attribute ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}LowerBound"/>
- *       &lt;attribute ref="{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}UpperBound"/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Name use=&quot;required&quot;&quot;/&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}Units use=&quot;required&quot;&quot;/&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}NumberType&quot;/&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}LowerBound&quot;/&gt;
+ *       &lt;attribute ref=&quot;{http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd}UpperBound&quot;/&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
@@ -41,160 +41,138 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 @XmlRootElement(name = "Y-Axis")
-public class YAxis
-    implements Serializable
-{
+public class YAxis implements Serializable {
 
-    private final static long serialVersionUID = 12343L;
-    @XmlAttribute(name = "Name", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", required = true)
-    protected String name;
-    @XmlAttribute(name = "Units", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", required = true)
-    protected String units;
-    @XmlAttribute(name = "NumberType", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd")
-    protected String numberType;
-    @XmlAttribute(name = "LowerBound", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd")
-    protected BigInteger lowerBound;
-    @XmlAttribute(name = "UpperBound", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd")
-    protected BigInteger upperBound;
+  private final static long serialVersionUID = 12343L;
+  @XmlAttribute(name = "Name", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", required = true)
+  protected String name;
+  @XmlAttribute(name = "Units", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd", required = true)
+  protected String units;
+  @XmlAttribute(name = "NumberType", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd")
+  protected String numberType;
+  @XmlAttribute(name = "LowerBound", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd")
+  protected BigInteger lowerBound;
+  @XmlAttribute(name = "UpperBound", namespace = "http://hackystat-analysis-telemetry.googlecode.com/svn/trunk/xml/schema/telemetry.resource.xsd")
+  protected BigInteger upperBound;
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getName() {
-        return name;
-    }
+  /**
+   * Gets the value of the name property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getName() {
+    return name;
+  }
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setName(String value) {
-        this.name = value;
-    }
+  /**
+   * Sets the value of the name property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setName(String value) {
+    this.name = value;
+  }
 
-    public boolean isSetName() {
-        return (this.name!= null);
-    }
+  public boolean isSetName() {
+    return (this.name != null);
+  }
 
-    /**
-     * Gets the value of the units property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getUnits() {
-        return units;
-    }
+  /**
+   * Gets the value of the units property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getUnits() {
+    return units;
+  }
 
-    /**
-     * Sets the value of the units property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setUnits(String value) {
-        this.units = value;
-    }
+  /**
+   * Sets the value of the units property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setUnits(String value) {
+    this.units = value;
+  }
 
-    public boolean isSetUnits() {
-        return (this.units!= null);
-    }
+  public boolean isSetUnits() {
+    return (this.units != null);
+  }
 
-    /**
-     * Gets the value of the numberType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNumberType() {
-        return numberType;
-    }
+  /**
+   * Gets the value of the numberType property.
+   * 
+   * @return possible object is {@link String }
+   * 
+   */
+  public String getNumberType() {
+    return numberType;
+  }
 
-    /**
-     * Sets the value of the numberType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNumberType(String value) {
-        this.numberType = value;
-    }
+  /**
+   * Sets the value of the numberType property.
+   * 
+   * @param value allowed object is {@link String }
+   * 
+   */
+  public void setNumberType(String value) {
+    this.numberType = value;
+  }
 
-    public boolean isSetNumberType() {
-        return (this.numberType!= null);
-    }
+  public boolean isSetNumberType() {
+    return (this.numberType != null);
+  }
 
-    /**
-     * Gets the value of the lowerBound property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getLowerBound() {
-        return lowerBound;
-    }
+  /**
+   * Gets the value of the lowerBound property.
+   * 
+   * @return possible object is {@link BigInteger }
+   * 
+   */
+  public BigInteger getLowerBound() {
+    return lowerBound;
+  }
 
-    /**
-     * Sets the value of the lowerBound property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setLowerBound(BigInteger value) {
-        this.lowerBound = value;
-    }
+  /**
+   * Sets the value of the lowerBound property.
+   * 
+   * @param value allowed object is {@link BigInteger }
+   * 
+   */
+  public void setLowerBound(BigInteger value) {
+    this.lowerBound = value;
+  }
 
-    public boolean isSetLowerBound() {
-        return (this.lowerBound!= null);
-    }
+  public boolean isSetLowerBound() {
+    return (this.lowerBound != null);
+  }
 
-    /**
-     * Gets the value of the upperBound property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getUpperBound() {
-        return upperBound;
-    }
+  /**
+   * Gets the value of the upperBound property.
+   * 
+   * @return possible object is {@link BigInteger }
+   * 
+   */
+  public BigInteger getUpperBound() {
+    return upperBound;
+  }
 
-    /**
-     * Sets the value of the upperBound property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setUpperBound(BigInteger value) {
-        this.upperBound = value;
-    }
+  /**
+   * Sets the value of the upperBound property.
+   * 
+   * @param value allowed object is {@link BigInteger }
+   * 
+   */
+  public void setUpperBound(BigInteger value) {
+    this.upperBound = value;
+  }
 
-    public boolean isSetUpperBound() {
-        return (this.upperBound!= null);
-    }
+  public boolean isSetUpperBound() {
+    return (this.upperBound != null);
+  }
 
 }
