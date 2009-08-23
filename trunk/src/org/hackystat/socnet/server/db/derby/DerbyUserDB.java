@@ -363,7 +363,7 @@ public class DerbyUserDB implements UserDBImpl {
   @Override
   public String getUser(String email) {
     String statement = "SELECT XmlUser FROM SocnetUser WHERE Email = '" + email + "'";
-    return getResource("User", statement);
+    return getResource("XMLUser", statement);
   }
 
   /** {@inheritDoc} */
@@ -445,7 +445,7 @@ public class DerbyUserDB implements UserDBImpl {
       conn = DriverManager.getConnection(connectionURL);
       s = conn.prepareStatement(statement);
       rs = s.executeQuery();
-      String resourceRefColumnName = xml + resourceName + "Ref";
+      String resourceRefColumnName = resourceName + "Ref";
       while (rs.next()) {
         builder.append(rs.getString(resourceRefColumnName));
       }
@@ -604,7 +604,7 @@ public class DerbyUserDB implements UserDBImpl {
       server.getLogger().fine(executeQueryMsg + statement);
       s = conn.prepareStatement(statement);
       rs = s.executeQuery();
-      String resourceXmlColumnName = xml + resourceName;
+      String resourceXmlColumnName = resourceName;
       while (rs.next()) { // the select statement must guarantee only one
         // row is returned.
         hasData = true;
