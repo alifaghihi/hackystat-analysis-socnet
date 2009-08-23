@@ -1,6 +1,6 @@
 #summary A guide for downloading, installing, and running SocNet from source
 #labels Featured
-<p><strong>Table of contents</strong> <ul><li><a href="#1.0_Introduction">1.0 Introduction</a></li><li><a href="#2.0_Downloading_and_configuration">2.0 Downloading and configuration</a></li><ul><li><a href="#2.1_Install_Java_6">2.1 Install Java 6</a></li><li><a href="#2.2_Downloading_the_latest_binary_distribution">2.2 Downloading the latest binary distribution</a></li><li><a href="#2.3_Define_HACKYSTAT_VERSION_and_HACKYSTAT_SERVICE_DIST_environm">2.3 Define HACKYSTAT_VERSION and HACKYSTAT_SERVICE_DIST environment variables</a></li><li><a href="#2.4_Create_and_populate_the_~/.hackystat/_directory">2.4 Create and populate the ~/.hackystat/ directory</a></li></ul><li><a href="#3.0_Bringing_up_services">3.0 Bringing up services</a></li><li><a href="#4.0_Advanced_configuration">4.0 Advanced configuration</a></li><li><a href="#5.0_Upgrading">5.0 Upgrading</a></li></ul> </p>
+<p><strong>Table of contents</strong> <ul><li><a href="#1.0_Introduction">1.0 Introduction</a></li><li><a href="#2.0_Downloading_and_configuration">2.0 Downloading the SocNet Sources</a></li><ul><li><a href="#2.1_Install_Java_6">2.1 Install Necessary Tools</a></li><li><a href="#2.2_Downloading_the_latest_binary_distribution">2.2 Checking out the SocNet Sources</a></li><li><a href="#3.0_Bringing_up_services">3.0 Building and Running SocNet</a></li>
 
 <a name="1.0_Introduction"/><h1>1.0 Introduction</h1>
 
