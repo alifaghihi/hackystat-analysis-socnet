@@ -54,7 +54,7 @@ After executing that command, run ant and Ivy will merrily go about retrieving t
 == 3.2 Set Up Configuration Files ==
 
 === 3.2.1 Socnet Configuration File ===
-The socnet.properties file should be placed in the computer's home directory in the hackystat home folder. This file is not strictly necessary, but if you want to use it, it allows additional specification and configuration. Note that as of this release, the serve does not authenticate any of the web service calls. A sample file can be viewed/downloaded [http://hackystat-analysis-socnet.googlecode.com/svn/trunk/config/socnet.properties.sample/ here].
+The socnet.properties file should be placed in the computer's home directory in the hackystat home folder. This file is not strictly necessary, but if you want to use it, it allows additional specification and configuration. A sample file can be viewed/downloaded [http://hackystat-analysis-socnet.googlecode.com/svn/trunk/config/socnet.properties.sample/ here].
 
 === 3.2.2 Twitter Client Configuration File ===
 The socnet.twitter.properties file should be placed in the same place as the socnet.properties file. Note that the socnet.twitter.properties files must contain a valid Twitter username and valid Twitter password. The default API call limit for a Twitter account is 150 calls per hour.  Raise this at your peril--Twitter will blacklist your account if you repeatedly go over your call limit. It is included in the configuration file so that after Twitter has raised the API call limit, it is easy to change. A sample file can be viewed/downloaded [http://hackystat-analysis-socnet.googlecode.com/svn/trunk/config/socnet.twitter.properties.sample / here].
