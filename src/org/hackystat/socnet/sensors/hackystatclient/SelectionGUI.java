@@ -19,6 +19,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.sensorbase.client.SensorBaseClientException;
+import org.hackystat.sensorbase.resource.projects.jaxb.Project;
+import org.hackystat.sensorbase.resource.projects.jaxb.ProjectIndex;
 import org.hackystat.sensorbase.resource.projects.jaxb.ProjectRef;
 import org.hackystat.socnet.server.client.SocNetClient;
 
@@ -28,6 +30,7 @@ import org.hackystat.socnet.server.client.SocNetClient;
  */
 public class SelectionGUI extends javax.swing.JFrame {
 
+  private SensorBaseClient sensorBaseClient;
   private String email;
   private ArrayList<String> projectNames;
 
@@ -40,7 +43,7 @@ public class SelectionGUI extends javax.swing.JFrame {
       throws SensorBaseClientException, IOException, ParseException {
 
     email = userEmail;
-
+    sensorBaseClient = sbc;
     projectNames = new ArrayList<String>();
     sendToSocnet = new HashMap<String, Boolean>();
     startDates = new HashMap<String, Date>();
@@ -74,17 +77,30 @@ public class SelectionGUI extends javax.swing.JFrame {
     endDateChooser.setDate(endDate);
   }
 
-  private SelectionGUI() throws IOException, ParseException {
+  private SelectionGUI() throws IOException, ParseException, SensorBaseClientException {
     initComponents();
     loadData();
   }
   
-  private void loadData() throws IOException, ParseException
+  private void loadData() throws IOException, ParseException, SensorBaseClientException
   {
       //Load the data from hackystat.  Use it to populate startTime, endTime, 
       //projectNames, and sendToSocnet
       
       //Fill projectNames from hackystat
+      ProjectIndex projects = sensorBaseClient.getProjectIndex(email);
+      List<ProjectRef> projectRefs = projects.getProjectRef();
+      
+      for(ProjectRef proj : projectRefs)
+      {
+          Project p  = sensorBaseClient.getProject(proj);
+          
+          String name = p.getName();
+          projectNames.add(name);
+          startDates.put(name, p.getStartTime().toGregorianCalendar().getTime());
+          endDates.put(name, p.getEndTime().toGregorianCalendar().getTime());
+      }
+      
       
       DefaultListModel lm = new DefaultListModel();
       
@@ -359,6 +375,11 @@ private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                 {
                     Logger.getLogger(SelectionGUI.class.getName()).
                             log(Level.SEVERE, null, ex);
+                }
+                catch(SensorBaseClientException sbce)
+                {
+                    Logger.getLogger(SelectionGUI.class.getName()).
+                            log(Level.SEVERE, null, sbce);
                 }
       }
     });
