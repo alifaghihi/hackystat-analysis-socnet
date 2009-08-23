@@ -1,15 +1,13 @@
 #summary A guide for downloading, installing, and running SocNet from source
 #labels Featured
-<p><strong>Table of contents</strong> <ul><li><a href="#1.0_Introduction">1.0 Introduction</a></li><li><a href="#2.0_Downloading_and_configuration">2.0 Downloading the SocNet Sources</a></li><ul><li><a href="#2.1_Install_Java_6">2.1 Install Necessary Tools</a></li><li><a href="#2.2_Downloading_the_latest_binary_distribution">2.2 Checking out the SocNet Sources</a></li><li><a href="#3.0_Bringing_up_services">3.0 Building and Running SocNet</a></li>
-
-<a name="1.0_Introduction"/><h1>1.0 Introduction</h1>
+= 1.0 Introduction=
 
 I have tried to make downloading, compiling, and running the SocNet system as painless and easy as possible. You'll need a few tools to start off with, but once you've got those in place it should come together quickly.
 
 
 = 2.0 Downloading the SocNet Sources =
 
-==2.1 Install Necessary Tools ==
+== 2.1 Install Necessary Tools ==
 For this, you will need:
   *  Subversion
   *  Java
@@ -34,7 +32,7 @@ Download Java Transaction API Specification 1.1 Maintenance Release, both the cl
 
 Now we're ready to get down to business.
 
-==2.1 Checking out the SocNet Sources ==
+== 2.1 Checking out the SocNet Sources ==
 
 Checkout the SocNet trunk into the directory of your choice using the following command:
 
@@ -42,8 +40,8 @@ Checkout the SocNet trunk into the directory of your choice using the following 
 
 Now, on to building!
 
-=3.0 Building and Running SocNet =
-==3.1 Get Dependencies using Ivy ==
+= 3.0 Building and Running SocNet =
+== 3.1 Get Dependencies using Ivy ==
 
 Fortunately, Ivy makes this part a breeze. If you have Ivy installed, run ant in the top level directory and Ivy will fetch everything you need.
 
@@ -53,7 +51,7 @@ If you don't have Ivy installed, you can still run ant, and it whimper about Ivy
 
 After executing that command, run ant and Ivy will merrily go about retrieving things so that you don't have to.
 
-==3.2 Set Up Configuration Files ==
+== 3.2 Set Up Configuration Files ==
 
 === 3.2.1 Socnet Configuration File ===
 The socnet.properties file should be placed in the computer's home directory in the hackystat home folder. This file is not strictly necessary, but if you want to use it, it allows additional specification and configuration. Note that as of this release, the serve does not authenticate any of the web service calls. A sample file can be viewed/downloaded [http://hackystat-analysis-socnet.googlecode.com/svn/trunk/config/socnet.properties.sample/ here].
