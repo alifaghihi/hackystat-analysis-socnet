@@ -12,7 +12,9 @@ Coming sensors are:
   *  ~~Facebook Sensor~~ *{Update}* Because of Facebook's data use policies, the Facebook application is currently on hold indefinitely. In the future, we hope to offer similar functionality from a more user-friendly social networking utility, such as OpenSocial or Orkut.
 
 
-Future sensors that could also be fun include media player sensors, to log the music you listen to while you code.
+Future sensors that could also be fun include media player sensors, to log the music you listen to while you code. 
+
+Additionally, visualization and analysis tools are planned for future releases.
 
 See the individual sections below for instructions on registering with each of the SocNet sensors.
 
