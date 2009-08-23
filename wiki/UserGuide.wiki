@@ -9,7 +9,7 @@ Currently, only a few of the planned SocNet services are available to users. Sen
 
 Coming sensors are:
   *  Ohloh Sensor
-  *  ~~Facebook Sensor~~ [Update] Because of Facebook's draconian data use policies, the Facebook application is currently on hold indefinitely. In the future, we hope to offer similar functionality from a more user-friendly social networking utility, such as OpenSocial or Orkut.
+  *  ~~Facebook Sensor~~ *Update* Because of Facebook's draconian data use policies, the Facebook application is currently on hold indefinitely. In the future, we hope to offer similar functionality from a more user-friendly social networking utility, such as OpenSocial or Orkut.
 
 
 Future sensors that could also be fun include media player sensors, to log the music you listen to while you code.
