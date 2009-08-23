@@ -85,7 +85,6 @@ public class RegistrationResource extends SocNetResource {
       // admin.
       Mailer mailer = Mailer.getInstance();
       String email = registeringuser.getEmail();
-      System.out.println("Getting server properties: " + server);
       String adminEmail = server.getServerProperties().get(ADMIN_EMAIL_KEY);
       String emailSubject = "SocNet Registration";
       String emailBody = "Welcome to SocNet. " + "\nYou are registered with: "
@@ -98,10 +97,10 @@ public class RegistrationResource extends SocNetResource {
           + "\nWe hope you enjoy using SocNet!";
 
       boolean success = mailer.send(email, emailSubject, emailBody);
-      // server.getLogger().info("Email sent " + (success ?
-      // "successfully." : "unsuccessfully."));
+       server.getLogger().info("Email sent " + (success ?
+        "successfully." : "unsuccessfully."));
       if (success) {
-        System.out.println("The email should have been sent");
+
         // Don't send the administrator emails about test user
         // registration.
         if (!userManager.isTestUser(registeringuser)) {

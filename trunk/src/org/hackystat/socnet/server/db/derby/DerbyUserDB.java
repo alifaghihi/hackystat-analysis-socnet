@@ -369,7 +369,7 @@ public class DerbyUserDB implements UserDBImpl {
   /** {@inheritDoc} */
   @Override
   public String getUserIndex() {
-    return getIndex("User", "SELECT XmlUserRef FROM SocnetUser");
+    return getIndex("XMLUser", "SELECT XmlUserRef FROM SocnetUser");
   }
 
   /** {@inheritDoc} */

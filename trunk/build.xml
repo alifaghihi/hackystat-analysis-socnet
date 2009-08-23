@@ -223,6 +223,15 @@
     </java>
   </target>
   
+      <target name="projectselector" depends="compile" description="Test to see if the put command works">
+    <java classname="org.hackystat.socnet.sensors.hackystatclient.ProjectSelector" fork="yes">
+      <classpath>
+        <pathelement location="${build.dir}/classes" />
+        <path refid="compile.classpath" />
+      </classpath>
+    </java>
+  </target>
+  
 </project>
 
 

@@ -29,38 +29,30 @@ import org.hackystat.socnet.server.client.SocNetClient;
  * @author cody
  */
 public class SelectionGUI extends javax.swing.JFrame {
+    
+    /** This is a necessary field for serializable */
+  public static final long serialVersionUID = 1l;
 
-  private SensorBaseClient sensorBaseClient;
-  private String email;
   private ArrayList<String> projectNames;
-
   private HashMap<String, Boolean> sendToSocnet;
   private HashMap<String, Date> startDates;
   private HashMap<String, Date> endDates;
   
   /** Creates new form SelectionGUI */
-  public SelectionGUI(SensorBaseClient sbc, SocNetClient snc, String userEmail)
+  public SelectionGUI(ArrayList<String> projects, HashMap<String, Date> starts,
+          HashMap<String, Date> ends)
       throws SensorBaseClientException, IOException, ParseException {
 
-    email = userEmail;
-    sensorBaseClient = sbc;
-    projectNames = new ArrayList<String>();
+    projectNames = projects;
     sendToSocnet = new HashMap<String, Boolean>();
-    startDates = new HashMap<String, Date>();
-    endDates = new HashMap<String, Date>();
+    startDates = starts;
+    endDates = ends;
     
-    loadData(); //Load the data here.
-    setControlsEnabled(false);
-    List<ProjectRef> projects;
-
-    // for (ProjectRef projectReference : projects)
-    // {
-    // projectNames.add(projectReference.getName());
-    //
-    // }
-
     initComponents();
 
+    loadData(); //Load the data here.
+    setControlsEnabled(false);
+    
     String projectName = (String) projectList.getSelectedValue();
     Date startDate = new GregorianCalendar(2001, Calendar.JANUARY, 1).getTime();
     Date endDate = new GregorianCalendar().getTime();
@@ -84,24 +76,6 @@ public class SelectionGUI extends javax.swing.JFrame {
   
   private void loadData() throws IOException, ParseException, SensorBaseClientException
   {
-      //Load the data from hackystat.  Use it to populate startTime, endTime, 
-      //projectNames, and sendToSocnet
-      
-      //Fill projectNames from hackystat
-      ProjectIndex projects = sensorBaseClient.getProjectIndex(email);
-      List<ProjectRef> projectRefs = projects.getProjectRef();
-      
-      for(ProjectRef proj : projectRefs)
-      {
-          Project p  = sensorBaseClient.getProject(proj);
-          
-          String name = p.getName();
-          projectNames.add(name);
-          startDates.put(name, p.getStartTime().toGregorianCalendar().getTime());
-          endDates.put(name, p.getEndTime().toGregorianCalendar().getTime());
-      }
-      
-      
       DefaultListModel lm = new DefaultListModel();
       
       for(String s : projectNames)
@@ -153,11 +127,6 @@ public class SelectionGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        projectList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         projectList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         projectList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -176,7 +145,7 @@ public class SelectionGUI extends javax.swing.JFrame {
             }
         });
 
-        cancelButton.setLabel("Cancel");
+        cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelButtonActionPerformed(evt);
@@ -222,7 +191,8 @@ public class SelectionGUI extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(saveButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -260,8 +230,8 @@ public class SelectionGUI extends javax.swing.JFrame {
                         .addComponent(sendCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cancelButton)
-                            .addComponent(saveButton)))
+                            .addComponent(saveButton)
+                            .addComponent(cancelButton)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -290,7 +260,7 @@ private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                     conf.setStartDate(project, start);
                 }
             }
-            conf.setProjectNames(projectNames);
+            conf.setProjectNames(names);
             conf.save();
         }
         catch (IOException ex)
