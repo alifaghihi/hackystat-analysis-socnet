@@ -32,3 +32,54 @@ The Hackystat Sensor asks you which projects you wish to release information abo
 
 == 3.2 Using the Hackystat Sensor ==
 To use the Hackystat Sensor you must first be a Hackystat user. If you are not a Hackystat user, but would like to become one (and we certainly recommend that!), head over to [http://www.hackystat.org the Hackystat home page] to learn more about Hackystat and get registered.
+
+Once you've gotten registered and played around with the Hackystat system a bit, you're ready go to.
+
+=== 3.2.1 Download the Hackystat Client Binary Distribution ==
+
+Download the latest release of the SocNet Hackystat from the featured downloads section of the project page. Today, the latest download is [http://hackystat-analysis-socnet.googlecode.com/files/SocnetHackystatClient_0.2a-bin.zip SocnetHackystatClient_0.2a-bin.zip].
+
+Once you have that downloaded, unzip it to the location you would like to run it from.
+
+===3.2.2 Create the Hackystat Client Properties File ==
+
+Create a blank file named socnet.hackystatclient.properties in the hackystatclient folder within socnet folder, which is within the hackystat hidden folder in the user's home directory. In Linux, the abosolute path is
+
+||$USER_HOME/.hackystat/socnet/hackystatclient/socnet.hackystatclient.properties||
+
+=== 3.2.2 Running the Hackystat Client ===
+
+==== 3.3.3.1 Setup =====
+
+Execute 
+
+||java -jar project_selector.jar||
+
+in the top level directory of the archive that you unxipped to start up the project selection dialog. That should bring up a dialog box that looks something like this:
+
+[http://hackystat-analysis-socnet.googlecode.com/files/ProjectSelectionDialog.png]
+
+Click on a project in the list for which you want to send information to the SocNet server.
+
+[http://hackystat-analysis-socnet.googlecode.com/files/SelectProject.png]
+
+Set the start date and end date for which you want the SocNet server to be able to access data for this project.
+
+[http://hackystat-analysis-socnet.googlecode.com/files/SelectStart.png]
+
+Finally, check the checkbox indicating that you want to send data for this project to the SocNet server.
+
+[http://hackystat-analysis-socnet.googlecode.com/files/SelectSendToSocNet.png]
+
+Repeat this process for each project for which you are interested in sending information to the SocNet server. When you have done this for as many projects as you are interested in sending information to the SocNet server for, click "Save and Close"
+
+[http://hackystat-analysis-socnet.googlecode.com/files/SaveAndClose.png]
+ 
+Information gleaned from the dialog will be saved in the socnet.hackystatclient.properties file.
+
+==== 3.3.3.2 Run =====
+To run the Hackystat Client daemon process, execute
+
+||java -jar hackystat_client.jar ||
+
+in the top level directory. It will start sending information right away!
