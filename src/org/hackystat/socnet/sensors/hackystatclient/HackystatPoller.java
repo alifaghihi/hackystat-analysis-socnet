@@ -118,7 +118,8 @@ public class HackystatPoller {
   }
 
   public org.hackystat.socnet.server.resource.socialmediagraph.jaxb.TelemetryStream getProjectStream(
-      String chartName, String project) throws TelemetryClientException, SensorBaseClientException {
+      String chartName, String project, String defaultParams) throws TelemetryClientException,
+      SensorBaseClientException {
     XMLGregorianCalendar now = Tstamp.makeTimestamp();
     XMLGregorianCalendar end;
 
@@ -135,7 +136,7 @@ public class HackystatPoller {
     dateLastSent.put(project, end);
 
     org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryChartData tcd = telemetryClient
-        .getChart(chartName, email, project, "Day", dateLastSent.get(project), end);
+        .getChart(chartName, email, project, "Day", dateLastSent.get(project), end, defaultParams);
 
     List<org.hackystat.telemetry.service.resource.chart.jaxb.TelemetryStream> stream = tcd
         .getTelemetryStream();
@@ -212,8 +213,8 @@ public class HackystatPoller {
     List<org.hackystat.socnet.server.resource.socialmediagraph.jaxb.TelemetryStream> relStreams = rel
         .getTelemetryStream();
 
-    for (String chartName : CHART_NAMES) {
-      relStreams.add(getProjectStream(chartName, project));
+    for (int i = 0; i < CHART_NAMES.length; i++) {
+      relStreams.add(getProjectStream(CHART_NAMES[i], project, DEFAULT_PARAMETERS[i]));
     }
 
     XMLNode startNode = new XMLNode();
@@ -228,6 +229,8 @@ public class HackystatPoller {
 
     rel.getXMLNode().add(startNode);
     rel.getXMLNode().add(endNode);
+
+    rel.setType(BetweenNodesRelationshipType.CONTRIBUTES_TO.name());
 
     return rel;
   }
@@ -249,14 +252,21 @@ public class HackystatPoller {
   public void update() throws SensorBaseClientException, Exception {
 
     for (String projectName : projectNames) {
-      dateLastSent.put(projectName, socNetClient.getDateLastUpdated(email,
-          IsARelationshipType.IS_HACKYSTAT_ACCOUNT.name(), projectName,
-          IsARelationshipType.IS_PROJECT.name(),
-          BetweenNodesRelationshipType.CONTRIBUTES_TO.name(), dateLastSent.get(projectName)
-              .toXMLFormat())); // not sure
-      // about the
-      // toXMLFormat
-      // part
+
+      try {
+        XMLGregorianCalendar date = socNetClient.getDateLastUpdated(email,
+            IsARelationshipType.IS_HACKYSTAT_ACCOUNT.name(), projectName,
+            IsARelationshipType.IS_PROJECT.name(), BetweenNodesRelationshipType.CONTRIBUTES_TO
+                .name(), dateLastSent.get(projectName).toXMLFormat());
+
+        dateLastSent.put(projectName, date); // not sure
+        // about the
+        // toXMLFormat
+        // part
+      }
+      catch (Exception e) {
+        // e.printStackTrace();
+      }
 
       if (!isUserSetEndDate.get(projectName)) {
         projectEnds.put(projectName, sensorBaseClient.getProject(email, projectName).getEndTime());

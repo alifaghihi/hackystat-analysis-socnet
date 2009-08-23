@@ -1,6 +1,5 @@
 package org.hackystat.socnet.server.resource;
 
-import org.hackystat.socnet.server.resource.ResponseMessage;
 import org.hackystat.socnet.server.Server;
 import org.hackystat.socnet.server.resource.users.UserManager;
 import org.hackystat.socnet.server.resource.users.jaxb.XMLUser;
@@ -173,18 +172,18 @@ public abstract class SocNetResource extends Resource {
    * @return True if the URI user is a real user.
    */
   protected boolean validateUriUserIsUser() {
-    System.out.println("ValidateUriUserIsUser: " + this.uriUser);
-    System.out.println("User " + user);
+    // System.out.println("ValidateUriUserIsUser: " + this.uriUser);
+    // System.out.println("User " + user);
     try {
       this.user = this.userManager.getUser(this.uriUser);
       if (this.user == null) {
-        System.out.println("validateUriUserIsUser got null!!");
+        // System.out.println("validateUriUserIsUser got null!!");
         this.responseMsg = ResponseMessage.undefinedUser(this, this.uriUser);
         getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
         return false;
       }
       else {
-        System.out.println("ValidateUriUserIsUser user is valiid");
+        // System.out.println("ValidateUriUserIsUser user is valiid");
         return true;
       }
     }
@@ -197,17 +196,17 @@ public abstract class SocNetResource extends Resource {
   }
 
   protected boolean validateAuthUserIsUser() {
-    System.out.println("ValidateAuthUserIsUser: " + this.authUser);
+    // System.out.println("ValidateAuthUserIsUser: " + this.authUser);
     try {
       this.user = this.userManager.getUser(this.authUser);
       if (this.user == null) {
-        System.out.println("validateAuthUserIsUser got null!!");
+        // System.out.println("validateAuthUserIsUser got null!!");
         this.responseMsg = ResponseMessage.undefinedUser(this, this.authUser);
         getResponse().setStatus(Status.CLIENT_ERROR_BAD_REQUEST, removeNewLines(this.responseMsg));
         return false;
       }
       else {
-        System.out.println("ValidateAuthUserIsUser user is valiid");
+        // System.out.println("ValidateAuthUserIsUser user is valiid");
         return true;
       }
     }

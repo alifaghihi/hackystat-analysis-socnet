@@ -33,11 +33,11 @@ public class Authenticator extends Guard {
   @Override
   public boolean checkSecret(Request request, String identifier, char[] secret) {
     UserManager manager = (UserManager) getContext().getAttributes().get("UserManager");
-    // SensorBaseLogger.getLogger().info("Authenticating: " + identifier +
+    // System.out.println("Authenticating: " + identifier +
     // " " + new String(secret));
     boolean isUser = manager.isUser(identifier, new String(secret));
 
-    System.out.println("The result of checking the user is: " + isUser);
+    // System.out.println("The result of checking the user is: " + isUser);
     return isUser;
   }
 }

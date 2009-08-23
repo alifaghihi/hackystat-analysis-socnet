@@ -14,11 +14,14 @@ import org.hackystat.telemetry.service.client.TelemetryClient;
 import org.hackystat.telemetry.service.client.TelemetryClientException;
 
 /**
+ * This is the launcher for the Hackystat client, which polls the Sensorbase for
+ * Telemetry information and then sends it to the Socnet Server.
  * 
  * @author Rachel Shadoan
  */
 public class HackystatClient {
 
+    
   public static final String SERVER_ADDRESS_KEY = "sensorshell.sensorbase.host";
   public static final String USER_KEY = "sensorshell.sensorbase.user";
   public static final String PASSWORD_KEY = "sensorshell.sensorbase.password";
@@ -36,74 +39,50 @@ public class HackystatClient {
 
   public static void main(String[] args) throws IOException, SensorBaseClientException,
       TelemetryClientException, Exception {
-    
-      /*
-       String userHome = System.getProperty("user.home");
-    System.out.println(userHome);
-    String propFile = userHome + "/.hackystat/sensorshell/sensorshell.properties";
-    String telPropFile = userHome + "/.hackystat/telemetry/telemetry.properties";
-    System.out.println(telPropFile);
-    Properties properties = new Properties();
-    properties.load(new FileReader(propFile));
 
-    Properties telProperties = new Properties();
-    properties.load(new FileReader(telPropFile));
+    while (true) {
+      ClientConfig conf = new ClientConfig();
+      String sensorbaseUsername = conf.getSensorbaseUsername();
+      String sensorbasePass = conf.getSensorbasePassword();
 
-    String user = properties.getProperty(USER_KEY);
-    String password = properties.getProperty(PASSWORD_KEY);
-    String serveraddress = properties.getProperty(SERVER_ADDRESS_KEY);
+      System.out.println(sensorbasePass);
 
-    String telHost = telProperties.getProperty("telemetry.sensorbase.host");
-    System.out.println(telHost);
-    String telDPD = telProperties.getProperty("telemetry.dailyprojectdata.host");
-    String telHostName = telProperties.getProperty("telemetry.hostname ");
+      SocNetClient snc = new SocNetClient(conf.getSocnetHost(), sensorbaseUsername, sensorbasePass);
 
-    if (user == null || password == null || serveraddress == null) {
-      printErrorMsg(propFile);
+      TelemetryClient tc = new TelemetryClient(conf.getTelemetryHost(), sensorbaseUsername,
+          sensorbasePass);
+
+      SensorBaseClient sbc = new SensorBaseClient(conf.getSensorbaseHost(), sensorbaseUsername,
+          sensorbasePass);
+
+      HackystatPoller poller = new HackystatPoller(sbc, snc, tc, sensorbaseUsername);
+
+      List<String> projects = conf.getProjectNames();
+
+      for (String project : projects) {
+        poller.addProject(project, conf.getStartDate(project), conf.getEndDate(project));
+      }
+
+      try {
+
+        poller.update();
+
+        // wait for an hour before doing it again
+        System.out.println("Sleeping for an day!");
+        Thread.sleep(1000 * 60 * 60 * 24);
+        System.out.println("Awake!");
+
+      }
+
+      catch (Exception ex) {
+        System.out.println(ex.getMessage());
+        ex.printStackTrace();
+        System.out.println("Unknown problem.  Sleeping for 15 minutes" + "before trying again.");
+        Thread.sleep(15 * 60 * 1000);
+      }
+
     }
 
-    TelemetryClient tc = new TelemetryClient("http://dasha.ics.hawaii.edu:9878/telemetry/", user,
-        password);
-
-    TelemetryChartData tcd = tc.getChart("Build", user, "Default", "Day", Tstamp
-        .makeTimestamp("2009-05-30T23:59:59.999-10:00"), Tstamp.makeTimestamp(), "*,*,*,false");
-
-    System.out.println(tcd.getTelemetryStream().size());*/
-    
-    while(true)
-    {
-        ClientConfig conf = new ClientConfig();
-        String sensorbaseUsername = conf.getSensorbaseUsername();
-        String sensorbasePass = conf.getSensorbasePassword();
-
-        System.out.println(sensorbasePass);
-        
-        SocNetClient snc = new SocNetClient(conf.getSocnetHost(), 
-                sensorbaseUsername, sensorbasePass);
-        
-        TelemetryClient tc = new TelemetryClient(conf.getTelemetryHost(), 
-                sensorbaseUsername, sensorbasePass);
-        
-        
-        SensorBaseClient sbc = new SensorBaseClient(conf.getSensorbaseHost(), 
-                sensorbaseUsername, sensorbasePass);
-                      
-       HackystatPoller poller = new HackystatPoller(sbc, snc, tc, sensorbaseUsername);
-       
-       List<String> projects = conf.getProjectNames();
-       
-       for(String project : projects)
-       {
-           poller.addProject(project, conf.getStartDate(project), 
-                   conf.getEndDate(project));
-       }
-       
-       poller.update();
-       
-       Thread.sleep(1000* 60 * 60 * 24);
-    }
-    
-    
   }
 
 }
