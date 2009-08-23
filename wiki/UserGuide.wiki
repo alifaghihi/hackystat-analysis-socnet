@@ -5,9 +5,9 @@
 
 Currently, only a few of the planned SocNet services are available to users. Sensors that have been implemented include:
   *  Twitter Sensor
+  *  Hackystat Sensor
 
 Coming sensors are:
-  *  Hackystat Sensor
   *  Ohloh Sensor
   *  Facebook Sensor
 
@@ -18,4 +18,16 @@ See the individual sections below for instructions on registering with each of t
 
 = 2.0 Twitter Sensor =
 
+== 2.1 About the Twitter Sensor ==
+The Twitter Sensor sends information about your Twitter friends and followers to the SocNet server.
+
+== 2.2 Using the Twitter Sensor == 
 To register with the SocNet Twitter sensor, follow the Twitter account "HackystatSocNet". The sensor will then be able to ascertain who you are following and who follows you, and will persist that relationship information in the SocNet social media graph.
+
+= 3.0 Hackystat Sensor =
+
+== 3.1 About the Hackystat Sensor ==
+The Hackystat Sensor asks you which projects you wish to release information about to the SocNet server. For each project you select, you may select certain dates for which the Hackystat sensor is allowed access. Then, for the projects and dates allowed, the Hackystat Sensor sends Build, Churn, CodeIssue, Commit, Coverage, CyclomaticComplexity, DevTime, Issue, and UnitTest Telemetry streams to the SocNet server.
+
+== 3.2 Using the Hackystat Sensor ==
+To use the Hackystat Sensor you must first be a Hackystat user. If you are not a Hackystat user, but would like to become one (and we certainly recommend that!), head over to [http://www.hackystat.org the Hackystat home page] to learn more about Hackystat and get registered.
