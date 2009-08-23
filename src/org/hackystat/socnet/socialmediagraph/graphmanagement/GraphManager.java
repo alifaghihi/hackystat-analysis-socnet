@@ -591,13 +591,28 @@ public class GraphManager {
 
   public XMLGregorianCalendar getLatestTelemetryDate(XMLNode start, XMLNode end)
       throws NodeNotFoundException, InvalidArgumentException {
+      Transaction tx = neo.beginTx();
+
+      XMLGregorianCalendar latest = null;
+      
+    try {
     Relationship rel = nodeBuilder.getRelationship(BetweenNodesRelationshipType.CONTRIBUTES_TO,
         IsARelationshipType.IS_HACKYSTAT_ACCOUNT, SocialMediaNode.NAME_KEY, start.getName(),
         IsARelationshipType.IS_PROJECT, SocialMediaNode.NAME_KEY, end.getName());
 
     ContributesToRelationship ctr = new ContributesToRelationship(rel);
 
-    return ctr.getDateLastTelemetryData();
+     latest = ctr.getDateLastTelemetryData();
+       
+    tx.success();
+    
+    
+    }
+    finally
+    {
+        tx.finish();
+    }
+    return latest;
   }
 
   public void updateRelationship(XMLRelationship r) throws NodeNotFoundException {
