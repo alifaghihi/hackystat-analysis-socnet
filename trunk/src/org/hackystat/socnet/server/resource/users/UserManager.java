@@ -304,6 +304,10 @@ public class UserManager {
    */
   public synchronized boolean isUser(String email, String password) {
     XMLUser user = this.email2user.get(email);
+    /*
+     * if(user == null) System.out.println("isUser: null"); else System.out.println("isUser: " +
+     * user.getEmail() + " pass: " + user.getPassword());
+     */
     return (user != null) && (password != null) && (password.equals(user.getPassword()));
   }
 
@@ -348,28 +352,25 @@ public class UserManager {
     String email = user.getEmail();
     // registering happens rarely, so we'll just iterate through the
     // userMap.
-   
-      for (XMLUser u : this.email2user.values()) { if (u.getEmail().equals(email)) { return
-      u; } }
-     
-    
-    //if the user has already set the password, leave it as it.
-     if(user.getPassword() != null)
-     {
-         return user;
-     }
-    
-     //otherwise, in the case of a test user, the email is their password, or if they
-    //or they are not a test users and didn't set their own password, it is a 
-    // randomly generated string.
-     else
 
-     { String password = email.endsWith(server.getServerProperties().get(TEST_DOMAIN_KEY)) ? email
-        : PasswordGenerator.make();
-        user.setPassword(password);
-        this.putUser(user);
-        return user;
-     }
+    for (XMLUser u : this.email2user.values()) {
+      if (u.getEmail().equals(email)) {
+        return u;
+      }
+    }
+
+    // in the case of a test user, the email is their password, or if they
+    // or they are not a test users and didn't set their own password, it is a
+    // randomly generated string.
+    if (user.getPassword() == null) {
+      String password = email.endsWith(server.getServerProperties().get(TEST_DOMAIN_KEY)) ? email
+          : PasswordGenerator.make();
+      user.setPassword(password);
+
+    }
+
+    this.putUser(user);
+    return user;
   }
 
   /**

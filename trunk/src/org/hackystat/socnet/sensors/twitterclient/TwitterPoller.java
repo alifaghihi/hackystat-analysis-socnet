@@ -22,8 +22,8 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 
 /**
- * TwitterPoller provides the functionality to retrieve information from Twitter
- * and send it to the SocNet server.
+ * TwitterPoller provides the functionality to retrieve information from Twitter and send it to the
+ * SocNet server.
  * 
  * @author Rachel Shadoan
  */
@@ -308,9 +308,9 @@ public class TwitterPoller {
     }
     else {
       connectedUsersInDB = socnetclient.getNodes(nodename, nodeType, relationship); // add each of
-                                                                                    // the usernames
-                                                                                    // to the
-                                                                                    // HashSet
+      // the usernames
+      // to the
+      // HashSet
     }
     for (String username : connectedUsersInDB) {
       connectedUsersInDBHash.add(username);

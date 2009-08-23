@@ -128,6 +128,7 @@ public class SocNetClient implements SocNetClientInterface {
     String servicePath = "relationships/" + relationshipType + "/" + startNodeType + "/"
         + startNodeName + "/" + endNodeType + "/" + endNodeName + "/" + dateLastSent;
 
+    System.out.println("getDateLastUpdated " + servicePath);
     String serviceuri = SocNetRestApiHelper.getURI(serveruri, servicePath);
 
     String response = SocNetRestApiHelper.GET(serviceuri, email, password);
@@ -171,7 +172,7 @@ public class SocNetClient implements SocNetClientInterface {
       XMLUser user1 = (XMLUser) JAXBHelper.unmarshall(getResult, jaxbUserContext);
     }
     catch (Exception e) {
-      //e.printStackTrace();
+      // e.printStackTrace();
       uri = SocNetRestApiHelper.getURI(serveruri, "register/");
       XMLUser user = new XMLUser();
       user.setEmail(email);

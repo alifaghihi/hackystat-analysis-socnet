@@ -97,8 +97,7 @@ public class RegistrationResource extends SocNetResource {
           + "\nWe hope you enjoy using SocNet!";
 
       boolean success = mailer.send(email, emailSubject, emailBody);
-       server.getLogger().info("Email sent " + (success ?
-        "successfully." : "unsuccessfully."));
+      server.getLogger().info("Email sent " + (success ? "successfully." : "unsuccessfully."));
       if (success) {
 
         // Don't send the administrator emails about test user

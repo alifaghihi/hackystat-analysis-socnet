@@ -54,6 +54,7 @@ public class RelationshipResource extends SocNetResource {
     XMLNode endNode;
 
     try {
+      System.out.println("The request made it here!");
       if (!validateAuthUserIsUser() || !validateAuthUserIsAdminOrUser()) {
         System.out.println("User not validated!");
         return null;
@@ -71,8 +72,10 @@ public class RelationshipResource extends SocNetResource {
       if (lastupdated == null)
         return manager.getRelationshipRepresentation(manager.getRelationship(relationshiptype,
             startNode, endNode));
-      else
+
+      else {
         return manager.getRepresentation(manager.getLatestTelemetryDate(startNode, endNode));
+      }
 
     }
     catch (InsufficientArgumentsException iae) {
@@ -222,7 +225,9 @@ public class RelationshipResource extends SocNetResource {
         manager.getNode(r.getXMLNode().get(0).getType(), r.getXMLNode().get(0).getName());
       }
       catch (NodeNotFoundException nnfe) {
-        System.out.println("The node " + r.getXMLNode().get(0).getName() + "does not exist.");
+        System.out.println("The node " + r.getXMLNode().get(0).getName() + "does not exist."
+            + "Creating it now.");
+        manager.storeNode(r.getXMLNode().get(0));
 
       }
 
@@ -230,7 +235,9 @@ public class RelationshipResource extends SocNetResource {
         manager.getNode(r.getXMLNode().get(1).getType(), r.getXMLNode().get(1).getName());
       }
       catch (NodeNotFoundException nnfe) {
-        System.out.println("The node " + r.getXMLNode().get(1).getName() + "does not exist.");
+        System.out.println("The node " + r.getXMLNode().get(1).getName() + "does not exist."
+            + "Creating it now.");
+        manager.storeNode(r.getXMLNode().get(1));
       }
 
       manager.updateRelationship(r);
