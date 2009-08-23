@@ -8,14 +8,13 @@ import org.restlet.resource.Representation;
 import org.restlet.resource.StringRepresentation;
 import org.restlet.resource.Variant;
 
-public class HelloPingResource extends SocNetResource{
+public class HelloPingResource extends SocNetResource {
 
-	public HelloPingResource(Context context, Request request, Response response) {
-	    super(context, request, response);
-	}
-	
-	public Representation represent(Variant variant) {
-		return new StringRepresentation("Hello, World");
-	}
+  public HelloPingResource(Context context, Request request, Response response) {
+    super(context, request, response);
+  }
 
+  public Representation represent(Variant variant) {
+    return new StringRepresentation("Hello, World");
+  }
 }

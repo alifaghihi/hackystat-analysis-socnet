@@ -8,17 +8,15 @@ package org.hackystat.socnet.socialmediagraph.nodes;
 import java.util.ArrayList;
 
 /**
- *
+ * 
  * @author Rachel Shadoan
  */
 public class TelemetryData {
-    
-    ArrayList<TelemetryDataStream> streams;
-    
-    
-   public TelemetryData()
-   {
-       streams = new ArrayList<TelemetryDataStream>();
-   }
+
+  ArrayList<TelemetryDataStream> streams;
+
+  public TelemetryData() {
+    streams = new ArrayList<TelemetryDataStream>();
+  }
 
 }

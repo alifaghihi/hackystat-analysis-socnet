@@ -6,10 +6,10 @@ import org.neo4j.api.core.RelationshipType;
 
 public interface SocialMediaNodeInterface {
 
-	public String getName();
-	
-	public void setName(String name);
+  public String getName();
 
-        public Relationship relateTo(SocialMediaNode node2, RelationshipType relationship);
-        
+  public void setName(String name);
+
+  public Relationship relateTo(SocialMediaNode node2, RelationshipType relationship);
+
 }

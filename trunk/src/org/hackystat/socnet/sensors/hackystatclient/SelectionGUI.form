@@ -28,7 +28,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="selectionLabel" alignment="0" pref="467" max="32767" attributes="1"/>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="addProjectButton" min="-2" pref="93" max="-2" attributes="0"/>
+                              <Component id="saveButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="cancelButton" min="-2" pref="72" max="-2" attributes="0"/>
                           </Group>
@@ -39,15 +39,23 @@
                       <Component id="jScrollPane1" min="-2" pref="185" max="-2" attributes="1"/>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="startDateLabel" pref="117" max="32767" attributes="0"/>
-                          <Component id="endDateLabel" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="startDateLabel" pref="117" max="32767" attributes="0"/>
+                                  <Component id="endDateLabel" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="startDateChooser" min="-2" max="-2" attributes="0"/>
+                                  <Component id="endDateChooser" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="sendCheckBox" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="startDateChooser" min="-2" max="-2" attributes="0"/>
-                          <Component id="endDateChooser" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -70,10 +78,12 @@
                           <Component id="endDateLabel" max="32767" attributes="1"/>
                           <Component id="endDateChooser" alignment="0" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace pref="44" max="32767" attributes="0"/>
+                      <EmptySpace pref="10" max="32767" attributes="0"/>
+                      <Component id="sendCheckBox" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="addProjectButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jScrollPane1" pref="145" max="32767" attributes="1"/>
@@ -102,7 +112,11 @@
                 <StringItem index="4" value="Item 5"/>
               </StringArray>
             </Property>
+            <Property name="selectionMode" type="int" value="0"/>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="projectListValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -111,27 +125,33 @@
         <Property name="text" type="java.lang.String" value="Select the project for which you want to send data to the SocNet server."/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="addProjectButton">
+    <Component class="javax.swing.JButton" name="saveButton">
       <Properties>
+        <Property name="text" type="java.lang.String" value="Save and Close"/>
         <Property name="toolTipText" type="java.lang.String" value="Submit this project&apos;s telemetry data to the SocNet Server"/>
-        <Property name="label" type="java.lang.String" value="Add Project"/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Okay"/>
       </AccessibilityProperties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addProjectButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
         <Property name="label" type="java.lang.String" value="Cancel"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="startDateChooser">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
+      <Events>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="startDateChooserPropertyChange"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="startDateLabel">
       <Properties>
@@ -140,12 +160,23 @@
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="endDateChooser">
+      <Events>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="endDateChooserPropertyChange"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="endDateLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="End Date"/>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Set the end date for the project here. &lt;br&gt;Telemetry data for this project between the start date and the end date will be available to the SocNet server. &lt;br&gt;The default end date is the project end date as listed in the Sensorbase. &lt;br&gt;&lt;br&gt;If you want to continue sending this project&apos;s telemetry data to the SocNet server, leave this field blank. &lt;br&gt; "/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="sendCheckBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Send to SocNet"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendCheckBoxActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

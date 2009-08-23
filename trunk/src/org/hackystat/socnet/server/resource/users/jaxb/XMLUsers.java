@@ -5,7 +5,6 @@
 // Generated on: 2009.08.17 at 10:50:34 PM CDT 
 //
 
-
 package org.hackystat.socnet.server.resource.users.jaxb;
 
 import java.io.Serializable;
@@ -17,74 +16,70 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{}XMLUser" maxOccurs="unbounded"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element ref=&quot;{}XMLUser&quot; maxOccurs=&quot;unbounded&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "xmlUser"
-})
+@XmlType(name = "", propOrder = { "xmlUser" })
 @XmlRootElement(name = "XMLUsers")
-public class XMLUsers
-    implements Serializable
-{
+public class XMLUsers implements Serializable {
 
-    private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "XMLUser", required = true)
-    protected List<XMLUser> xmlUser;
+  private final static long serialVersionUID = 12343L;
+  @XmlElement(name = "XMLUser", required = true)
+  protected List<XMLUser> xmlUser;
 
-    /**
-     * Gets the value of the xmlUser property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the xmlUser property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getXMLUser().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link XMLUser }
-     * 
-     * 
-     */
-    public List<XMLUser> getXMLUser() {
-        if (xmlUser == null) {
-            xmlUser = new ArrayList<XMLUser>();
-        }
-        return this.xmlUser;
+  /**
+   * Gets the value of the xmlUser property.
+   * 
+   * <p>
+   * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+   * modification you make to the returned list will be present inside the JAXB object. This is why
+   * there is not a <CODE>set</CODE> method for the xmlUser property.
+   * 
+   * <p>
+   * For example, to add a new item, do as follows:
+   * 
+   * <pre>
+   * getXMLUser().add(newItem);
+   * </pre>
+   * 
+   * 
+   * <p>
+   * Objects of the following type(s) are allowed in the list {@link XMLUser }
+   * 
+   * 
+   */
+  public List<XMLUser> getXMLUser() {
+    if (xmlUser == null) {
+      xmlUser = new ArrayList<XMLUser>();
     }
+    return this.xmlUser;
+  }
 
-    public boolean isSetXMLUser() {
-        return ((this.xmlUser!= null)&&(!this.xmlUser.isEmpty()));
-    }
+  public boolean isSetXMLUser() {
+    return ((this.xmlUser != null) && (!this.xmlUser.isEmpty()));
+  }
 
-    public void unsetXMLUser() {
-        this.xmlUser = null;
-    }
+  public void unsetXMLUser() {
+    this.xmlUser = null;
+  }
 
 }

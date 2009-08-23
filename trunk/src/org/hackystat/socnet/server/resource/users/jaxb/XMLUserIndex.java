@@ -5,7 +5,6 @@
 // Generated on: 2009.08.17 at 10:50:34 PM CDT 
 //
 
-
 package org.hackystat.socnet.server.resource.users.jaxb;
 
 import java.io.Serializable;
@@ -20,106 +19,98 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-
 /**
- * <p>Java class for anonymous complex type.
+ * <p>
+ * Java class for anonymous complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element ref="{}XMLUserRef" maxOccurs="unbounded" minOccurs="0"/>
- *       &lt;/sequence>
- *       &lt;attribute ref="{}LastMod use="required""/>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * &lt;complexType&gt;
+ *   &lt;complexContent&gt;
+ *     &lt;restriction base=&quot;{http://www.w3.org/2001/XMLSchema}anyType&quot;&gt;
+ *       &lt;sequence&gt;
+ *         &lt;element ref=&quot;{}XMLUserRef&quot; maxOccurs=&quot;unbounded&quot; minOccurs=&quot;0&quot;/&gt;
+ *       &lt;/sequence&gt;
+ *       &lt;attribute ref=&quot;{}LastMod use=&quot;required&quot;&quot;/&gt;
+ *     &lt;/restriction&gt;
+ *   &lt;/complexContent&gt;
+ * &lt;/complexType&gt;
  * </pre>
  * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "xmlUserRef"
-})
+@XmlType(name = "", propOrder = { "xmlUserRef" })
 @XmlRootElement(name = "XMLUserIndex")
-public class XMLUserIndex
-    implements Serializable
-{
+public class XMLUserIndex implements Serializable {
 
-    private final static long serialVersionUID = 12343L;
-    @XmlElement(name = "XMLUserRef")
-    protected List<XMLUserRef> xmlUserRef;
-    @XmlAttribute(name = "LastMod", required = true)
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastMod;
+  private final static long serialVersionUID = 12343L;
+  @XmlElement(name = "XMLUserRef")
+  protected List<XMLUserRef> xmlUserRef;
+  @XmlAttribute(name = "LastMod", required = true)
+  @XmlSchemaType(name = "dateTime")
+  protected XMLGregorianCalendar lastMod;
 
-    /**
-     * Gets the value of the xmlUserRef property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the xmlUserRef property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getXMLUserRef().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link XMLUserRef }
-     * 
-     * 
-     */
-    public List<XMLUserRef> getXMLUserRef() {
-        if (xmlUserRef == null) {
-            xmlUserRef = new ArrayList<XMLUserRef>();
-        }
-        return this.xmlUserRef;
+  /**
+   * Gets the value of the xmlUserRef property.
+   * 
+   * <p>
+   * This accessor method returns a reference to the live list, not a snapshot. Therefore any
+   * modification you make to the returned list will be present inside the JAXB object. This is why
+   * there is not a <CODE>set</CODE> method for the xmlUserRef property.
+   * 
+   * <p>
+   * For example, to add a new item, do as follows:
+   * 
+   * <pre>
+   * getXMLUserRef().add(newItem);
+   * </pre>
+   * 
+   * 
+   * <p>
+   * Objects of the following type(s) are allowed in the list {@link XMLUserRef }
+   * 
+   * 
+   */
+  public List<XMLUserRef> getXMLUserRef() {
+    if (xmlUserRef == null) {
+      xmlUserRef = new ArrayList<XMLUserRef>();
     }
+    return this.xmlUserRef;
+  }
 
-    public boolean isSetXMLUserRef() {
-        return ((this.xmlUserRef!= null)&&(!this.xmlUserRef.isEmpty()));
-    }
+  public boolean isSetXMLUserRef() {
+    return ((this.xmlUserRef != null) && (!this.xmlUserRef.isEmpty()));
+  }
 
-    public void unsetXMLUserRef() {
-        this.xmlUserRef = null;
-    }
+  public void unsetXMLUserRef() {
+    this.xmlUserRef = null;
+  }
 
-    /**
-     * Gets the value of the lastMod property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public XMLGregorianCalendar getLastMod() {
-        return lastMod;
-    }
+  /**
+   * Gets the value of the lastMod property.
+   * 
+   * @return possible object is {@link XMLGregorianCalendar }
+   * 
+   */
+  public XMLGregorianCalendar getLastMod() {
+    return lastMod;
+  }
 
-    /**
-     * Sets the value of the lastMod property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link XMLGregorianCalendar }
-     *     
-     */
-    public void setLastMod(XMLGregorianCalendar value) {
-        this.lastMod = value;
-    }
+  /**
+   * Sets the value of the lastMod property.
+   * 
+   * @param value allowed object is {@link XMLGregorianCalendar }
+   * 
+   */
+  public void setLastMod(XMLGregorianCalendar value) {
+    this.lastMod = value;
+  }
 
-    public boolean isSetLastMod() {
-        return (this.lastMod!= null);
-    }
+  public boolean isSetLastMod() {
+    return (this.lastMod != null);
+  }
 
 }
