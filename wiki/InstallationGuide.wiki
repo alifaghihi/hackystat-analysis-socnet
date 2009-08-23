@@ -17,7 +17,7 @@ Now we're ready to get down to business.
 
 ==2.1 Download the Distribution ==
 
-Download the latest release of SocNet from the featured downloads on the Project Home Page.
+Download the latest release of SocNet from the featured downloads on the Project Home Page. Today, that is [http://hackystat-analysis-socnet.googlecode.com/files/Socnet_0.2a-bin.zip] SocNet_0.2a-bin.zip.
 
 Unzip it wherever you would like to run it from.
 
