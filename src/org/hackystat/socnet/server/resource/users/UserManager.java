@@ -55,9 +55,9 @@ public class UserManager {
   /** The UserDBImpl associated with this server. */
   UserDBImpl dbManager;
   /** The XMLUserIndex open tag. */
-  public static final String userIndexOpenTag = "<UserIndex>";
+  public static final String userIndexOpenTag = "<XMLUserIndex>";
   /** The XMLUserIndex close tag. */
-  public static final String userIndexCloseTag = "</UserIndex>";
+  public static final String userIndexCloseTag = "</XMLUserIndex>";
   /** The initial size for Collection instances that hold the XMLUsers. */
   private static final int userSetSize = 127;
   /** The in-memory repository of XMLUsers, keyed by Email. */
@@ -303,10 +303,7 @@ public class UserManager {
    * @return True if found in this Manager.
    */
   public synchronized boolean isUser(String email, String password) {
-    System.out.println("Calling isUser on " + email + " " + password);
     XMLUser user = this.email2user.get(email);
-    System.out.println("User in cache is: " + user.getEmail() + " with password "
-        + user.getPassword());
     return (user != null) && (password != null) && (password.equals(user.getPassword()));
   }
 
@@ -351,18 +348,28 @@ public class UserManager {
     String email = user.getEmail();
     // registering happens rarely, so we'll just iterate through the
     // userMap.
-    /*
-     * for (XMLUser user : this.email2user.values()) { if (user.getEmail().equals(email)) { return
-     * user; } }
-     */
-
-    // Password is either their Email in the case of a test user, or the
+   
+      for (XMLUser u : this.email2user.values()) { if (u.getEmail().equals(email)) { return
+      u; } }
+     
+    
+    //if the user has already set the password, leave it as it.
+     if(user.getPassword() != null)
+     {
+         return user;
+     }
+    
+     //otherwise, in the case of a test user, the email is their password, or if they
+    //or they are not a test users and didn't set their own password, it is a 
     // randomly generated string.
-    String password = email.endsWith(server.getServerProperties().get(TEST_DOMAIN_KEY)) ? email
+     else
+
+     { String password = email.endsWith(server.getServerProperties().get(TEST_DOMAIN_KEY)) ? email
         : PasswordGenerator.make();
-    user.setPassword(password);
-    this.putUser(user);
-    return user;
+        user.setPassword(password);
+        this.putUser(user);
+        return user;
+     }
   }
 
   /**

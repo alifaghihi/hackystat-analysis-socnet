@@ -171,10 +171,11 @@ public class SocNetClient implements SocNetClientInterface {
       XMLUser user1 = (XMLUser) JAXBHelper.unmarshall(getResult, jaxbUserContext);
     }
     catch (Exception e) {
-      e.printStackTrace();
+      //e.printStackTrace();
       uri = SocNetRestApiHelper.getURI(serveruri, "register/");
       XMLUser user = new XMLUser();
       user.setEmail(email);
+      user.setPassword(password);
       String xml = JAXBHelper.marshall(user, jaxbUserContext);
       Response response = SocNetRestApiHelper.POST(uri, xml);
 

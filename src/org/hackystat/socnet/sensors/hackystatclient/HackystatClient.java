@@ -73,20 +73,22 @@ public class HackystatClient {
     while(true)
     {
         ClientConfig conf = new ClientConfig();
-        String username = conf.getUsername();
-        String pass = conf.getPassword();
+        String sensorbaseUsername = conf.getSensorbaseUsername();
+        String sensorbasePass = conf.getSensorbasePassword();
+
+        System.out.println(sensorbasePass);
+        
+        SocNetClient snc = new SocNetClient(conf.getSocnetHost(), 
+                sensorbaseUsername, sensorbasePass);
         
         TelemetryClient tc = new TelemetryClient(conf.getTelemetryHost(), 
-                username, pass);
+                sensorbaseUsername, sensorbasePass);
         
         
         SensorBaseClient sbc = new SensorBaseClient(conf.getSensorbaseHost(), 
-                username, pass);
-        
-        SocNetClient snc = new SocNetClient(conf.getSocnetHost(), 
-                username, pass);
-        
-       HackystatPoller poller = new HackystatPoller(sbc, snc, tc, username);
+                sensorbaseUsername, sensorbasePass);
+                      
+       HackystatPoller poller = new HackystatPoller(sbc, snc, tc, sensorbaseUsername);
        
        List<String> projects = conf.getProjectNames();
        
