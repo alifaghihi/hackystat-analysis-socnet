@@ -19,7 +19,6 @@ import org.hackystat.socnet.server.test.SocNetRestApiHelper;
 import org.hackystat.socnet.socialmediagraph.graphmanagement.GraphManager;
 import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory.BetweenNodesRelationshipType;
 import org.hackystat.socnet.socialmediagraph.nodes.NodeFactory.IsARelationshipType;
-import org.hackystat.socnet.utils.FileUtils;
 import org.hackystat.socnet.utils.JAXBHelper;
 import org.restlet.data.Response;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +28,10 @@ import static org.junit.Assert.assertTrue;
  * @author Rachel Shadoan
  */
 public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper {
-
+  public static final String EXCEPTION_MSG = "Exception during " +
+          "SocialMediaGraphManager initialization processing";
+  
+  
   @Test
   public void testPutAndGetNode() throws Exception {
     assertTrue("testPutNode failed", putAndGetNodeSuccessful());
@@ -49,7 +51,7 @@ public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper {
           .newInstance(org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
     }
     catch (Exception e) {
-      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      String msg = EXCEPTION_MSG;
       throw new RuntimeException(msg, e);
     }
 
@@ -93,7 +95,7 @@ public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper {
           .newInstance(org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
     }
     catch (Exception e) {
-      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      String msg = EXCEPTION_MSG;
       throw new RuntimeException(msg, e);
     }
 
@@ -169,7 +171,7 @@ public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper {
           .newInstance(org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
     }
     catch (Exception e) {
-      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      String msg = EXCEPTION_MSG;
       throw new RuntimeException(msg, e);
     }
 
@@ -277,7 +279,7 @@ public class TestSocialMediaGraphRestApi extends SocNetRestApiHelper {
           .newInstance(org.hackystat.socnet.server.resource.socialmediagraph.jaxb.ObjectFactory.class);
     }
     catch (Exception e) {
-      String msg = "Exception during SocialMediaGraphManager initialization processing";
+      String msg = EXCEPTION_MSG;
       throw new RuntimeException(msg, e);
     }
 

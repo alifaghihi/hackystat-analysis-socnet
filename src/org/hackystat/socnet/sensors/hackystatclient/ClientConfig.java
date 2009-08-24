@@ -71,12 +71,16 @@ public class ClientConfig {
    */
   public ClientConfig(String hackystatClientFilename) throws IOException {
     hackystatClientProperties = new Properties();
-    hackystatClientProperties.load(new FileReader(hackystatClientFilename));
+    FileReader fr = new FileReader(hackystatClientFilename);
+    hackystatClientProperties.load(fr);
+    fr.close();
     sensorshellProperties = new Properties();
-    sensorshellProperties.load(new FileReader(System.getProperty("user.home")
-        + "/.hackystat/sensorshell/sensorshell.properties"));
+    fr = new FileReader(System.getProperty("user.home")
+        + "/.hackystat/sensorshell/sensorshell.properties");
+    sensorshellProperties.load(fr);
+    fr.close();
     df = DateFormat.getInstance();
-
+    
   }
 
   /**
@@ -99,7 +103,9 @@ public class ClientConfig {
    * @throws java.io.IOException
    */
   public void save(String filename) throws IOException {
-    hackystatClientProperties.store(new FileWriter(filename), null);
+      FileWriter fw = new FileWriter(filename);
+    hackystatClientProperties.store(fw, null);
+    fw.close();
   }
 
   /**
@@ -167,13 +173,14 @@ public class ClientConfig {
       return;
     }
 
-    String val = projectNames.get(0);
+    StringBuffer val = new StringBuffer(projectNames.get(0));
 
     for (int i = 1; i < projectNames.size(); i++) {
-      val += "," + projectNames.get(i);
+        val.append(",");
+        val.append(projectNames.get(i));
     }
 
-    hackystatClientProperties.setProperty(PROJECT_NAMES_KEY, val);
+    hackystatClientProperties.setProperty(PROJECT_NAMES_KEY, val.toString());
   }
 
   /**

@@ -14,7 +14,7 @@ public class NodeNotFoundException extends Exception {
   private static final long serialVersionUID = 1;
 
   public NodeNotFoundException() {
-    throw new UnsupportedOperationException("Not yet implemented");
+    //throw new UnsupportedOperationException("Not yet implemented");
   }
 
   public NodeNotFoundException(String nodeName, String nodeType) {

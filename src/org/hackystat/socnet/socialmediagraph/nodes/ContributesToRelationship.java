@@ -5,13 +5,10 @@
 
 package org.hackystat.socnet.socialmediagraph.nodes;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.TelemetryStream;
 import org.hackystat.socnet.socialmediagraph.graphmanagement.InvalidArgumentException;
-import org.hackystat.socnet.socialmediagraph.nodes.ContributesToRelationship.Streams;
 import org.hackystat.socnet.socialmediagraph.nodes.ContributesToRelationship.Streams;
 import org.neo4j.api.core.Relationship;
 
@@ -21,52 +18,52 @@ import org.neo4j.api.core.Relationship;
  */
 public class ContributesToRelationship extends SocialMediaRelationship {
 
-  public final String BUILD_TIMESTAMPS_KEY = "buildTimestamps";
+  public static final String BUILD_TIMESTAMPS_KEY = "buildTimestamps";
 
-  public final String BUILD_VALUES_KEY = "buildValues";
+  public static final String BUILD_VALUES_KEY = "buildValues";
 
-  public final String CHURN_TIMESTAMPS_KEY = "churnTimestamps";
+  public static final String CHURN_TIMESTAMPS_KEY = "churnTimestamps";
 
-  public final String CHURN_VALUES_KEY = "churnValues";
+  public static final String CHURN_VALUES_KEY = "churnValues";
 
-  public final String COMMIT_TIMESTAMPS_KEY = "commitTimestamps";
+  public static final String COMMIT_TIMESTAMPS_KEY = "commitTimestamps";
 
-  public final String COMMIT_VALUES_KEY = "commitValues";
+  public static final String COMMIT_VALUES_KEY = "commitValues";
 
-  public final String CODE_ISSUE_TIMESTAMPS_KEY = "codeIssueTimestamps";
+  public static final String CODE_ISSUE_TIMESTAMPS_KEY = "codeIssueTimestamps";
 
-  public final String CODE_ISSUE_VALUES_KEY = "codeIssueValues";
+  public static final String CODE_ISSUE_VALUES_KEY = "codeIssueValues";
 
-  public final String COVERAGE_TIMESTAMPS_KEY = "coverageTimestamps";
+  public static final String COVERAGE_TIMESTAMPS_KEY = "coverageTimestamps";
 
-  public final String COVERAGE_VALUES_KEY = "cverageValues";
+  public static final String COVERAGE_VALUES_KEY = "cverageValues";
 
-  public final String CYCLOMATIC_COMPLEXITY_TIMESTAMPS_KEY = "cyclomaticComplexityTimestamps";
+  public static final String CYCLOMATIC_COMPLEXITY_TIMESTAMPS_KEY = "cyclomaticComplexityTimestamps";
 
-  public final String CYCLOMATIC_COMPLEXITY_VALUES_KEY = "cyclomaticComplexityValues";
+  public static final String CYCLOMATIC_COMPLEXITY_VALUES_KEY = "cyclomaticComplexityValues";
 
-  public final String DEV_TIME_TIMESTAMPS_KEY = "devTimeTimestamps";
+  public static final String DEV_TIME_TIMESTAMPS_KEY = "devTimeTimestamps";
 
-  public final String DEV_TIME_VALUES_KEY = "devTimeValues";
+  public static final String DEV_TIME_VALUES_KEY = "devTimeValues";
 
-  public final String ISSUE_TIMESTAMPS_KEY = "issueTimestamps";
+  public static final String ISSUE_TIMESTAMPS_KEY = "issueTimestamps";
 
-  public final String ISSUE_VALUES_KEY = "issueValues";
+  public static final String ISSUE_VALUES_KEY = "issueValues";
 
-  public final String UNIT_TEST_TIMESTAMPS_KEY = "unitTestTimestamps";
+  public static final String UNIT_TEST_TIMESTAMPS_KEY = "unitTestTimestamps";
 
-  public final String UNIT_TEST_VALUES_KEY = "unitTestValues";
+  public static final String UNIT_TEST_VALUES_KEY = "unitTestValues";
 
-  public final String[] TIMESTAMP_KEYS = { BUILD_TIMESTAMPS_KEY, CHURN_TIMESTAMPS_KEY,
+  public static final String[] TIMESTAMP_KEYS = { BUILD_TIMESTAMPS_KEY, CHURN_TIMESTAMPS_KEY,
       CODE_ISSUE_TIMESTAMPS_KEY, COMMIT_TIMESTAMPS_KEY, COVERAGE_TIMESTAMPS_KEY,
       CYCLOMATIC_COMPLEXITY_TIMESTAMPS_KEY, DEV_TIME_TIMESTAMPS_KEY, ISSUE_TIMESTAMPS_KEY,
       UNIT_TEST_TIMESTAMPS_KEY };
 
-  public final String[] VALUE_KEYS = { BUILD_VALUES_KEY, CHURN_VALUES_KEY, CODE_ISSUE_VALUES_KEY,
+  public static final String[] VALUE_KEYS = { BUILD_VALUES_KEY, CHURN_VALUES_KEY, CODE_ISSUE_VALUES_KEY,
       COMMIT_VALUES_KEY, COVERAGE_VALUES_KEY, CYCLOMATIC_COMPLEXITY_VALUES_KEY,
       DEV_TIME_VALUES_KEY, ISSUE_VALUES_KEY, UNIT_TEST_VALUES_KEY };
 
-  public final String[] DEFAULT_PROPERTY = {};
+  public static final String[] DEFAULT_PROPERTY = {};
 
   public void updateStreams(List<TelemetryStream> streams) {
     TelemetryDataStream tds;
@@ -96,8 +93,8 @@ public class ContributesToRelationship extends SocialMediaRelationship {
     for (int i = 0; i < streams.size(); i++) {
       tds = new TelemetryDataStream(streams.get(i));
 
-      this.setStream(TIMESTAMP_KEYS[i], tds.getTimestampsArray(), VALUE_KEYS[i], tds
-          .getValuesArray());
+      underRelationship.setProperty(TIMESTAMP_KEYS[i], tds.getTimestampsArray());
+      underRelationship.setProperty(VALUE_KEYS[i], tds.getValuesArray());
     }
   }
 

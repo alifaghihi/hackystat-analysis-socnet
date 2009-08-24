@@ -25,7 +25,8 @@ public class FileUtils {
         deleteDirectory(f);
       }
       else {
-        f.delete();
+        if(!f.delete())
+            return false;
       }
     }
 
