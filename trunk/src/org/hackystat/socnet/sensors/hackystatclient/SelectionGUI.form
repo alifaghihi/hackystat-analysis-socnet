@@ -97,6 +97,8 @@
   <SubComponents>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>
 
@@ -116,6 +118,10 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Select the project for which you want to send data to the SocNet server."/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="saveButton">
       <Properties>
@@ -128,6 +134,10 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">
       <Properties>
@@ -136,6 +146,10 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelButtonActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="startDateChooser">
       <Properties>
@@ -150,6 +164,10 @@
         <Property name="text" type="java.lang.String" value="Start Date"/>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Set the start date for the project here. &lt;br&gt;&lt;br&gt;Telemetry data for this project between the start date and the end date will be available to the SocNet server. &lt;br&gt;&lt;br&gt;The default start date is the date of project creation."/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="endDateChooser">
       <Events>
@@ -161,6 +179,10 @@
         <Property name="text" type="java.lang.String" value="End Date"/>
         <Property name="toolTipText" type="java.lang.String" value="&lt;html&gt;Set the end date for the project here. &lt;br&gt;Telemetry data for this project between the start date and the end date will be available to the SocNet server. &lt;br&gt;The default end date is the project end date as listed in the Sensorbase. &lt;br&gt;&lt;br&gt;If you want to continue sending this project&apos;s telemetry data to the SocNet server, leave this field blank. &lt;br&gt; "/>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JCheckBox" name="sendCheckBox">
       <Properties>

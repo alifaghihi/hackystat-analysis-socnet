@@ -13,249 +13,233 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.hackystat.sensorbase.client.SensorBaseClient;
 import org.hackystat.sensorbase.client.SensorBaseClientException;
-import org.hackystat.sensorbase.resource.projects.jaxb.Project;
-import org.hackystat.sensorbase.resource.projects.jaxb.ProjectIndex;
-import org.hackystat.sensorbase.resource.projects.jaxb.ProjectRef;
-import org.hackystat.socnet.server.client.SocNetClient;
 
 /**
  * 
  * @author cody
  */
-public class SelectionGUI extends javax.swing.JFrame {
+public class SelectionGUI extends javax.swing.JFrame
+{
 
-  /** This is a necessary field for serializable */
-  public static final long serialVersionUID = 1l;
+    /** This is a necessary field for serializable */
+    public static final long serialVersionUID = 1l;
+    private List<String> projectNames;
+    private Map<String, Boolean> sendToSocnet;
+    private Map<String, Date> startDates;
+    private Map<String, Date> endDates;
 
-  private ArrayList<String> projectNames;
-  private HashMap<String, Boolean> sendToSocnet;
-  private HashMap<String, Date> startDates;
-  private HashMap<String, Date> endDates;
+    /** Creates new form SelectionGUI */
+    public SelectionGUI(List<String> projects, Map<String, Date> starts,
+            Map<String, Date> ends) throws SensorBaseClientException,
+            IOException, ParseException
+    {
 
-  /** Creates new form SelectionGUI */
-  public SelectionGUI(ArrayList<String> projects, HashMap<String, Date> starts,
-      HashMap<String, Date> ends) throws SensorBaseClientException, IOException, ParseException {
+        projectNames = projects;
+        sendToSocnet = new HashMap<String, Boolean>();
+        startDates = starts;
+        endDates = ends;
 
-    projectNames = projects;
-    sendToSocnet = new HashMap<String, Boolean>();
-    startDates = starts;
-    endDates = ends;
+        initComponents();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loadData(); // Load the data here.
+        setControlsEnabled(false);
 
-    initComponents();
+        String projectName = (String) projectList.getSelectedValue();
+        Date startDate = new GregorianCalendar(2001, Calendar.JANUARY, 1).
+                getTime();
+        Date endDate = new GregorianCalendar().getTime();
+        /*
+        if (projectName != null) {
+        
+        Project project = sensorBaseClient.getProject(email, projectName); XMLGregorianCalendar
+        startTime = project.getStartTime(); startDate = startTime.toGregorianCalendar().getTime();
+        endDate = project.getEndTime().toGregorianCalendar().getTime();
+        
+        }*/
 
-    loadData(); // Load the data here.
-    setControlsEnabled(false);
-
-    String projectName = (String) projectList.getSelectedValue();
-    Date startDate = new GregorianCalendar(2001, Calendar.JANUARY, 1).getTime();
-    Date endDate = new GregorianCalendar().getTime();
-
-    if (projectName != null) {
-      /*
-       * Project project = sensorBaseClient.getProject(email, projectName); XMLGregorianCalendar
-       * startTime = project.getStartTime(); startDate = startTime.toGregorianCalendar().getTime();
-       * endDate = project.getEndTime().toGregorianCalendar().getTime();
-       */
+        startDateChooser.setDate(startDate);
+        endDateChooser.setDate(endDate);
     }
 
-    startDateChooser.setDate(startDate);
-    endDateChooser.setDate(endDate);
-  }
-
-  private SelectionGUI() throws IOException, ParseException, SensorBaseClientException {
-    initComponents();
-    loadData();
-  }
-
-  private void loadData() throws IOException, ParseException, SensorBaseClientException {
-    DefaultListModel lm = new DefaultListModel();
-
-    for (String s : projectNames) {
-      lm.addElement(s);
+    private SelectionGUI() throws IOException, ParseException,
+            SensorBaseClientException
+    {
+        initComponents();
+        loadData();
     }
 
-    projectList.setModel(lm);
+    private void loadData() throws IOException, ParseException,
+            SensorBaseClientException
+    {
+        DefaultListModel lm = new DefaultListModel();
 
-    // Load things from config
-    ClientConfig conf = new ClientConfig();
+        for (String s : projectNames) {
+            lm.addElement(s);
+        }
 
-    for (String proj : conf.getProjectNames()) {
-      sendToSocnet.put(proj, Boolean.TRUE);
-      startDates.put(proj, conf.getStartDate(proj));
-      endDates.put(proj, conf.getEndDate(proj));
+        projectList.setModel(lm);
+
+        // Load things from config
+        ClientConfig conf = new ClientConfig();
+
+        for (String proj : conf.getProjectNames()) {
+            sendToSocnet.put(proj, Boolean.TRUE);
+            startDates.put(proj, conf.getStartDate(proj));
+            endDates.put(proj, conf.getEndDate(proj));
+        }
+
+        this.invalidate();
     }
 
-    this.invalidate();
-  }
+    private void setControlsEnabled(boolean enabled)
+    {
+        startDateChooser.setEnabled(enabled);
+        endDateChooser.setEnabled(enabled);
+        sendCheckBox.setEnabled(enabled);
+    }
 
-  private void setControlsEnabled(boolean enabled) {
-    startDateChooser.setEnabled(enabled);
-    endDateChooser.setEnabled(enabled);
-    sendCheckBox.setEnabled(enabled);
-  }
+    /**
+     * This method is called from within the constructor to initialize the form. WARNING: Do NOT
+     * modify this code. The content of this method is always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed"
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
 
-  /**
-   * This method is called from within the constructor to initialize the form. WARNING: Do NOT
-   * modify this code. The content of this method is always regenerated by the Form Editor.
-   */
-  @SuppressWarnings("unchecked")
-  // <editor-fold defaultstate="collapsed"
-  // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-  private void initComponents() {
+        javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
+        projectList = new javax.swing.JList();
+        javax.swing.JLabel selectionLabel = new javax.swing.JLabel();
+        javax.swing.JButton saveButton = new javax.swing.JButton();
+        javax.swing.JButton cancelButton = new javax.swing.JButton();
+        startDateChooser = new com.toedter.calendar.JDateChooser();
+        javax.swing.JLabel startDateLabel = new javax.swing.JLabel();
+        endDateChooser = new com.toedter.calendar.JDateChooser();
+        javax.swing.JLabel endDateLabel = new javax.swing.JLabel();
+        sendCheckBox = new javax.swing.JCheckBox();
 
-    jScrollPane1 = new javax.swing.JScrollPane();
-    projectList = new javax.swing.JList();
-    selectionLabel = new javax.swing.JLabel();
-    saveButton = new javax.swing.JButton();
-    cancelButton = new javax.swing.JButton();
-    startDateChooser = new com.toedter.calendar.JDateChooser();
-    startDateLabel = new javax.swing.JLabel();
-    endDateChooser = new com.toedter.calendar.JDateChooser();
-    endDateLabel = new javax.swing.JLabel();
-    sendCheckBox = new javax.swing.JCheckBox();
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        projectList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        projectList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                projectListValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(projectList);
 
-    projectList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-    projectList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-      public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-        projectListValueChanged(evt);
-      }
-    });
-    jScrollPane1.setViewportView(projectList);
+        selectionLabel.setText("Select the project for which you want to send data to the SocNet server.");
 
-    selectionLabel
-        .setText("Select the project for which you want to send data to the SocNet server.");
+        saveButton.setText("Save and Close");
+        saveButton.setToolTipText("Submit this project's telemetry data to the SocNet Server");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
-    saveButton.setText("Save and Close");
-    saveButton.setToolTipText("Submit this project's telemetry data to the SocNet Server");
-    saveButton.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        saveButtonActionPerformed(evt);
-      }
-    });
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
-    cancelButton.setText("Cancel");
-    cancelButton.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        cancelButtonActionPerformed(evt);
-      }
-    });
+        startDateChooser.setToolTipText("");
+        startDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                startDateChooserPropertyChange(evt);
+            }
+        });
 
-    startDateChooser.setToolTipText("");
-    startDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-      public void propertyChange(java.beans.PropertyChangeEvent evt) {
-        startDateChooserPropertyChange(evt);
-      }
-    });
+        startDateLabel.setText("Start Date");
+        startDateLabel.setToolTipText("<html>Set the start date for the project here. <br><br>Telemetry data for this project between the start date and the end date will be available to the SocNet server. <br><br>The default start date is the date of project creation.");
 
-    startDateLabel.setText("Start Date");
-    startDateLabel
-        .setToolTipText("<html>Set the start date for the project here. <br><br>Telemetry data for this project between the start date and the end date will be available to the SocNet server. <br><br>The default start date is the date of project creation.");
+        endDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                endDateChooserPropertyChange(evt);
+            }
+        });
 
-    endDateChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-      public void propertyChange(java.beans.PropertyChangeEvent evt) {
-        endDateChooserPropertyChange(evt);
-      }
-    });
+        endDateLabel.setText("End Date");
+        endDateLabel.setToolTipText("<html>Set the end date for the project here. <br>Telemetry data for this project between the start date and the end date will be available to the SocNet server. <br>The default end date is the project end date as listed in the Sensorbase. <br><br>If you want to continue sending this project's telemetry data to the SocNet server, leave this field blank. <br> ");
 
-    endDateLabel.setText("End Date");
-    endDateLabel
-        .setToolTipText("<html>Set the end date for the project here. <br>Telemetry data for this project between the start date and the end date will be available to the SocNet server. <br>The default end date is the project end date as listed in the Sensorbase. <br><br>If you want to continue sending this project's telemetry data to the SocNet server, leave this field blank. <br> ");
+        sendCheckBox.setText("Send to SocNet");
+        sendCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendCheckBoxActionPerformed(evt);
+            }
+        });
 
-    sendCheckBox.setText("Send to SocNet");
-    sendCheckBox.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
-        sendCheckBoxActionPerformed(evt);
-      }
-    });
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(selectionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(saveButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(startDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                                    .addComponent(endDateLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(startDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(endDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(sendCheckBox)
+                                .addContainerGap())))))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(selectionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(startDateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(startDateChooser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(endDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(endDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addComponent(sendCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(saveButton)
+                            .addComponent(cancelButton)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                .addContainerGap())
+        );
 
-    javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-    getContentPane().setLayout(layout);
-    layout.setHorizontalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(
-            layout.createSequentialGroup().addContainerGap().addGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                    layout.createSequentialGroup().addGroup(
-                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(selectionLabel, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                467, Short.MAX_VALUE).addGroup(
-                                javax.swing.GroupLayout.Alignment.TRAILING,
-                                layout.createSequentialGroup().addComponent(saveButton)
-                                    .addPreferredGap(
-                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(cancelButton,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE, 94,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE).addGap(8, 8, 8)))
-                        .addContainerGap()).addGroup(
-                    layout.createSequentialGroup().addComponent(jScrollPane1,
-                        javax.swing.GroupLayout.PREFERRED_SIZE, 185,
-                        javax.swing.GroupLayout.PREFERRED_SIZE).addGap(26, 26, 26).addGroup(
-                        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(
-                                layout.createSequentialGroup().addGroup(
-                                    layout.createParallelGroup(
-                                        javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                                        startDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 117,
-                                        Short.MAX_VALUE).addComponent(endDateLabel))
-                                    .addPreferredGap(
-                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(
-                                        layout.createParallelGroup(
-                                            javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(startDateChooser,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(endDateChooser,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE)).addGap(20,
-                                        20, 20)).addGroup(
-                                layout.createSequentialGroup().addComponent(sendCheckBox)
-                                    .addContainerGap()))))));
-    layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addGroup(
-            layout.createSequentialGroup().addContainerGap().addComponent(selectionLabel,
-                javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED).addGroup(
-                    layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
-                        layout.createSequentialGroup().addGroup(
-                            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-                                false).addComponent(startDateLabel,
-                                javax.swing.GroupLayout.Alignment.LEADING,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(startDateChooser,
-                                    javax.swing.GroupLayout.Alignment.LEADING,
-                                    javax.swing.GroupLayout.DEFAULT_SIZE,
-                                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)).addGap(
-                            18, 18, 18).addGroup(
-                            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
-                                false).addComponent(endDateLabel,
-                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(endDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                    javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                10, Short.MAX_VALUE).addComponent(sendCheckBox).addPreferredGap(
-                                javax.swing.LayoutStyle.ComponentPlacement.UNRELATED).addGroup(
-                                layout.createParallelGroup(
-                                    javax.swing.GroupLayout.Alignment.BASELINE).addComponent(
-                                    saveButton).addComponent(cancelButton))).addComponent(
-                        jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
-                .addContainerGap()));
+        saveButton.getAccessibleContext().setAccessibleName("Okay");
 
-    saveButton.getAccessibleContext().setAccessibleName("Okay");
-
-    pack();
-  }// </editor-fold>//GEN-END:initComponents
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
 
   private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_saveButtonActionPerformed
     try {
@@ -265,7 +249,7 @@ public class SelectionGUI extends javax.swing.JFrame {
 
       for (String project : projectNames) {
         Boolean send = sendToSocnet.get(project);
-        if (send != null && send == Boolean.TRUE) {
+        if (send != null && send.equals(Boolean.TRUE)) {
           names.add(project);
           Date start = startDates.get(project);
           Date end = endDates.get(project);
@@ -283,9 +267,9 @@ public class SelectionGUI extends javax.swing.JFrame {
           JOptionPane.ERROR_MESSAGE);
       Logger.getLogger(SelectionGUI.class.getName()).log(Level.SEVERE, null, ex);
     }
-
-    System.exit(0);
-
+    
+    this.setVisible(false);
+    this.dispose();
   }// GEN-LAST:event_saveButtonActionPerformed
 
   private void sendCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_sendCheckBoxActionPerformed
@@ -293,7 +277,9 @@ public class SelectionGUI extends javax.swing.JFrame {
     Boolean send = this.sendCheckBox.isSelected();
 
     if (projectName != null && !projectName.isEmpty())
+    {
       sendToSocnet.put(projectName, send);
+    }
   }// GEN-LAST:event_sendCheckBoxActionPerformed
 
   private void projectListValueChanged(javax.swing.event.ListSelectionEvent evt) {// GEN-FIRST:event_projectListValueChanged
@@ -308,8 +294,9 @@ public class SelectionGUI extends javax.swing.JFrame {
 
     Boolean send = sendToSocnet.get(project);
     if (send == null)
+    {
       send = Boolean.FALSE;
-
+    }
     sendCheckBox.setSelected(send);
 
     startDateChooser.setDate(startDates.get(project));
@@ -333,7 +320,8 @@ public class SelectionGUI extends javax.swing.JFrame {
   }// GEN-LAST:event_endDateChooserPropertyChange
 
   private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cancelButtonActionPerformed
-    System.exit(0);
+    this.setVisible(false);
+    this.dispose();
   }// GEN-LAST:event_cancelButtonActionPerformed
 
   /**
@@ -358,17 +346,11 @@ public class SelectionGUI extends javax.swing.JFrame {
     });
   }
 
-  // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton cancelButton;
-  private com.toedter.calendar.JDateChooser endDateChooser;
-  private javax.swing.JLabel endDateLabel;
-  private javax.swing.JScrollPane jScrollPane1;
-  private javax.swing.JList projectList;
-  private javax.swing.JButton saveButton;
-  private javax.swing.JLabel selectionLabel;
-  private javax.swing.JCheckBox sendCheckBox;
-  private com.toedter.calendar.JDateChooser startDateChooser;
-  private javax.swing.JLabel startDateLabel;
-  // End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser endDateChooser;
+    private javax.swing.JList projectList;
+    private javax.swing.JCheckBox sendCheckBox;
+    private com.toedter.calendar.JDateChooser startDateChooser;
+    // End of variables declaration//GEN-END:variables
 
 }

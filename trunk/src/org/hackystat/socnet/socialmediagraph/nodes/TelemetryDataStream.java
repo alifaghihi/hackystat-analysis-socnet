@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.hackystat.socnet.socialmediagraph.nodes;
 
 import java.util.ArrayList;
@@ -14,152 +13,177 @@ import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.TelemetryPoint
 import org.hackystat.socnet.server.resource.socialmediagraph.jaxb.TelemetryStream;
 import org.hackystat.socnet.socialmediagraph.graphmanagement.InvalidArgumentException;
 import org.hackystat.utilities.tstamp.Tstamp;
-import org.neo4j.api.core.Relationship;
 
 /**
  * 
  * @author Rachel Shadoan
  */
-public class TelemetryDataStream {
-  protected ArrayList<Long> timestamps;
-  protected ArrayList<Double> values;
+public class TelemetryDataStream
+{
 
-  public TelemetryDataStream(long[] times, double[] vals) throws InvalidArgumentException {
-    if (times.length != vals.length)
-      throw new InvalidArgumentException("The timestamp and value arrays "
-          + "provided as arguments must be of equal length. The "
-          + "timestamp array provided is of length " + times.length
-          + " and the value array provided is of length " + vals.length + ".");
+    protected List<Long> timestamps;
+    protected List<Double> values;
 
-    timestamps = new ArrayList<Long>();
-    values = new ArrayList<Double>();
+    public TelemetryDataStream(long[] times, double[] vals) throws
+            InvalidArgumentException
+    {
+        if (times.length != vals.length) {
+            throw new InvalidArgumentException("The timestamp and value arrays " +
+                    "provided as arguments must be of equal length. The " +
+                    "timestamp array provided is of length " + times.length +
+                    " and the value array provided is of length " + vals.length +
+                    ".");
+        }
+        timestamps = new ArrayList<Long>();
+        values = new ArrayList<Double>();
 
-    for (int i = 0; i < times.length; i++) {
-      timestamps.add(times[i]);
-      values.add(vals[i]);
-    }
-  }
-
-  public TelemetryDataStream(TelemetryStream stream) {
-    timestamps = new ArrayList<Long>();
-    values = new ArrayList<Double>();
-    List<TelemetryPoint> tpoints = stream.getTelemetryPoint();
-
-    TelemetryPoint tp;
-    for (int i = 0; i < tpoints.size(); i++) {
-      tp = tpoints.get(i);
-      timestamps.add(tp.getTime().toGregorianCalendar().getTimeInMillis());
-
-      try {
-        values.add(Double.parseDouble(tp.getValue()));
-      }
-      catch (NumberFormatException nfe) {
-        throw new NumberFormatException("Error parsing telemetry values"
-            + "to store. The value passed was " + tp.getValue());
-      }
-    }
-  }
-
-  public TelemetryDataStream(TelemetryChartData tcdata) throws InvalidArgumentException,
-      NumberFormatException {
-    List<TelemetryStream> tstreams = tcdata.getTelemetryStream();
-
-    if (tstreams.size() != 1)
-      throw new InvalidArgumentException("A TelemetryData object can hold"
-          + "only one Telemetry Stream, and the TelemetryChartData passed"
-          + "as a parameter contains more than one telemetry stream.");
-
-    TelemetryStream stream = tstreams.get(0);
-
-    List<TelemetryPoint> tpoints = stream.getTelemetryPoint();
-
-    TelemetryPoint tp;
-    for (int i = 0; i < tpoints.size(); i++) {
-      tp = tpoints.get(i);
-      timestamps.add(tp.getTime().toGregorianCalendar().getTimeInMillis());
-
-      try {
-        values.add(Double.parseDouble(tp.getValue()));
-      }
-      catch (NumberFormatException nfe) {
-        throw new NumberFormatException("Error parsing telemetry values"
-            + "to store. The value passed was " + tp.getValue());
-      }
+        for (int i = 0; i < times.length; i++) {
+            timestamps.add(times[i]);
+            values.add(vals[i]);
+        }
     }
 
-  }
+    public TelemetryDataStream(TelemetryStream stream)
+    {
+        timestamps = new ArrayList<Long>();
+        values = new ArrayList<Double>();
+        List<TelemetryPoint> tpoints = stream.getTelemetryPoint();
 
-  TelemetryDataStream(long[] timestampStream, double[] valueStream, TelemetryStream stream) {
-    timestamps = new ArrayList<Long>();
-    values = new ArrayList<Double>();
-    List<TelemetryPoint> tpoints = stream.getTelemetryPoint();
+        TelemetryPoint tp;
+        for (int i = 0; i < tpoints.size(); i++) {
+            tp = tpoints.get(i);
+            timestamps.add(tp.getTime().toGregorianCalendar().getTimeInMillis());
 
-    for (int i = 0; i < timestampStream.length; i++) {
-      timestamps.add(timestampStream[i]);
-      values.add(valueStream[i]);
+            try {
+                String val = tp.getValue();
+                if (val == null) {
+                    values.add(0.0);
+                }
+                else {
+                    values.add(Double.parseDouble(tp.getValue()));
+                }
+            }
+            catch (NumberFormatException nfe) {
+
+                throw new NumberFormatException("Error parsing telemetry values" +
+                        "to store. The value passed was " + tp.getValue());
+            }
+        }
     }
 
-    TelemetryPoint tp;
-    for (int i = 0; i < tpoints.size(); i++) {
-      tp = tpoints.get(i);
+    public TelemetryDataStream(TelemetryChartData tcdata) throws
+            InvalidArgumentException,
+            NumberFormatException
+    {
+        List<TelemetryStream> tstreams = tcdata.getTelemetryStream();
 
-      if (tp.getTime().compare(Tstamp.makeTimestamp(timestampStream.length - 1)) == DatatypeConstants.LESSER
-          || tp.getTime().compare(Tstamp.makeTimestamp(timestampStream.length - 1)) == DatatypeConstants.EQUAL) {
-        continue;
-      }
-      else {
-        timestamps.add(tp.getTime().toGregorianCalendar().getTimeInMillis());
-      }
+        if (tstreams.size() != 1) {
+            throw new InvalidArgumentException("A TelemetryData object can hold" +
+                    "only one Telemetry Stream, and the TelemetryChartData passed" +
+                    "as a parameter contains more than one telemetry stream.");
+        }
+        TelemetryStream stream = tstreams.get(0);
 
-      try {
-        values.add(Double.parseDouble(tp.getValue()));
-      }
-      catch (NumberFormatException nfe) {
-        throw new NumberFormatException("Error parsing telemetry values"
-            + "to store. The value passed was " + tp.getValue());
-      }
-    }
-  }
+        List<TelemetryPoint> tpoints = stream.getTelemetryPoint();
 
-  public ArrayList<Long> getTimestamps() {
-    return timestamps;
-  }
+        TelemetryPoint tp;
+        for (int i = 0; i < tpoints.size(); i++) {
+            tp = tpoints.get(i);
+            timestamps.add(tp.getTime().toGregorianCalendar().getTimeInMillis());
 
-  public long[] getTimestampsArray() {
-    long[] times = new long[timestamps.size()];
+            try {
+                values.add(Double.parseDouble(tp.getValue()));
+            }
+            catch (NumberFormatException nfe) {
+                throw new NumberFormatException("Error parsing telemetry values" +
+                        "to store. The value passed was " + tp.getValue());
+            }
+        }
 
-    for (int i = 0; i < timestamps.size(); i++) {
-      times[i] = (long) timestamps.get(i);
     }
 
-    return times;
-  }
+    TelemetryDataStream(long[] timestampStream, double[] valueStream,
+            TelemetryStream stream)
+    {
+        timestamps = new ArrayList<Long>();
+        values = new ArrayList<Double>();
+        List<TelemetryPoint> tpoints = stream.getTelemetryPoint();
 
-  public void setTimestamps(ArrayList<Long> timestamps) {
-    this.timestamps = timestamps;
-  }
+        for (int i = 0; i < timestampStream.length; i++) {
+            timestamps.add(timestampStream[i]);
+            values.add(valueStream[i]);
+        }
 
-  public ArrayList<Double> getValues() {
-    return values;
-  }
+        TelemetryPoint tp;
+        for (int i = 0; i < tpoints.size(); i++) {
+            tp = tpoints.get(i);
 
-  public double[] getValuesArray() {
-    double[] vals = new double[values.size()];
+            if (tp.getTime().compare(Tstamp.makeTimestamp(timestampStream.length -
+                    1)) == DatatypeConstants.LESSER || tp.getTime().compare(
+                    Tstamp.makeTimestamp(timestampStream.length - 1)) ==
+                    DatatypeConstants.EQUAL) {
+                continue;
+            }
+            else {
+                timestamps.add(tp.getTime().toGregorianCalendar().
+                        getTimeInMillis());
+            }
 
-    for (int i = 0; i < values.size(); i++) {
-      vals[i] = (double) values.get(i);
+            try {
+                values.add(Double.parseDouble(tp.getValue()));
+            }
+            catch (NumberFormatException nfe) {
+                throw new NumberFormatException("Error parsing telemetry values" +
+                        "to store. The value passed was " + tp.getValue());
+            }
+        }
     }
 
-    return vals;
-  }
+    public List<Long> getTimestamps()
+    {
+        return timestamps;
+    }
 
-  public void setValues(ArrayList<Double> values) {
-    this.values = values;
-  }
+    public long[] getTimestampsArray()
+    {
+        long[] times = new long[timestamps.size()];
 
-  public XMLGregorianCalendar getLastDate() {
-    long time = timestamps.get(timestamps.size() - 1);
-    return Tstamp.makeTimestamp(time);
-  }
+        for (int i = 0; i < timestamps.size(); i++) {
+            times[i] = (long) timestamps.get(i);
+        }
 
+        return times;
+    }
+
+    public void setTimestamps(ArrayList<Long> timestamps)
+    {
+        this.timestamps = timestamps;
+    }
+
+    public List<Double> getValues()
+    {
+        return values;
+    }
+
+    public double[] getValuesArray()
+    {
+        double[] vals = new double[values.size()];
+
+        for (int i = 0; i < values.size(); i++) {
+            vals[i] = (double) values.get(i);
+        }
+
+        return vals;
+    }
+
+    public void setValues(ArrayList<Double> values)
+    {
+        this.values = values;
+    }
+
+    public XMLGregorianCalendar getLastDate()
+    {
+        long time = timestamps.get(timestamps.size() - 1);
+        return Tstamp.makeTimestamp(time);
+    }
 }

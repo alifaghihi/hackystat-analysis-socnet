@@ -10,6 +10,8 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -265,6 +267,7 @@ public class HackystatPoller {
         // part
       }
       catch (Exception e) {
+          Logger.getLogger(HackystatPoller.class.getName()).log(Level.INFO, "Data has never been sent.", e);
         // e.printStackTrace();
       }
 

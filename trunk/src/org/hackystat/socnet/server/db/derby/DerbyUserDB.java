@@ -434,7 +434,7 @@ public class DerbyUserDB implements UserDBImpl {
    * @param statement The SQL Statement to be used to retrieve the resource references.
    * @return The aggregate Index XML string.
    */
-  private String getIndex(String resourceName, String statement) {
+  protected String getIndex(String resourceName, String statement) {
     StringBuilder builder = new StringBuilder(512);
     builder.append("<").append(resourceName).append(indexSuffix);
     // Retrieve all the SensorData
@@ -477,7 +477,7 @@ public class DerbyUserDB implements UserDBImpl {
    * @param statement The SQL Statement to be used to retrieve the resource references.
    * @return The aggregate Index XML string.
    */
-  private String getSnapshotIndex(String statement) {
+  protected String getSnapshotIndex(String statement) {
     String resourceName = "SensorData";
     StringBuilder builder = new StringBuilder(512);
     builder.append("<").append(resourceName).append(indexSuffix);
@@ -545,7 +545,7 @@ public class DerbyUserDB implements UserDBImpl {
    * @param statement The SQL Statement to be used to retrieve the resource references.
    * @return The aggregate Index XML string.
    */
-  private String getIndex(String resourceName, String statement, int startIndex, int maxInstances) {
+  protected String getIndex(String resourceName, String statement, int startIndex, int maxInstances) {
     StringBuilder builder = new StringBuilder(512);
     builder.append("<").append(resourceName).append(indexSuffix);
     // Retrieve all the SensorData to start.
@@ -593,7 +593,7 @@ public class DerbyUserDB implements UserDBImpl {
    * with that resource.
    * @return The string containing the resource as an XML string.
    */
-  private String getResource(String resourceName, String statement) {
+  protected String getResource(String resourceName, String statement) {
     StringBuilder builder = new StringBuilder(512);
     Connection conn = null;
     PreparedStatement s = null;
@@ -632,7 +632,7 @@ public class DerbyUserDB implements UserDBImpl {
    * 
    * @param statement The SQL delete statement.
    */
-  private void deleteResource(String statement) {
+  protected void deleteResource(String statement) {
     Connection conn = null;
     PreparedStatement s = null;
     try {
